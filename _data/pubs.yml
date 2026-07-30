@@ -8829,20 +8829,19 @@ entries:
             last: Eaton
         -   first: Mark
             last: Riedl
-      - id: Matlin2026Where
+      - id: Matlin2026CapabilityProvenance
         bibtex: |
-            @InProceedings{Matlin2026Where,
+            @InProceedings{Matlin2026CapabilityProvenance,
             author    = {Matlin, Glenn and Chandreyi Chakraborty and Saehee Eom and Mika Okamoto and Rayan Castilla and Louis Jaburi and Alvin Deng and Taywon Min and Lucia Quirke and Stella Biderman and Mark Riedl},
             booktitle = {Proceedings of the 2026 Conference on Language Models},
-            title     = {Where Does Social Reasoning Come From? Capability Provenance in Language Models},
+            title     = {Capability Provenance in Language Models: A Case Study in Social Reasoning},
             year      = {2026},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2606.19625},
             }
         type: InProceedings
         booktitle: Proceedings of the 2026 Conference on Language Models
-        title: Where Does Social Reasoning Come From? Capability Provenance in Language
-            Models
+        title: 'Capability Provenance in Language Models: A Case Study in Social Reasoning'
         year: '2026'
         owner: riedl
         url: https://arxiv.org/abs/2606.19625
@@ -8868,4 +8867,95 @@ entries:
         -   first: Stella
             last: Biderman
         -   first: Mark
+            last: Riedl
+      - id: Song2026RoleSteering
+        bibtex: |
+            @InProceedings{Song2026RoleSteering,
+            author    = {Song, Isaac and Parwani, Mohammed Rehan and Matlin, Glenn and Anand, Emile Timothy and Theerthala, Akhil and Chatterjee, Arjun and Zang, Anthony Wen-Ming and Kostylew, Maria and Shavit, Yonadav G. and Krier, Sebastian and Riedl, Mark O.},
+            booktitle = {Proceedings of the COLM 2026 Workshop on Social Simulations with LLMs},
+            title     = {Role Steering of Language Models for Social Simulations},
+            year      = {2026},
+            owner     = {riedl},
+            }
+        type: InProceedings
+        booktitle: Proceedings of the COLM 2026 Workshop on Social Simulations with
+            LLMs
+        title: Role Steering of Language Models for Social Simulations
+        year: '2026'
+        owner: riedl
+        author:
+        -   first: Isaac
+            last: Song
+        -   first: Mohammed
+            middle: Rehan
+            last: Parwani
+        -   first: Glenn
+            last: Matlin
+        -   first: Emile
+            middle: Timothy
+            last: Anand
+        -   first: Akhil
+            last: Theerthala
+        -   first: Arjun
+            last: Chatterjee
+        -   first: Anthony
+            middle: Wen-Ming
+            last: Zang
+        -   first: Maria
+            last: Kostylew
+        -   first: Yonadav
+            middle: G.
+            last: Shavit
+        -   first: Sebastian
+            last: Krier
+        -   first: Mark
+            middle: O.
+            last: Riedl
+      - id: Riedl2026Position
+        bibtex: |
+            @InProceedings{Riedl2026Position,
+            author    = {Riedl, Mark O. and Matlin, Glenn},
+            booktitle = {Proceedings of the COLM 2026 Workshop on Social Simulations with LLMs},
+            title     = {Position: AI is Not Ready for Strategic Conflict},
+            year      = {2026},
+            owner     = {riedl},
+            }
+        type: InProceedings
+        booktitle: Proceedings of the COLM 2026 Workshop on Social Simulations with
+            LLMs
+        title: 'Position: AI is Not Ready for Strategic Conflict'
+        year: '2026'
+        owner: riedl
+        author:
+        -   first: Mark
+            middle: O.
+            last: Riedl
+        -   first: Glenn
+            last: Matlin
+      - id: Matlin2026NoOneWins
+        bibtex: |
+            @InProceedings{Matlin2026NoOneWins,
+            author    = {Matlin, Glenn and Song, Isaac and Zang, Anthony Wen-Ming and Riedl, Mark O.},
+            booktitle = {Proceedings of the COLM 2026 Workshop on Social Simulations with LLMs},
+            title     = {No One Wins in Nuclear War: Social Simulations of High-Stakes Military Decision-Making},
+            year      = {2026},
+            owner     = {riedl},
+            }
+        type: InProceedings
+        booktitle: Proceedings of the COLM 2026 Workshop on Social Simulations with
+            LLMs
+        title: 'No One Wins in Nuclear War: Social Simulations of High-Stakes Military
+            Decision-Making'
+        year: '2026'
+        owner: riedl
+        author:
+        -   first: Glenn
+            last: Matlin
+        -   first: Isaac
+            last: Song
+        -   first: Anthony
+            middle: Wen-Ming
+            last: Zang
+        -   first: Mark
+            middle: O.
             last: Riedl
