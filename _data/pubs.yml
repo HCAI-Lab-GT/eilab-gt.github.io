@@ -8695,7 +8695,7 @@ entries:
             title     = {Creating learning scaffolds for engineering design using Concept Catalyst},
             year      = {2026},
             owner     = {riedl},
-            url       = {https://github.com/eilab-gt/eilab-gt.github.io/blob/main/pubs/Singh2026LearningScaffolds.pdf},
+            url       = {https://arxiv.org/abs/2605.20511},
             }
         type: InProceedings
         booktitle: Proceedings of the International Society of the Learning Sciences
@@ -8703,7 +8703,7 @@ entries:
         title: Creating learning scaffolds for engineering design using Concept Catalyst
         year: '2026'
         owner: riedl
-        url: https://github.com/eilab-gt/eilab-gt.github.io/blob/main/pubs/Singh2026LearningScaffolds.pdf
+        url: https://arxiv.org/abs/2605.20511
         author:
         -   first: Madhuri
             last: Singh
