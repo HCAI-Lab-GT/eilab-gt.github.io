@@ -90,8 +90,8 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 }
 .bibbutton {
 	font-size: small;
-	background-color: black;
-	color: white;
+	background-color: white;
+	color: black;
 	border: 1px solid black;
 	text-decoration: none;
 	text-decoration-color: white;
