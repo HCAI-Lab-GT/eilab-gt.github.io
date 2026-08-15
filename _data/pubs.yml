@@ -8774,7 +8774,7 @@ entries:
             title     = {Counterfactual Explanations for Agentic Workflows},
             year      = {2026},
             owner     = {riedl},
-            url       = {https://github.com/eilab-gt/eilab-gt.github.io/blob/main/pubs/Singh2026Introspective.pdf},
+            url       = {https://zenodo.org/records/19700286},
             }
         type: InProceedings
         booktitle: Proceedings of the 2026 CHI Workshop on Human-Centered Explainable
@@ -8782,7 +8782,7 @@ entries:
         title: Counterfactual Explanations for Agentic Workflows
         year: '2026'
         owner: riedl
-        url: https://github.com/eilab-gt/eilab-gt.github.io/blob/main/pubs/Singh2026Introspective.pdf
+        url: https://zenodo.org/records/19700286
         author:
         -   first: Madhuri
             last: Singh
