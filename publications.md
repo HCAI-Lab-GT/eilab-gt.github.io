@@ -9,9 +9,18 @@ classes: wide
 a:link, a:visited, a:hover, a:active {text-decoration: none;}
 .arxiv {
 	font-size: small;
-	background-color: #AFD5FA;
+	background-color: #000000;
 	color: white;
-	border: 1px solid #AFD5FA;
+	border: 1px solid #000000;
+	text-decoration: none;
+	text-decoration-color: white;
+	border-radius: 2px;
+}
+.zenodo {
+	font-size: small;
+	background-color: #1D49A4;
+	color: white;
+	border: 1px solid #1D49A4;
 	text-decoration: none;
 	text-decoration-color: white;
 	border-radius: 2px;
@@ -115,7 +124,7 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 	    {{ x.volume }} 
 	    ({{ x.year }})</em>.<br>
 	    {% if x.url %}
-	    	<a href="{{x.url}}">{% if x.url contains "arxiv" %}<span class="arxiv">arXiv</span>{% elsif x.url contains "openreview" %}<span class="openreview">OpenReview</span>{% elsif x.url contains "ssrn" %}<span class="ssrn">SSRN</span>{% elsif x.url contains "dl.acm.org" %}<span class="link">ACM/DL</span>{% elsif x.url contains "ieee" %}<span class="link">IEEE</span>{% elsif x.url contains ".pdf" %}<span class="pdf">PDF</span>{% else %}<span class="link">Link</span>{% endif %}</a>
+	    	<a href="{{x.url}}">{% if x.url contains "arxiv" %}<span class="arxiv">arXiv</span>{% elsif x.url contains "openreview" %}<span class="openreview">OpenReview</span>{% elsif x.url contains "ssrn" %}<span class="ssrn">SSRN</span>{% elsif x.url contains "dl.acm.org" %}<span class="link">ACM/DL</span>{% elsif x.url contains "ieee" %}<span class="link">IEEE</span>{% elsif x.url contains ".pdf" %}<span class="pdf">PDF</span>{% elsif x.url contains "zenodo" %}<span class="zenodo">zenodo<span>{% else %}<span class="link">Link</span>{% endif %}</a>
 	    {% endif %}
 	    {% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
 	    {% if x.journal and x.journal contains "Findings" %}<span class="conference">Conference</span>{% endif %}
