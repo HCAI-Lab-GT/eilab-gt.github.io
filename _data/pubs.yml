@@ -8876,6 +8876,7 @@ entries:
             title     = {Role Steering of Language Models for Social Simulations},
             year      = {2026},
             owner     = {riedl},
+            url       = {https://arxiv.org/abs/2608.00023},
             }
         type: InProceedings
         booktitle: Proceedings of the COLM 2026 Workshop on Social Simulations with
@@ -8883,6 +8884,7 @@ entries:
         title: Role Steering of Language Models for Social Simulations
         year: '2026'
         owner: riedl
+        url: https://arxiv.org/abs/2608.00023
         author:
         -   first: Isaac
             last: Song
@@ -8940,6 +8942,7 @@ entries:
             title     = {No One Wins in Nuclear War: Social Simulations of High-Stakes Military Decision-Making},
             year      = {2026},
             owner     = {riedl},
+            url       = {https://arxiv.org/abs/2608.01868},
             }
         type: InProceedings
         booktitle: Proceedings of the COLM 2026 Workshop on Social Simulations with
@@ -8948,6 +8951,7 @@ entries:
             Decision-Making'
         year: '2026'
         owner: riedl
+        url: https://arxiv.org/abs/2608.01868
         author:
         -   first: Glenn
             last: Matlin
@@ -8958,4 +8962,30 @@ entries:
             last: Zang
         -   first: Mark
             middle: O.
+            last: Riedl
+      - id: Mansi2026Drawing
+        bibtex: |
+            @Article{Mansi2026Drawing,
+            author  = {Mansi, Gennie and Kim, Julia and Rosenbloom, Michael and Riedl, Mark},
+            journal = {arXiv:2606.30828},
+            title   = {Drawing Out Legal Risks: Co-Designing with Lawyers to Predict and Manage Legal Uncertainties of Medical AI Tools},
+            year    = {2026},
+            owner   = {riedl},
+            url     = {https://arxiv.org/abs/2606.30828},
+            }
+        type: Article
+        journal: arXiv:2606.30828
+        title: 'Drawing Out Legal Risks: Co-Designing with Lawyers to Predict and
+            Manage Legal Uncertainties of Medical AI Tools'
+        year: '2026'
+        owner: riedl
+        url: https://arxiv.org/abs/2606.30828
+        author:
+        -   first: Gennie
+            last: Mansi
+        -   first: Julia
+            last: Kim
+        -   first: Michael
+            last: Rosenbloom
+        -   first: Mark
             last: Riedl
