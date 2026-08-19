@@ -104,3 +104,4 @@ migration:
   include_thesis_abstract_details: true
   publish_status: draft
   preserve_project_anchor_ids: true
+  skip_wxr_attachments: true

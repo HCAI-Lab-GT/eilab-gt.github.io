@@ -166,16 +166,18 @@ def build_wxr(
         )
 
     attachment_items: list[str] = []
-    for index, media in enumerate(manifest.get("media", []), start=9001):
-        attachment_items.append(
-            wp_item_attachment(
-                media=media,
-                post_id=index,
-                base_url=target_url,
-                author_login=author_login,
-                post_date=generated,
+    skip_attachments = bool(config.get("migration", {}).get("skip_wxr_attachments", False))
+    if not skip_attachments:
+        for index, media in enumerate(manifest.get("media", []), start=9001):
+            attachment_items.append(
+                wp_item_attachment(
+                    media=media,
+                    post_id=index,
+                    base_url=target_url,
+                    author_login=author_login,
+                    post_date=generated,
+                )
             )
-        )
 
     title = str(config["site"]["title"])
     description = str(config["site"]["description"])

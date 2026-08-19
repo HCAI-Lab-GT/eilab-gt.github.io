@@ -48,7 +48,10 @@ def test_extract_render_and_wxr(tmp_path: Path) -> None:
         assert "<script" not in content
 
     wxr_path = tmp_path / "site.wordpress.xml"
-    build_wxr(tmp_path, config, wxr_path, "https://sites.gatech.edu/test-hcai", "draft")
+    wxr_config = dict(config)
+    wxr_config["migration"] = dict(config.get("migration", {}))
+    wxr_config["migration"]["skip_wxr_attachments"] = False
+    build_wxr(tmp_path, wxr_config, wxr_path, "https://sites.gatech.edu/test-hcai", "draft")
     tree = etree.parse(str(wxr_path))
     namespaces = {
         "wp": "http://wordpress.org/export/1.2/",
