@@ -5,7 +5,8 @@ classes: wide
 ---
 <script type="text/javascript" src="toggle.js"> </script>
 
-<style type="text/css" src="bibs.css">
+<link rel="stylesheet" href="bibs.css">
+<style type="text/css">
 a:link, a:visited, a:hover, a:active {text-decoration: none;}
 .arxiv {
 	font-size: small;
@@ -130,7 +131,7 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 	    {% if x.journal and x.journal contains "Findings" %}<span class="conference">Conference</span>{% endif %}
 	    {% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
 	    {% if x.bibtex %}
-	    <a onclick="toggleBibtex({{ x.id }});"><span class="bibbutton">bibtex</span></a><br>
+	    <a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a><br>
 	    <div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>
 	    {% endif %}
 	  </p>

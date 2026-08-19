@@ -125,7 +125,7 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 	    {% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
 	    {% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
 	    {% if x.bibtex %}
-	    <a onclick="toggleBibtex({{ x.id }});"><span class="bibbutton">bibtex</span></a><br>
+	    <a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a><br>
 	    <div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>
 	    {% endif %}
 	  </li>

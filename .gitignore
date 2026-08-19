@@ -5,3 +5,6 @@ _site
 vendor
 Gemfile.lock
 .DS_Store
+.worktrees/
+Gemfile.lock
+.DS_Store

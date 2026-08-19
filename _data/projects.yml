@@ -26,10 +26,10 @@
     Text adventure games, in which players must make sense of the world through text 
     descriptions and declare  actions through natural language, can provide a stepping 
     stone toward more real-world environments where agents must communicate to 
-    understand the state of the world and indirectly affect change inthe world.  
+    understand the state of the world and indirectly affect change in the world.  
     Text adventure games are also, by some metrics, harder than video games such
     as StarCraft. For example the classic game <strong>Zork</strong> has never been beaten.
-    We seek up develop new reinforcement learning agents that can reason about 
+    We seek to develop new reinforcement learning agents that can reason about 
     and solve language-based tasks involving long-term causal dependencies. 
     We also seek open-ended agents capable of role-playing in text environments with humans. 
   pubs: 
@@ -103,7 +103,7 @@
       context: What can go wrong if one doesn't study the human factors of explanations.
 - name: Value Alignment
   description: >
-    Value alignmentis a property of an intelligent agent indicating that it can  
+    Value alignment is a property of an intelligent agent indicating that it can  
     only pursue goals and activities that are beneficial to humans. How do we
     teach AI systems values? We introduce **normative alignment**, the concept
     that an agent should adhere to social and cultural norms. We present techniques

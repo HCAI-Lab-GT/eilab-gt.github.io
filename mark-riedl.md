@@ -9,10 +9,10 @@ sidebar:
   - text: "**Director**"
   - text: Georgia Tech Machine Learning Center
   - title: "Contact"
-  - text: '<i class="fab fa-square-bluesky"></i> <a href="https://bsky.app/profile/markriedl.bsky.social">BlueSky</a>'
+  - text: '<i class="fas fa-link"></i> <a href="https://bsky.app/profile/markriedl.bsky.social">BlueSky</a>'
   - text: <i class="fab fa-mastodon"></i> <a rel="me" href="https://sigmoid.social/@Riedl">Mastodon</a>
   - text: '<i class="fab fa-fw fa-twitter-square"></i> <a href="https://twitter.com/mark_riedl">Twitter</a>'
-  - text: '<i class="fa-brands fa-linkedin"></i> <a href="https://www.linkedin.com/in/markriedl/">LinkedIn</a>'
+  - text: '<i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/markriedl/">LinkedIn</a>'
   - text: '<i class="fas fa-inbox"></i> <a href="mailto:riedl@cc.gatech.edu">Email</a>'
   - text: '<i class="fas fa-building"></i> CODA building S1123'
   - text: '<i class="fas fa-phone-square-alt"></i> +1 404 385 2860'
