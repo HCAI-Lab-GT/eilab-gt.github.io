@@ -12,4 +12,11 @@ Entertainment Intelligence and Human-Centered AI Labs
 
 1. Edit phds.yml, masters.yml, undergrads.yml, faculty.yml, or alumni.yml in the `_data` directory.
 
+**To update the Capabilibara project page:**
+
+1. Copy the built site from the `capabilibara` repo `public/` directory into `capabilibara/` here.
+2. Confirm `capabilibara/index.html` canonical and Open Graph URLs use `https://eilab.gatech.edu/capabilibara/`.
+3. Do not add YAML front matter to files under `capabilibara/`. Jekyll copies them as static files.
+4. Git commit. GitHub Pages publishes to https://eilab.gatech.edu/capabilibara/.
+
 
