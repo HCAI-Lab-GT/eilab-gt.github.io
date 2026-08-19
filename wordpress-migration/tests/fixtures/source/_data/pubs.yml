@@ -1,0 +1,18 @@
+entries:
+  - id: test2026
+    title: A Test Publication
+    year: '2026'
+    booktitle: Test Conference
+    url: https://example.com/paper
+    author:
+      - first: Glenn
+        last: Matlin
+    bibtex: |
+      @inproceedings{test2026, title={A Test Publication}}
+  - id: upper2025
+    Title: Uppercase Legacy Keys
+    Year: '2025'
+    Booktitle: Legacy Venue
+    Author:
+      - first: Mark
+        last: Riedl

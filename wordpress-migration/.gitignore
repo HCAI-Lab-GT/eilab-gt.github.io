@@ -1,0 +1,11 @@
+.venv/
+.env
+build/*
+!build/.gitkeep
+__pycache__/
+.pytest_cache/
+*.pyc
+browser/node_modules/
+browser/.auth/
+browser/test-results/
+browser/playwright-report/

@@ -1,0 +1,4 @@
+hcai-wordpress-migration-agent-handoff
+version=2.0
+configured_target=https://sites.gatech.edu/hcailab
+build_date=2026-08-19

@@ -1,0 +1,104 @@
+site:
+  title: Human-Centered AI Lab
+  short_title: HCAI Lab
+  subtitle: Georgia Institute of Technology
+  description: >-
+    The Human-Centered AI Lab develops artificial intelligence and machine learning
+    systems that understand and enhance the human condition.
+  source_url: https://eilab.gatech.edu
+  staging_url: https://sites.gatech.edu/hcailab
+  final_domain: null
+  author_login: gmatlin3
+  default_status: draft
+  timezone: America/New_York
+
+pages:
+  home:
+    title: Home
+    slug: home
+    order: 10
+    old_paths:
+      - /
+      - /index.html
+  people:
+    title: People
+    slug: people
+    order: 20
+    old_paths:
+      - /members.html
+      - /members/
+  research:
+    title: Research
+    slug: research
+    order: 30
+    old_paths:
+      - /projects.html
+      - /projects/
+  publications:
+    title: Publications
+    slug: publications
+    order: 40
+    old_paths:
+      - /publications.html
+  theses:
+    title: Theses
+    slug: theses
+    order: 50
+    old_paths:
+      - /theses.html
+  mark_riedl:
+    title: Mark Riedl
+    slug: mark-riedl
+    order: 60
+    old_paths:
+      - /mark-riedl.html
+
+people_group_order:
+  - faculty
+  - phds
+  - masters
+  - undergrads
+  - affiliated
+  - alumni
+
+people_group_titles:
+  faculty: Faculty
+  phds: Ph.D. Students
+  masters: Master's Students
+  undergrads: Undergraduate Students
+  affiliated: Affiliated Researchers
+  alumni: Alumni
+
+media:
+  include:
+    - path: assets/images/davinci-banner.jpeg
+      alt_text: A research-inspired illustration used as the HCAI Lab homepage banner
+      role: hero
+    - path: assets/images/mark-potato.jpg
+      alt_text: Mark Riedl
+      role: profile
+  exclude:
+    - assets/images/ei-logo.gif
+
+static_microsites:
+  - path: capabilibara
+    public_path: /capabilibara/
+    aliases:
+      - /social-data-attribution/
+    disposition: excluded_pending_hosting_decision
+
+brand:
+  required_theme_description: Official Georgia Tech WordPress theme on Sites@GeorgiaTech
+  prohibited_asset_paths:
+    - assets/images/ei-logo.gif
+  prohibited_text_patterns:
+    - Entertainment Intelligence and Human-Centered AI Labs
+  required_footer_text:
+    - Georgia Institute of Technology
+
+migration:
+  rewrite_internal_http_links: true
+  include_bibtex_details: true
+  include_thesis_abstract_details: true
+  publish_status: draft
+  preserve_project_anchor_ids: true
