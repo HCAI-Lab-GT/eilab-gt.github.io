@@ -27,7 +27,7 @@ def test_extract_render_and_wxr(tmp_path: Path) -> None:
     normalized = extract_site(FIXTURE.resolve(), config)
     assert normalized["counts"]["projects"] == 1
     assert normalized["counts"]["publications"] == 2
-    assert normalized["counts"]["theses"] == 1
+    assert normalized["counts"]["theses"] == 2
     assert normalized["counts"]["unresolved_project_publications"] == 0
     assert normalized["publications"][0]["title"] in {"A Test Publication", "Uppercase Legacy Keys"}
     titles = {publication["title"] for publication in normalized["publications"]}
@@ -77,6 +77,28 @@ def test_home_renders_original_two_column_table(tmp_path: Path) -> None:
     assert "Explainable AI" in home
     assert "/research/#explainable-ai" in home
     assert home.find("<table") < home.find("Explainable AI")
+    assert "<br" in home
+
+
+def test_people_follow_original_group_order(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    people = pages["people"]
+    faculty = people.find("Faculty")
+    phd = people.find("PhD Students")
+    alumni = people.find("Alumni")
+    affiliated = people.find("Affiliated")
+    assert faculty != -1 and phd != -1 and alumni != -1 and affiliated != -1
+    assert faculty < phd < alumni < affiliated
+
+
+def test_live_source_stale_project_ids_resolve() -> None:
+    config = load_config()
+    live_root = Path(__file__).resolve().parents[2]
+    normalized = extract_site(live_root, config)
+    unresolved = {item["publication_id"] for item in normalized["unresolved_project_publications"]}
+    assert "Lin2019GenerationMania" not in unresolved
+    assert "harrisonaies2018" not in unresolved
+    assert "Balloch2022TheRole" not in unresolved
 
 
 def test_people_omit_empty_links_and_rewrite_mark_profile(tmp_path: Path) -> None:
@@ -123,6 +145,8 @@ def test_theses_match_original_dissertation_line(tmp_path: Path) -> None:
     theses = pages["theses"]
     assert "Ph.D. Dissertation" in theses
     assert "Student Example" in theses
+    assert "Student Without Institute" in theses
+    assert theses.count("Georgia Institute of Technology") >= 2
 
 
 def test_redirects_include_old_core_routes(tmp_path: Path) -> None:

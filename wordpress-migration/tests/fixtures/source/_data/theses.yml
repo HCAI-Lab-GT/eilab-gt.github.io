@@ -5,3 +5,6 @@
   year: 2026
   abstract: |
     This is a test abstract.
+- name: Student Without Institute
+  title: Another Test Thesis
+  year: 2024

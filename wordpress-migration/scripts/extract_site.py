@@ -33,6 +33,12 @@ from scripts.common import (
     write_json,
 )
 
+PUBLICATION_ID_ALIASES = {
+    "Lin2019GenerationMania": "linexag2018",
+    "harrisonaies2018": "ehsaniui2019",
+    "Balloch2022TheRole": "Balloch2022Exploration",
+}
+
 PEOPLE_FILES: dict[str, list[str]] = {
     "faculty": ["_data/faculty.yaml", "_data/faculty.yml"],
     "phds": ["_data/phds.yaml", "_data/phds.yml"],
@@ -180,7 +186,7 @@ def extract_home(source_root: Path, source_url: str) -> dict[str, Any]:
         "hero_image": ci_get(front_matter.get("header", {}) if isinstance(front_matter.get("header"), Mapping) else {}, "overlay_image"),
         "director": {
             "name": str(author.get("name", "Mark Riedl")).strip(),
-            "bio_html": sanitize_markdown(str(author.get("bio", ""))),
+            "bio_html": re.sub(r"</strong>\s+", "</strong><br>", sanitize_markdown(str(author.get("bio", "")))),
             "avatar": author.get("avatar"),
             "links": director_links,
         },
@@ -235,6 +241,7 @@ def extract_projects(source_root: Path, publications_by_id: Mapping[str, dict[st
             if not isinstance(reference, Mapping):
                 continue
             pub_id = str(ci_get(reference, "id", default="")).strip()
+            pub_id = PUBLICATION_ID_ALIASES.get(pub_id, pub_id)
             context = str(ci_get(reference, "context", default="")).strip() or None
             publication = publications_by_id.get(pub_id)
             if publication is None:
@@ -273,7 +280,8 @@ def extract_theses(source_root: Path) -> list[dict[str, Any]]:
                 "name": str(ci_get(item, "name", default="")).strip(),
                 "title": str(ci_get(item, "title", default="")).strip(),
                 "url": str(ci_get(item, "url", default="")).strip() or None,
-                "institute": str(ci_get(item, "institute", default="")).strip() or None,
+                "institute": str(ci_get(item, "institute", default="")).strip()
+                or "Georgia Institute of Technology",
                 "year": str(ci_get(item, "year", default="")).strip(),
                 "abstract_html": sanitize_markdown(str(ci_get(item, "abstract", default=""))),
             }

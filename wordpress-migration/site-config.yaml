@@ -58,16 +58,16 @@ people_group_order:
   - phds
   - masters
   - undergrads
-  - affiliated
   - alumni
+  - affiliated
 
 people_group_titles:
   faculty: Faculty
-  phds: Ph.D. Students
-  masters: Master's Students
+  phds: PhD Students
+  masters: Masters Students
   undergrads: Undergraduate Students
-  affiliated: Affiliated Researchers
   alumni: Alumni
+  affiliated: Affiliated
 
 media:
   include:
