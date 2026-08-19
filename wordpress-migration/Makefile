@@ -26,7 +26,7 @@ verify:
 	$(PYTHON) scripts/verify_site.py --url "$(WP_URL)"
 
 browser-discover:
-	cd browser && npm install && WP_URL="$(WP_URL)" npm run discover
+	cd browser && npm install && npx playwright install chromium && WP_URL="$(WP_URL)" npm run discover
 
 clean:
 	find build -mindepth 1 ! -name .gitkeep -delete
