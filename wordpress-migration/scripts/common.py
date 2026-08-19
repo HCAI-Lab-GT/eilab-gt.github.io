@@ -246,6 +246,59 @@ def text_content(value: str | None) -> str:
     return BeautifulSoup(value, "html.parser").get_text(" ", strip=True)
 
 
+LEGACY_PATHS = {
+    "/projects.html": "/research/",
+    "/projects": "/research/",
+    "/projects/": "/research/",
+    "/members.html": "/people/",
+    "/members": "/people/",
+    "/members/": "/people/",
+    "/publications.html": "/publications/",
+    "/theses.html": "/theses/",
+    "/mark-riedl.html": "/mark-riedl/",
+    "/index.html": "/",
+}
+
+MARK_PROFILE_URL = re.compile(r"eilab-gt\.github\.io/riedl\.html/?$", re.I)
+TECH_TYPO = re.compile(r"Georgia Institute of Technology Tech\b", re.I)
+
+
+def rewrite_legacy_site_url(url: str | None) -> str | None:
+    """Map old Jekyll routes and the stale GitHub Pages profile to WordPress slugs."""
+    if not url:
+        return url
+    raw = str(url).strip()
+    if not raw or raw.lower() in {"none", "null"}:
+        return None
+    if MARK_PROFILE_URL.search(urlparse(raw).netloc + urlparse(raw).path):
+        return "/mark-riedl/"
+    parsed = urlparse(raw)
+    path = parsed.path or "/"
+    new_path = LEGACY_PATHS.get(path)
+    if new_path is None:
+        return raw
+    fragment = f"#{parsed.fragment}" if parsed.fragment else ""
+    return new_path + fragment
+
+
+def rewrite_legacy_hrefs_in_html(content: str) -> str:
+    if not content:
+        return content
+    soup = BeautifulSoup(content, "html.parser")
+    for tag in soup.find_all("a"):
+        href = tag.get("href")
+        rewritten = rewrite_legacy_site_url(href)
+        if rewritten:
+            tag["href"] = rewritten
+        elif href is not None and not rewritten:
+            del tag.attrs["href"]
+    return str(soup)
+
+
+def fix_known_source_typos(value: str) -> str:
+    return TECH_TYPO.sub("Georgia Institute of Technology", value or "")
+
+
 def rewrite_internal_urls(content: str, source_url: str, target_base: str = "") -> str:
     if not content:
         return content

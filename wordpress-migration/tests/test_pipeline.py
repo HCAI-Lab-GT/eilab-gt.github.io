@@ -58,6 +58,53 @@ def test_extract_render_and_wxr(tmp_path: Path) -> None:
     assert post_types.count("attachment") == 2
 
 
+def _render_pages(tmp_path: Path) -> dict[str, str]:
+    config = load_config()
+    normalized = extract_site(FIXTURE.resolve(), config)
+    manifest = render_all(normalized, config, tmp_path)
+    return {
+        page["slug"]: (tmp_path / page["content_file"]).read_text(encoding="utf-8")
+        for page in manifest["pages"]
+    }
+
+
+def test_home_renders_original_two_column_table(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    home = pages["home"]
+    assert "<table" in home
+    assert "<th" in home
+    assert "Responsible AI" in home
+    assert "Explainable AI" in home
+    assert "/research/#explainable-ai" in home
+    assert home.find("<table") < home.find("Explainable AI")
+
+
+def test_people_omit_empty_links_and_rewrite_mark_profile(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    people = pages["people"]
+    assert "Test Undergrad" in people
+    assert 'href="">Test Undergrad' not in people
+    assert "<a>Test Undergrad</a>" not in people
+    assert "/mark-riedl/" in people
+    assert "eilab-gt.github.io/riedl.html" not in people
+
+
+def test_mark_page_renders_sidebar_markdown_and_fixes_typo(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    mark = pages["mark-riedl"]
+    assert "**Professor**" not in mark
+    assert "<strong>Professor</strong>" in mark
+    assert "Technology Tech" not in mark
+    assert "Georgia Institute of Technology" in mark
+
+
+def test_theses_match_original_dissertation_line(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    theses = pages["theses"]
+    assert "Ph.D. Dissertation" in theses
+    assert "Student Example" in theses
+
+
 def test_redirects_include_old_core_routes(tmp_path: Path) -> None:
     config = load_config()
     normalized = extract_site(FIXTURE.resolve(), config)

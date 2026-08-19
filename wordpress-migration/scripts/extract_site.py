@@ -17,10 +17,13 @@ from scripts.common import (
     ci_get,
     ensure_build_dir,
     find_first,
+    fix_known_source_typos,
     load_config,
     load_yaml,
     markdown_to_html,
     rewrite_internal_urls,
+    rewrite_legacy_hrefs_in_html,
+    rewrite_legacy_site_url,
     sanitize_html,
     sanitize_markdown,
     slugify,
@@ -45,9 +48,11 @@ def normalize_person(raw: Mapping[str, Any]) -> dict[str, Any]:
     website = ci_get(raw, "website", "url")
     if website in {None, "", "None", "none"}:
         website = None
+    elif website:
+        website = rewrite_legacy_site_url(str(website).strip())
     return {
         "name": name,
-        "website": str(website).strip() if website else None,
+        "website": website,
         "rank": str(ci_get(raw, "rank", default="")).strip() or None,
         "where": str(ci_get(raw, "where", default="")).strip() or None,
     }
@@ -114,7 +119,12 @@ def extract_home(source_root: Path, source_url: str) -> dict[str, Any]:
     table_html = table_match.group(0) if table_match else ""
     body_without_table = body.replace(table_html, "") if table_html else body
     mission = sanitize_html(markdown_to_html(body_without_table.strip()))
-    mission = rewrite_internal_urls(mission, source_url)
+    mission = rewrite_legacy_hrefs_in_html(rewrite_internal_urls(mission, source_url))
+    research_table_html = ""
+    if table_html:
+        research_table_html = rewrite_legacy_hrefs_in_html(
+            rewrite_internal_urls(sanitize_html(table_html), source_url)
+        )
 
     research_areas: list[dict[str, Any]] = []
     if table_html:
@@ -163,7 +173,9 @@ def extract_home(source_root: Path, source_url: str) -> dict[str, Any]:
     return {
         "source_path": str(home_path.relative_to(source_root)),
         "front_matter": front_matter,
+        "tagline": str(front_matter.get("tagline") or "").strip(),
         "mission_html": mission,
+        "research_table_html": research_table_html,
         "research_areas": research_areas,
         "hero_image": ci_get(front_matter.get("header", {}) if isinstance(front_matter.get("header"), Mapping) else {}, "overlay_image"),
         "director": {
@@ -273,8 +285,8 @@ def extract_theses(source_root: Path) -> list[dict[str, Any]]:
 def extract_mark_page(source_root: Path, source_url: str) -> dict[str, Any]:
     path = find_first(source_root, ["mark-riedl.md", "mark-riedl.markdown"])
     front_matter, body = split_front_matter(path.read_text(encoding="utf-8", errors="replace"))
-    html_body = sanitize_html(markdown_to_html(body))
-    html_body = rewrite_internal_urls(html_body, source_url)
+    html_body = sanitize_html(markdown_to_html(fix_known_source_typos(body)))
+    html_body = rewrite_legacy_hrefs_in_html(rewrite_internal_urls(html_body, source_url))
     sidebar = front_matter.get("sidebar") if isinstance(front_matter.get("sidebar"), list) else []
     sanitized_sidebar: list[dict[str, str]] = []
     for item in sidebar:
@@ -283,7 +295,12 @@ def extract_mark_page(source_root: Path, source_url: str) -> dict[str, Any]:
         if "title" in item:
             sanitized_sidebar.append({"type": "title", "html": sanitize_html(str(item["title"]))})
         if "text" in item:
-            sanitized_sidebar.append({"type": "text", "html": sanitize_html(str(item["text"]))})
+            raw_text = fix_known_source_typos(str(item["text"]))
+            sidebar_html = sanitize_markdown(raw_text)
+            soup = BeautifulSoup(sidebar_html, "html.parser")
+            if len(list(soup.children)) == 1 and soup.p is not None:
+                sidebar_html = "".join(str(child) for child in soup.p.contents)
+            sanitized_sidebar.append({"type": "text", "html": sidebar_html})
         if "image" in item:
             sanitized_sidebar.append({"type": "image", "path": str(item["image"]).lstrip("/")})
     return {

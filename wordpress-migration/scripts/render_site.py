@@ -8,8 +8,6 @@ import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable, Mapping
-from urllib.parse import urlparse
-
 from bs4 import BeautifulSoup
 
 if __package__ in {None, ""}:
@@ -21,6 +19,8 @@ from scripts.common import (
     html_escape,
     load_config,
     rewrite_internal_urls,
+    rewrite_legacy_hrefs_in_html,
+    rewrite_legacy_site_url,
     sanitize_html,
     slugify,
     text_content,
@@ -64,6 +64,13 @@ def wp_group(inner: str, css_class: str | None = None) -> str:
     )
 
 
+def wp_table(table_html: str) -> str:
+    soup = BeautifulSoup(table_html, "html.parser")
+    table = soup.find("table")
+    markup = str(table) if table else table_html
+    return f'<!-- wp:table -->\n<figure class="wp-block-table">{markup}</figure>\n<!-- /wp:table -->'
+
+
 def wp_image(url: str, alt_text: str, css_class: str = "") -> str:
     cls_attr = f" {html_escape(css_class)}" if css_class else ""
     return (
@@ -78,9 +85,10 @@ def clean_fragment(value: str) -> str:
 
 
 def external_link(url: str | None, label: str) -> str:
-    if not url:
+    rewritten = rewrite_legacy_site_url(url) if url else None
+    if not rewritten:
         return html_escape(label)
-    return f'<a href="{html_escape(url)}">{html_escape(label)}</a>'
+    return f'<a href="{html_escape(rewritten)}">{html_escape(label)}</a>'
 
 
 def publication_html(publication: Mapping[str, Any], include_bibtex: bool = True) -> str:
@@ -119,28 +127,28 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     if hero:
         parts.append(wp_image(hero["source_url"], hero.get("alt_text", ""), "hcai-hero"))
 
-    mission_html = rewrite_internal_urls(str(home.get("mission_html", "")), source_url)
+    if home.get("tagline"):
+        parts.append(wp_paragraph(html_escape(str(home["tagline"])), "hcai-tagline"))
+
+    mission_html = rewrite_legacy_hrefs_in_html(
+        rewrite_internal_urls(str(home.get("mission_html", "")), source_url)
+    )
     if mission_html:
         parts.append(wp_group(mission_html, "hcai-mission"))
 
+    table_html = str(home.get("research_table_html") or "").strip()
     areas = home.get("research_areas", [])
-    if areas:
+    if table_html:
+        parts.append(wp_heading("Research Areas", 2, "research-areas"))
+        parts.append(wp_table(table_html))
+    elif areas:
         parts.append(wp_heading("Research Areas", 2, "research-areas"))
         for area in areas:
             area_parts = [wp_heading(area["name"], 3, area.get("slug"))]
             items: list[str] = []
             for item in area.get("items", []):
                 label = str(item.get("label", ""))
-                raw_url = item.get("url")
-                url = None
-                if raw_url:
-                    parsed = urlparse(str(raw_url))
-                    fragment = parsed.fragment
-                    if "projects" in parsed.path:
-                        url = "/research/" + (f"#{fragment}" if fragment else "")
-                    else:
-                        url = str(raw_url)
-                items.append(external_link(url, label))
+                items.append(external_link(item.get("url"), label))
             if items:
                 area_parts.append(wp_list(items))
             parts.append(wp_group("\n".join(area_parts), "hcai-research-area"))
@@ -239,9 +247,11 @@ def render_theses(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
         title = thesis.get("title") or "Untitled thesis"
         title_html = external_link(thesis.get("url"), title)
         meta = ", ".join(str(item) for item in [thesis.get("institute"), thesis.get("year")] if item)
-        entry = f"<strong>{html_escape(thesis.get('name', ''))}. {title_html}.</strong>"
+        entry = f"<strong>{html_escape(thesis.get('name', ''))}. {title_html}.</strong> Ph.D. Dissertation"
         if meta:
-            entry += f" {html_escape(meta)}."
+            entry += f", {html_escape(meta)}."
+        else:
+            entry += "."
         if include_abstracts and thesis.get("abstract_html"):
             entry += "\n<details class=\"thesis-abstract\"><summary>Abstract</summary>" + clean_fragment(thesis["abstract_html"]) + "</details>"
         parts.append(wp_group(entry, "hcai-thesis"))
