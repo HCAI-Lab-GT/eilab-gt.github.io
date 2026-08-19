@@ -8,6 +8,8 @@ import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable, Mapping
+from urllib.parse import urlparse
+
 from bs4 import BeautifulSoup
 
 if __package__ in {None, ""}:
@@ -84,8 +86,35 @@ def clean_fragment(value: str) -> str:
     return sanitize_html(value).strip()
 
 
-def external_link(url: str | None, label: str) -> str:
-    rewritten = rewrite_legacy_site_url(url) if url else None
+def site_path_prefix(config: Mapping[str, Any]) -> str:
+    staging = str(config.get("site", {}).get("staging_url") or "")
+    return urlparse(staging).path.rstrip("/")
+
+
+def with_site_prefix(url: str | None, prefix: str) -> str | None:
+    if not url:
+        return url
+    rewritten = rewrite_legacy_site_url(url) or url
+    if prefix and rewritten.startswith("/") and not rewritten.startswith("//") and not rewritten.startswith(prefix + "/") and rewritten != prefix:
+        return prefix + rewritten
+    return rewritten
+
+
+def prefix_internal_urls(content: str, prefix: str) -> str:
+    if not content or not prefix:
+        return content
+    soup = BeautifulSoup(content, "html.parser")
+    for tag in soup.find_all(["a", "img"]):
+        attr = "href" if tag.name == "a" else "src"
+        raw = tag.get(attr)
+        updated = with_site_prefix(raw, prefix)
+        if updated:
+            tag[attr] = updated
+    return str(soup)
+
+
+def external_link(url: str | None, label: str, prefix: str = "") -> str:
+    rewritten = with_site_prefix(url, prefix) if url else None
     if not rewritten:
         return html_escape(label)
     return f'<a href="{html_escape(rewritten)}">{html_escape(label)}</a>'
@@ -205,7 +234,7 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
             items: list[str] = []
             for item in area.get("items", []):
                 label = str(item.get("label", ""))
-                items.append(external_link(item.get("url"), label))
+                items.append(external_link(item.get("url"), label, site_path_prefix(config)))
             if items:
                 area_parts.append(wp_list(items))
             parts.append(wp_group("\n".join(area_parts), "hcai-research-area"))
@@ -221,7 +250,10 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
             director_parts.append(wp_heading(str(director["name"]), 3))
         if director.get("bio_html"):
             director_parts.append(clean_fragment(str(director["bio_html"])))
-        link_items = [external_link(link.get("url"), link.get("label", "")) for link in director.get("links", [])]
+        link_items = [
+            external_link(link.get("url"), link.get("label", ""), site_path_prefix(config))
+            for link in director.get("links", [])
+        ]
         if link_items:
             director_parts.append(wp_list(link_items))
         parts.append(wp_group("\n".join(director_parts), "hcai-director"))
@@ -241,7 +273,7 @@ def render_people(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
         parts.append(wp_heading(str(titles.get(group, group.title())), 2, slugify(str(titles.get(group, group)))))
         items: list[str] = []
         for person in members:
-            name_html = external_link(person.get("website"), person.get("name", ""))
+            name_html = external_link(person.get("website"), person.get("name", ""), site_path_prefix(config))
             descriptors = [person.get("rank"), person.get("where")]
             descriptors = [str(value) for value in descriptors if value]
             if descriptors:
@@ -296,11 +328,15 @@ def render_publications(data: Mapping[str, Any], config: Mapping[str, Any]) -> s
         match = re.search(r"\d{4}", value)
         return (int(match.group(0)) if match else -1, value)
 
+    years = sorted(by_year, key=year_key, reverse=True)
     parts: list[str] = []
-    for year in sorted(by_year, key=year_key, reverse=True):
+    if years:
+        toc = " · ".join(f'<a href="#year-{slugify(year)}">{html_escape(year)}</a>' for year in years)
+        parts.append(wp_paragraph(toc, "hcai-year-toc"))
+    for year in years:
         parts.append(wp_heading(year, 2, f"year-{slugify(year)}"))
-        items = [publication_html(pub, include_bibtex=include_bibtex) for pub in by_year[year]]
-        parts.append(wp_list(items))
+        for pub in by_year[year]:
+            parts.append(wp_group(publication_html(pub, include_bibtex=include_bibtex), "hcai-publication"))
     return "\n\n".join(parts).strip() + "\n"
 
 
@@ -309,7 +345,7 @@ def render_theses(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     parts: list[str] = []
     for thesis in data["theses"]:
         title = thesis.get("title") or "Untitled thesis"
-        title_html = external_link(thesis.get("url"), title)
+        title_html = external_link(thesis.get("url"), title, site_path_prefix(config))
         meta = ", ".join(str(item) for item in [thesis.get("institute"), thesis.get("year")] if item)
         entry = f"<strong>{html_escape(thesis.get('name', ''))}. {title_html}.</strong> Ph.D. Dissertation"
         if meta:
@@ -393,7 +429,7 @@ def render_all(data: Mapping[str, Any], config: Mapping[str, Any], build_dir: Pa
     manifest_pages: list[dict[str, Any]] = []
     for key, renderer in renderers.items():
         page_config = config["pages"][key]
-        content = renderer(data, config)
+        content = prefix_internal_urls(renderer(data, config), site_path_prefix(config))
         # Final defense-in-depth sanitization. Gutenberg comments are stripped by bleach,
         # so validate the content separately instead of sanitizing it again here.
         if re.search(r"<(?:script|iframe|object|embed|form|input|button)\b", content, re.I):

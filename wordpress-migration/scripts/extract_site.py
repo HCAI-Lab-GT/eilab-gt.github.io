@@ -186,7 +186,11 @@ def extract_home(source_root: Path, source_url: str) -> dict[str, Any]:
         "hero_image": ci_get(front_matter.get("header", {}) if isinstance(front_matter.get("header"), Mapping) else {}, "overlay_image"),
         "director": {
             "name": str(author.get("name", "Mark Riedl")).strip(),
-            "bio_html": re.sub(r"</strong>\s+", "</strong><br>", sanitize_markdown(str(author.get("bio", "")))),
+            "bio_html": re.sub(
+                r"\s*<strong>Director</strong>\s*",
+                "<br><strong>Director</strong>, ",
+                re.sub(r"</strong>\s+", "</strong><br>", sanitize_markdown(str(author.get("bio", ""))), count=1),
+            ),
             "avatar": author.get("avatar"),
             "links": director_links,
         },
@@ -304,6 +308,7 @@ def extract_mark_page(source_root: Path, source_url: str) -> dict[str, Any]:
             sanitized_sidebar.append({"type": "title", "html": sanitize_html(str(item["title"]))})
         if "text" in item:
             raw_text = fix_known_source_typos(str(item["text"]))
+            raw_text = raw_text.replace("Associate Director", "Director")
             sidebar_html = sanitize_markdown(raw_text)
             soup = BeautifulSoup(sidebar_html, "html.parser")
             if len(list(soup.children)) == 1 and soup.p is not None:
@@ -338,7 +343,7 @@ def extract_site(source_root: Path, config: Mapping[str, Any]) -> dict[str, Any]
                 "exists": path.exists(),
                 "alt_text": item.get("alt_text", ""),
                 "role": item.get("role", "content"),
-                "source_url": source_url.rstrip("/") + "/" + item["path"].lstrip("/"),
+                "source_url": str(item.get("wordpress_url") or (source_url.rstrip("/") + "/" + item["path"].lstrip("/"))),
             }
         )
 

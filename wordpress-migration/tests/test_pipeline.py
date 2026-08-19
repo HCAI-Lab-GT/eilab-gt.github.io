@@ -75,7 +75,7 @@ def test_home_renders_original_two_column_table(tmp_path: Path) -> None:
     assert "<th" in home
     assert "Responsible AI" in home
     assert "Explainable AI" in home
-    assert "/research/#explainable-ai" in home
+    assert "/hcailab/research/#explainable-ai" in home
     assert home.find("<table") < home.find("Explainable AI")
     assert "<br" in home
 
@@ -107,7 +107,7 @@ def test_people_omit_empty_links_and_rewrite_mark_profile(tmp_path: Path) -> Non
     assert "Test Undergrad" in people
     assert 'href="">Test Undergrad' not in people
     assert "<a>Test Undergrad</a>" not in people
-    assert "/mark-riedl/" in people
+    assert "/hcailab/mark-riedl/" in people
     assert "eilab-gt.github.io/riedl.html" not in people
 
 
@@ -129,6 +129,8 @@ def test_publications_match_original_entry_shape(tmp_path: Path) -> None:
     assert ">Link</a>" in publications
     assert "Conference" in publications
     assert "(2026)" in publications
+    assert 'href="#year-2026"' in publications
+    assert "hcai-publication" in publications
 
 
 def test_research_includes_project_toc_and_context(tmp_path: Path) -> None:

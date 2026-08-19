@@ -74,9 +74,11 @@ media:
     - path: assets/images/davinci-banner.jpeg
       alt_text: A research-inspired illustration used as the HCAI Lab homepage banner
       role: hero
+      wordpress_url: https://sites.gatech.edu/hcailab/files/2026/08/davinci-banner.jpeg
     - path: assets/images/mark-potato.jpg
       alt_text: Mark Riedl
       role: profile
+      wordpress_url: https://sites.gatech.edu/hcailab/files/2026/08/mark-potato.jpg
   exclude:
     - assets/images/ei-logo.gif
 
