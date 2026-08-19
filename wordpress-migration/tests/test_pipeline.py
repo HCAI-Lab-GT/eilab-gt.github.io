@@ -98,6 +98,26 @@ def test_mark_page_renders_sidebar_markdown_and_fixes_typo(tmp_path: Path) -> No
     assert "Georgia Institute of Technology" in mark
 
 
+def test_publications_match_original_entry_shape(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    publications = pages["publications"]
+    assert "Glenn Matlin and Ada Lovelace" in publications
+    assert "<strong" in publications and "A Test Publication" in publications
+    assert 'href="https://example.com/paper">A Test Publication' not in publications
+    assert ">Link</a>" in publications
+    assert "Conference" in publications
+    assert "(2026)" in publications
+
+
+def test_research_includes_project_toc_and_context(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    research = pages["research"]
+    assert 'href="#explainable-ai"' in research
+    assert "Explainable AI" in research
+    assert "Representative work." in research
+    assert "Representative Publications" in research
+
+
 def test_theses_match_original_dissertation_line(tmp_path: Path) -> None:
     pages = _render_pages(tmp_path)
     theses = pages["theses"]

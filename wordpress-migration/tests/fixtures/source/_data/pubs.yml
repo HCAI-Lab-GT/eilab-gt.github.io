@@ -7,6 +7,8 @@ entries:
     author:
       - first: Glenn
         last: Matlin
+      - first: Ada
+        last: Lovelace
     bibtex: |
       @inproceedings{test2026, title={A Test Publication}}
   - id: upper2025

@@ -91,21 +91,78 @@ def external_link(url: str | None, label: str) -> str:
     return f'<a href="{html_escape(rewritten)}">{html_escape(label)}</a>'
 
 
+def format_author_list(authors: Iterable[str]) -> str:
+    names = [str(author).strip() for author in authors if str(author).strip()]
+    if not names:
+        return ""
+    if len(names) == 1:
+        return names[0]
+    if len(names) == 2:
+        return f"{names[0]} and {names[1]}"
+    return ", ".join(names[:-1]) + ", and " + names[-1]
+
+
+def publication_link_label(url: str) -> str:
+    lowered = url.lower()
+    if "arxiv" in lowered:
+        return "arXiv"
+    if "openreview" in lowered:
+        return "OpenReview"
+    if "ssrn" in lowered:
+        return "SSRN"
+    if "zenodo" in lowered:
+        return "zenodo"
+    if "dl.acm.org" in lowered:
+        return "ACM/DL"
+    if "ieee" in lowered:
+        return "IEEE"
+    if ".pdf" in lowered:
+        return "PDF"
+    return "Link"
+
+
+def publication_kind_labels(publication: Mapping[str, Any]) -> list[str]:
+    journal = str(publication.get("journal") or "").strip()
+    booktitle = str(publication.get("booktitle") or "").strip()
+    volume = str(publication.get("volume") or "").strip()
+    labels: list[str] = []
+    if journal and volume:
+        labels.append("Journal")
+    if journal and "Findings" in journal:
+        labels.append("Conference")
+    if booktitle:
+        labels.append("Workshop" if "Workshop" in booktitle else "Conference")
+    return labels
+
+
 def publication_html(publication: Mapping[str, Any], include_bibtex: bool = True) -> str:
-    authors = ", ".join(publication.get("authors", []))
-    title = str(publication.get("title", "")).strip()
-    url = publication.get("url")
-    venue = publication.get("venue")
-    year = publication.get("year")
+    authors = format_author_list(publication.get("authors", []))
+    title = str(publication.get("title", "")).strip() or "Untitled publication"
+    url = str(publication.get("url") or "").strip()
+    venue = str(publication.get("journal") or publication.get("booktitle") or publication.get("venue") or "").strip()
+    volume = str(publication.get("volume") or "").strip()
+    year = str(publication.get("year") or "").strip()
     chunks: list[str] = []
     if authors:
         chunks.append(f'<span class="publication-authors">{html_escape(authors)}</span>')
-    title_html = external_link(str(url) if url else None, title) if title else "Untitled publication"
-    chunks.append(f'<strong class="publication-title">{title_html}</strong>')
-    venue_bits = [str(bit).strip() for bit in [venue, year] if bit]
-    if venue_bits:
-        chunks.append(f'<span class="publication-venue"><em>{html_escape(" (".join(venue_bits) + (")" if len(venue_bits) > 1 else ""))}</em></span>')
+    chunks.append(f'<strong class="publication-title">{html_escape(title)}</strong>')
+    venue_line = venue
+    if volume:
+        venue_line = f"{venue_line} {volume}".strip()
+    if year:
+        venue_line = f"{venue_line} ({year})".strip()
+    if venue_line:
+        chunks.append(f'<span class="publication-venue"><em>{html_escape(venue_line)}</em>.</span>')
     body = "<br>".join(chunks)
+    badges: list[str] = []
+    if url:
+        badges.append(
+            f'<a class="publication-source" href="{html_escape(url)}">{html_escape(publication_link_label(url))}</a>'
+        )
+    for label in publication_kind_labels(publication):
+        badges.append(f'<span class="publication-kind">{html_escape(label)}</span>')
+    if badges:
+        body += "<br>" + " ".join(badges)
     bibtex = publication.get("bibtex")
     if include_bibtex and bibtex:
         body += (
@@ -197,6 +254,13 @@ def render_people(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
 def render_research(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     include_bibtex = bool(config.get("migration", {}).get("include_bibtex_details", True))
     parts: list[str] = []
+    toc_items = [
+        f'<a href="#{html_escape(str(project["slug"]))}">{html_escape(str(project["name"]))}</a>'
+        for project in data["projects"]
+        if project.get("slug") and project.get("name")
+    ]
+    if toc_items:
+        parts.append(wp_paragraph(" · ".join(toc_items), "hcai-project-toc"))
     for project in data["projects"]:
         project_parts = [wp_heading(project["name"], 2, project["slug"])]
         if project.get("description_html"):
