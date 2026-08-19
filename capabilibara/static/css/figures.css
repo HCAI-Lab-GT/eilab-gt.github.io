@@ -1,0 +1,731 @@
+/* Capability Provenance figure systems and compact explanatory animations. */
+
+:root {
+  --soc-reason: #762a83;
+  --soc-know: #8c6d1f;
+  --stem-reason: #a14f00;
+  --stem-know: #1b7837;
+  --infl-pos: #2f6fa8;
+  --infl-pos-lt: #87b7d5;
+  --infl-neg: #b35806;
+  --infl-neg-lt: #ef8a62;
+  --infl-neutral: #f7f7f7;
+  --slate: #4b5563;
+}
+
+/* ================= Animated Figure 1 ================= */
+.fig1 {
+  position: relative;
+  padding: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.fig1-interactive {
+  width: 100%;
+}
+
+.fig1-stages {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.fig1-stage-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 34px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--slate);
+  padding: 0.3rem 0.72rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.fig1-stage-btn .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: #e5d8ea;
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.fig1-stage-btn.is-active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+.fig1-stage-btn.is-active .num {
+  background: #ffffff;
+  color: var(--primary-color);
+}
+
+.fig1-stage-wrap {
+  position: relative;
+}
+
+.fig1-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.fig1-caption {
+  min-height: 2.8em;
+  max-width: 960px;
+  margin: 0.35rem auto 0;
+  padding: 0 0.5rem;
+  color: var(--slate);
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.fig1-caption strong {
+  color: var(--primary-color);
+}
+
+.fig1-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 0.65rem;
+}
+
+.fig1-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid #dfd5e4;
+  border-radius: 8px;
+  background: #fffdf8;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.fig1-btn:hover,
+.fig1-btn:focus {
+  background: #f1e9f4;
+  transform: translateY(-1px);
+}
+
+.fig1-progress {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #eee7ef;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(25% - 1px),
+    #c9b8cf calc(25% - 1px),
+    #c9b8cf 25%
+  );
+  cursor: pointer;
+}
+
+.fig1-progress-bar {
+  width: 0%;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--primary-color);
+  pointer-events: none;
+}
+
+.fig1 text {
+  font-family: "Noto Sans", Arial, sans-serif;
+}
+
+.fig1 .f1-title {
+  font-family: "Castoro", Georgia, serif;
+  font-weight: 400;
+  fill: var(--ink);
+}
+
+.fig1 .f1-kicker {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  fill: var(--faint);
+}
+
+.fig1 .f1-label {
+  fill: var(--slate);
+}
+
+.fig1 .f1-cellval {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fig1-fallback {
+  display: none;
+}
+
+.no-js .fig1-interactive {
+  display: none;
+}
+
+.no-js .fig1-fallback {
+  display: block;
+}
+
+/* Static schematic shown when the animated walkthrough is unavailable. */
+.fig1-schematic {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fig1-schematic .f1s-box rect {
+  fill: #fffdf8;
+  stroke: var(--hairline);
+  stroke-width: 1.4;
+}
+
+.fig1-schematic .f1s-title {
+  fill: var(--ink);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+.fig1-schematic .f1s-copy {
+  fill: var(--faint);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 12.5px;
+  text-anchor: middle;
+}
+
+.fig1-schematic .f1s-arrow {
+  fill: none;
+  stroke: var(--soc-reason);
+  stroke-width: 3;
+  stroke-linecap: round;
+  marker-end: none;
+}
+
+/* Without JS the scroll-reveal cells would stay faded or invisible.
+   Force them to their final visible state so the page is readable. */
+.no-js .tax-cell,
+.no-js .contrast-cell,
+.no-js .cluster span,
+.no-js .influence-viz .infl-panel {
+  opacity: 1;
+  transform: none;
+}
+
+/* ================= Taxonomy animation ================= */
+.taxonomy-viz {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.tax-axis {
+  color: var(--faint);
+  font-size: 0.74rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.tax-axis-y {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+}
+
+.tax-axis-x {
+  margin-bottom: 0.45rem;
+  text-align: center;
+}
+
+.tax-grid {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 2px;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.tax-cell {
+  min-width: 0;
+  border-radius: 2px;
+  background: #e7e1d8;
+  opacity: 0.3;
+  transform: scale(0.62);
+  transition: opacity 420ms ease, transform 420ms ease, background 420ms ease;
+  transition-delay: var(--delay, 0ms);
+}
+
+.taxonomy-viz.is-visible .tax-cell {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tax-cell.is-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background: var(--soc-reason, #762a83);
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.taxonomy-viz.is-visible .tax-cell.is-example {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.84), 0 0 18px rgba(118, 42, 131, 0.2);
+}
+
+.tax-labels {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.tax-labels .tax-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  margin-right: 0.42rem;
+  border-radius: 4px;
+  background: var(--soc-reason, #762a83);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.tax-labels span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+  background: #fffdf8;
+}
+
+.tax-note {
+  grid-column: 2;
+  margin: 0.55rem 0 0;
+  color: var(--faint);
+  font-size: 0.76rem;
+  font-style: italic;
+}
+
+/* ================= 2 by 2 design ================= */
+.contrast-viz {
+  padding: 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.contrast-grid {
+  display: grid;
+  grid-template-columns: 0.75fr repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.contrast-axis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  color: var(--faint);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.row-axis {
+  justify-content: flex-end;
+  padding-right: 0.4rem;
+}
+
+.contrast-cell {
+  min-height: 118px;
+  padding: 1rem;
+  border-radius: 8px;
+  color: var(--ink);
+  transform: translateY(12px);
+  opacity: 0.2;
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.contrast-viz.is-visible .contrast-cell {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.contrast-cell strong,
+.contrast-cell span {
+  display: block;
+}
+
+.contrast-cell strong {
+  font-size: 1.05rem;
+}
+
+.contrast-cell span {
+  margin-top: 0.35rem;
+  opacity: 0.82;
+  font-size: 0.86rem;
+}
+
+/* 2×2 cells keep the paper's four benchmark hues (continuity with the
+   published figures), softened to light tints with dark same-hue ink so
+   the text stays readable. */
+.social-reason {
+  background: rgba(118, 42, 131, 0.15);
+}
+
+.social-reason strong {
+  color: #5e2470;
+}
+
+.social-know {
+  background: rgba(140, 109, 31, 0.15);
+}
+
+.social-know strong {
+  color: #6b5418;
+}
+
+.stem-reason {
+  background: rgba(161, 79, 0, 0.13);
+}
+
+.stem-reason strong {
+  color: #7a3c00;
+}
+
+.stem-know {
+  background: rgba(27, 120, 55, 0.14);
+}
+
+.stem-know strong {
+  color: #145a2a;
+}
+
+/* ================= Influence-function explainer ================= */
+.influence-row {
+  margin-bottom: 5.5rem;
+}
+
+.influence-viz {
+  padding: 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.influence-viz svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.influence-viz .infl-doc {
+  fill: #ffffff;
+  stroke: var(--hairline);
+  stroke-width: 1.2;
+}
+
+.influence-viz .infl-doc-line {
+  stroke: var(--faint);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.influence-viz .infl-title {
+  fill: var(--ink);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+.influence-viz .infl-caption {
+  fill: var(--faint);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.influence-viz .infl-arrow {
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.influence-viz .infl-arrow.infl-query { stroke: var(--soc-reason, #762A83); }
+.influence-viz .infl-head.infl-query { fill: var(--soc-reason, #762A83); }
+.influence-viz .infl-arrow.infl-pos { stroke: var(--infl-pos, #2F6FA8); }
+.influence-viz .infl-head.infl-pos { fill: var(--infl-pos, #2F6FA8); }
+.influence-viz .infl-arrow.infl-neg { stroke: var(--infl-neg, #B35806); }
+.influence-viz .infl-head.infl-neg { fill: var(--infl-neg, #B35806); }
+
+.influence-viz .infl-pos-label {
+  fill: var(--infl-pos, #2F6FA8);
+  font-weight: 700;
+}
+
+.influence-viz .infl-neg-label {
+  fill: var(--infl-neg, #B35806);
+  font-weight: 700;
+}
+
+.influence-viz .infl-panel {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.influence-viz .infl-panel:nth-child(2) { transition-delay: 180ms; }
+.influence-viz .infl-panel:nth-child(3) { transition-delay: 360ms; }
+
+.influence-viz.is-visible .infl-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animated explainer replaces the static SVG when GSAP + motion are available */
+.influence-viz.has-anim .infl-static {
+  display: none;
+}
+
+.influence-viz .infl-anim {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.infl-anim .ia-caption {
+  fill: var(--muted, #62636a);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 11.5px;
+}
+
+.infl-anim .ia-label {
+  fill: var(--faint, #8a8790);
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 10.5px;
+}
+
+.infl-anim .ia-chip {
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ================= Cluster animation ================= */
+.cluster-viz {
+  padding: 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.finding-figure .cluster-viz {
+  margin: 0;
+}
+
+.cluster-viz {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  min-height: 240px;
+  overflow: hidden;
+}
+
+.cluster .cluster-name {
+  margin: 196px 0 0;
+  color: var(--faint);
+  font-size: 0.76rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.cluster-divider {
+  height: 82%;
+  background: var(--hairline);
+}
+
+.cluster {
+  position: relative;
+  min-height: 190px;
+}
+
+.cluster span {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.28rem 0.56rem;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 850;
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.cluster-viz.is-visible .cluster span {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cloud-dialogue span {
+  background: var(--soc-reason);
+}
+
+.cloud-docs span {
+  background: var(--secondary-color);
+}
+
+.cloud-dialogue span:nth-child(1) { top: 12px; left: 8%; transition-delay: 80ms; }
+.cloud-dialogue span:nth-child(2) { top: 70px; left: 36%; transition-delay: 180ms; }
+.cloud-dialogue span:nth-child(3) { top: 122px; left: 18%; transition-delay: 280ms; }
+.cloud-dialogue span:nth-child(4) { top: 34px; left: 58%; transition-delay: 380ms; }
+.cloud-dialogue span:nth-child(5) { top: 146px; left: 55%; transition-delay: 480ms; }
+
+.cloud-docs span:nth-child(1) { top: 16px; left: 20%; transition-delay: 120ms; }
+.cloud-docs span:nth-child(2) { top: 76px; left: 46%; transition-delay: 220ms; }
+.cloud-docs span:nth-child(3) { top: 130px; left: 12%; transition-delay: 320ms; }
+.cloud-docs span:nth-child(4) { top: 42px; left: 62%; transition-delay: 420ms; }
+.cloud-docs span:nth-child(5) { top: 154px; left: 48%; transition-delay: 520ms; }
+
+@media screen and (max-width: 768px) {
+  .fig1 {
+    padding: 0.7rem;
+  }
+
+  .fig1-stage-btn {
+    min-height: 30px;
+    padding: 0.25rem 0.45rem;
+    font-size: 0.74rem;
+  }
+
+  .fig1-stage-btn .num {
+    width: 1.15rem;
+    height: 1.15rem;
+    font-size: 0.68rem;
+  }
+
+  .fig1-caption {
+    min-height: auto;
+    font-size: 0.82rem;
+    text-align: left;
+  }
+
+  .fig1-controls {
+    gap: 0.45rem;
+  }
+
+  .fig1-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .taxonomy-viz {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 0.55rem;
+    padding: 0.75rem;
+  }
+
+  .tax-grid {
+    gap: 1px;
+  }
+
+  .contrast-grid {
+    grid-template-columns: 0.62fr repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .contrast-cell {
+    min-height: 104px;
+    padding: 0.75rem;
+  }
+
+  .contrast-cell strong {
+    font-size: 0.92rem;
+  }
+
+  .cluster-viz {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .cluster-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .cluster {
+    min-height: 198px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fig1-interactive {
+    display: none;
+  }
+
+  .fig1-fallback {
+    display: block;
+  }
+
+  .influence-viz .infl-panel {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* Long p-value annotations drop to a second line under the number instead
+   of overflowing the card edge. */
+.bar-value small {
+  display: block;
+  font-weight: 600;
+  white-space: normal;
+}
