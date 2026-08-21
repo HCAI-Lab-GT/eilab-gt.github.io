@@ -13,17 +13,25 @@ const outputDir = path.join(rootDir, 'build', 'admin-discovery');
 const profileDir = path.join(browserDir, '.auth', 'gt-wordpress');
 
 const context = await chromium.launchPersistentContext(profileDir, {
-  headless: process.env.PLAYWRIGHT_HEADLESS !== '0',
+  headless: false,
   viewport: { width: 1440, height: 1000 },
 });
 const page = context.pages()[0] || await context.newPage();
 page.setDefaultTimeout(25_000);
 
 await page.goto(`${wpUrl}/wp-admin/edit.php?post_type=page&post_status=all`, { waitUntil: 'domcontentloaded' });
-if (!page.url().includes('/wp-admin/') || !(await page.locator('#wpadminbar').count())) {
+const ssoDeadline = Date.now() + 2 * 60 * 60 * 1000;
+console.log('Complete GT SSO/Duo if prompted. Waiting up to 2 hours for #wpadminbar...');
+while (Date.now() < ssoDeadline) {
+  if (await page.locator('#wpadminbar').count()) break;
+  console.log(`Still waiting for dashboard. Current URL: ${page.url()}`);
+  await page.waitForTimeout(15_000);
+}
+if (!(await page.locator('#wpadminbar').count())) {
   await context.close();
   throw new Error(`Admin session expired. Current URL: ${page.url()}`);
 }
+await page.goto(`${wpUrl}/wp-admin/edit.php?post_type=page&post_status=all`, { waitUntil: 'domcontentloaded' });
 
 const pages = await page.locator('#the-list tr').evaluateAll((rows) =>
   rows

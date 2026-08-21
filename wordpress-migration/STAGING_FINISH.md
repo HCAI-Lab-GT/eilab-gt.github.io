@@ -131,3 +131,20 @@ No WordPress Import in this phase. Local rebuild from `wordpress-migration/` wit
 WXR `build/hcai-lab.wordpress.xml` parses as **6 pages / 0 attachments**, all `wp:status=draft`, slugs `home`, `people`, `research`, `publications`, `theses`, `mark-riedl`. Rendered bodies have no `<script>`, prompt-role tags, or `ei-logo.gif`. Internal links use `/hcailab/` prefixes. Images use `https://sites.gatech.edu/hcailab/files/2026/08/davinci-banner.jpeg` and `…/mark-potato.jpg` (both still 302 to the CampusPress CDN). People headings are Faculty → PhD Students → Masters Students → Undergraduate Students → Alumni → Affiliated. Publications are per-paper `hcai-publication` blocks with a year jump list. Live unresolved project publication IDs = 0. `capabilibara/` excluded. `build/redirects.csv` present.
 
 Local preview PNGs in `build/preview/` inspected: Home table + banner + director photo; People group order; Research TOC; Publications year jump; Theses “Ph.D. Dissertation” lines; Mark page sanitized (no prompt-injection, “Technology Tech” fixed, photo present). Ready for one SSO inventory, then one import.
+
+## Phase C import (2026-08-21)
+
+Single WXR import completed via `browser/import-once.mjs` (standard WordPress importer, author `gmatlin3`, `fetch_attachments` unchecked). Result: “All done.” Draft IDs:
+
+- Home `9069`
+- People `9070`
+- Research `9071`
+- Publications `9072`
+- Theses `9073`
+- Mark Riedl `9074`
+
+No `home-2` clones. Sample Page and Main page remain published. Pages counts after import: All (8) | Published (2) | Drafts (6) | Trash (30). Lock file `build/admin-discovery/wxr-import-done.json` prevents a second import.
+
+## Phase D status
+
+Tagline set to `Georgia Institute of Technology`. Site title left as `Human-Centered Artificial Intelligence Lab`. Theme remains Georgia Tech Flex. Home is a **draft**, so WordPress omits it from the Reading front-page dropdown; Preview is the remaining public-view blocker (allowed). Menu still has Main page + Sample Page until a fresh SSO session can add the six drafts (draft pages do not appear under Menus → View All). Extra `davinci-banner-1/2/3` and `mark-potato-1/2/3` copies remain; originals `davinci-banner.jpeg` and `mark-potato.jpg` are the URLs in `site-config.yaml`. `CNAME` / DNS / GitHub Pages untouched. Do not import again.

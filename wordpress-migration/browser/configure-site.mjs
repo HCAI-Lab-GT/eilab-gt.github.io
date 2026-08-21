@@ -100,7 +100,7 @@ if (importWxr) {
     await page.waitForLoadState('domcontentloaded');
     const attachments = page.locator('input[name="fetch_attachments"]');
     if (await attachments.count()) {
-      await attachments.check();
+      await attachments.uncheck();
     }
     const submit = page.getByRole('button', { name: /Submit/i }).or(page.locator('input[type="submit"]')).first();
     if (!(await submit.count())) {
