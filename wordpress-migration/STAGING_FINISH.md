@@ -147,4 +147,44 @@ No `home-2` clones. Sample Page and Main page remain published. Pages counts aft
 
 ## Phase D status
 
-Tagline set to `Georgia Institute of Technology`. Site title left as `Human-Centered Artificial Intelligence Lab`. Theme remains Georgia Tech Flex. Home is a **draft**, so WordPress omits it from the Reading front-page dropdown; Preview is the remaining public-view blocker (allowed). Menu still has Main page + Sample Page until a fresh SSO session can add the six drafts (draft pages do not appear under Menus → View All). Extra `davinci-banner-1/2/3` and `mark-potato-1/2/3` copies remain; originals `davinci-banner.jpeg` and `mark-potato.jpg` are the URLs in `site-config.yaml`. `CNAME` / DNS / GitHub Pages untouched. Do not import again.
+Tagline set to `Georgia Institute of Technology`. Site title left as `Human-Centered Artificial Intelligence Lab`. Theme remains Georgia Tech Flex. Home is a **draft**, so WordPress omits it from the Reading front-page dropdown; Preview is the remaining public-view blocker (allowed). Menu `Main` now has custom links Home, People, Research, Publications, Theses, and Mark Riedl (`?page_id=9069`–`9074`) assigned to Desktop Main Menu and Mobile Menu. Drafts never appear under Menus → View All, so those are custom links rather than page objects. Extra `davinci-banner-1/2/3`, `mark-potato-1/2/3`, and `hcai-lab.wordpress.xml.txt` were deleted permanently. Remaining media: `davinci-banner.jpeg` (ID 9001) and `mark-potato.jpg` (ID 9002). Pages remain All (8) | Published (2) | Drafts (6) | Trash (30). No `home-2` clones. `CNAME` / DNS / GitHub Pages untouched. Do not import again.
+
+## Phase E completion (2026-08-21)
+
+Staging closeout after a single WXR import. No second import. No publish.
+
+**Commands**
+
+- `.venv/bin/pytest -q` twice from `wordpress-migration/` (13 passed both times)
+- `.venv/bin/python scripts/run_pipeline.py --source-root ..` twice
+- `browser/preview-pages.mjs` for local HTML/PNG review
+- `browser/inspect-admin.mjs` (Phase B SSO inventory)
+- `browser/import-once.mjs` once (lock `build/admin-discovery/wxr-import-done.json`, `imported: true`)
+- `browser/verify-import.mjs`
+- `browser/configure-chrome.mjs` (tagline)
+- `browser/finish-chrome.mjs` (menu custom links + bulk media delete)
+
+**Draft IDs / slugs**
+
+| Title | ID | Slug | Status |
+|---|---|---|---|
+| Home | 9069 | home | draft |
+| People | 9070 | people | draft |
+| Research | 9071 | research | draft |
+| Publications | 9072 | publications | draft |
+| Theses | 9073 | theses | draft |
+| Mark Riedl | 9074 | mark-riedl | draft |
+
+Sample Page (2) and Main page (7) remain published. Main page is still the public front page because drafts cannot be chosen under Settings → Reading.
+
+**Front page.** Home is not in the Reading dropdown. Preview in wp-admin is the remaining public-view blocker (allowed).
+
+**Menu.** `Main` items: Home, People, Research, Publications, Theses, Mark Riedl. Locations: Desktop Main Menu and Mobile Menu. Auto-add new top-level pages is off.
+
+**Media leftover.** Only `https://sites.gatech.edu/hcailab/files/2026/08/davinci-banner.jpeg` and `…/mark-potato.jpg`.
+
+**Exclusions.** `capabilibara/` not migrated. `assets/images/ei-logo.gif` not migrated. `build/redirects.csv` exists; Safe Redirect Manager not activated.
+
+**Untouched.** `CNAME` still `eilab.gatech.edu`. No DNS or GitHub Pages change. No HCAI page published.
+
+**Do not import again.** The WXR lock is the stop. Local HTML/preview remains the review surface until Glenn publishes.
