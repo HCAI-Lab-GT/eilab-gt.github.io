@@ -69,15 +69,55 @@ const reading = {
   frontPageText: await page.locator('#page_on_front option:checked').textContent().catch(() => null),
 };
 
-const expected = ['Home', 'People', 'Research', 'Publications', 'Theses', 'Mark Riedl'];
+const expected = [
+  { title: 'Home', id: '9069', slug: 'home' },
+  { title: 'People', id: '9070', slug: 'people' },
+  { title: 'Research', id: '9071', slug: 'research' },
+  { title: 'Publications', id: '9072', slug: 'publications' },
+  { title: 'Theses', id: '9073', slug: 'theses' },
+  { title: 'Mark Riedl', id: '9074', slug: 'mark-riedl' },
+];
 const titles = new Set(pages.map((item) => item.title));
+const drafts = [];
+for (const item of expected) {
+  await page.goto(`${wpUrl}/wp-admin/post.php?post=${item.id}&action=edit`, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(1200);
+  const observed = await page.evaluate(() => {
+    let slug = '';
+    let status = '';
+    try {
+      const post = window.wp?.data?.select('core/editor')?.getCurrentPost?.();
+      slug = post?.slug || '';
+      status = post?.status || '';
+    } catch {
+      slug = document.querySelector('#post_name')?.value || '';
+    }
+    const permalink =
+      document.querySelector('.editor-post-url__link, .edit-post-post-url__toggle, #sample-permalink')?.textContent || '';
+    return { slug, status, permalink, title: document.title };
+  });
+  drafts.push({
+    id: item.id,
+    title: item.title,
+    expectedSlug: item.slug,
+    actualSlug: observed.slug,
+    status: observed.status,
+    permalink: observed.permalink,
+    editorTitle: observed.title,
+    slugOk: observed.slug === item.slug,
+  });
+}
+
 const result = {
   target: wpUrl,
   verifiedAt: new Date().toISOString(),
   pages,
+  drafts,
+  canonicalSlugs: drafts.every((item) => item.slugOk),
+  stillDraft: drafts.every((item) => item.status === 'draft'),
   media,
   reading,
-  expectedPagesPresent: Object.fromEntries(expected.map((title) => [title, titles.has(title)])),
+  expectedPagesPresent: Object.fromEntries(expected.map((item) => [item.title, titles.has(item.title)])),
   mainPageStillPresent: titles.has('Main page'),
 };
 

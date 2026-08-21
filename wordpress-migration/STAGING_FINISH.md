@@ -143,7 +143,16 @@ Single WXR import completed via `browser/import-once.mjs` (standard WordPress im
 - Theses `9073`
 - Mark Riedl `9074`
 
-No `home-2` clones. Sample Page and Main page remain published. Pages counts after import: All (8) | Published (2) | Drafts (6) | Trash (30). Lock file `build/admin-discovery/wxr-import-done.json` prevents a second import.
+No `home-2` clones. Gutenberg editor slugs for those IDs, read from `wp.data.select('core/editor').getCurrentPost().slug` and the Page sidebar, are:
+
+- 9069 `home` (Draft)
+- 9070 `people` (Draft)
+- 9071 `research` (Draft)
+- 9072 `publications` (Draft)
+- 9073 `theses` (Draft)
+- 9074 `mark-riedl` (Draft)
+
+Trash still holds 30 leftover pages from the Aug 19 import loops. WordPress renamed those to `home__trashed`, `home__trashed-2`, `people__trashed`, … so they do not occupy the canonical slugs. Sample Page and Main page remain published. Pages counts: All (8) | Published (2) | Drafts (6) | Trash (30). Lock file `build/admin-discovery/wxr-import-done.json` prevents a second import.
 
 ## Phase D status
 
@@ -164,7 +173,7 @@ Staging closeout after a single WXR import. No second import. No publish.
 - `browser/configure-chrome.mjs` (tagline)
 - `browser/finish-chrome.mjs` (menu custom links + bulk media delete)
 
-**Draft IDs / slugs**
+**Draft IDs / slugs** (Gutenberg Page sidebar + `getCurrentPost().slug`, not the Pages table title)
 
 | Title | ID | Slug | Status |
 |---|---|---|---|
@@ -174,6 +183,8 @@ Staging closeout after a single WXR import. No second import. No publish.
 | Publications | 9072 | publications | draft |
 | Theses | 9073 | theses | draft |
 | Mark Riedl | 9074 | mark-riedl | draft |
+
+Trash (30) is leftover Aug 19 clones whose slugs are `home__trashed` / `people__trashed` / … — not `home-2`. Live drafts did not need a rename.
 
 Sample Page (2) and Main page (7) remain published. Main page is still the public front page because drafts cannot be chosen under Settings → Reading.
 
