@@ -55,31 +55,27 @@ def wp_list(items: Iterable[str], ordered: bool = False) -> str:
     return f"<!-- wp:{block}{attr} -->\n<{tag}>\n{body}\n</{tag}>\n<!-- /wp:{block} -->"
 
 
-def wp_group(inner: str, css_class: str | None = None) -> str:
-    attrs = {"className": css_class} if css_class else {}
-    attr = " " + json.dumps(attrs, separators=(",", ":")) if attrs else ""
-    cls = f' class="wp-block-group {html_escape(css_class)}"' if css_class else ' class="wp-block-group"'
-    return (
-        f"<!-- wp:group{attr} -->\n"
-        f"<div{cls}>\n<div class=\"wp-block-group__inner-container\">\n{inner}\n</div>\n</div>\n"
-        "<!-- /wp:group -->"
-    )
+def wp_html(inner: str, css_class: str | None = None) -> str:
+    body = inner.strip()
+    if "<!-- wp:" in body:
+        raise ValueError("Custom HTML blocks cannot contain Gutenberg comments")
+    if css_class:
+        body = f'<div class="{html_escape(css_class)}">\n{body}\n</div>'
+    return f"<!-- wp:html -->\n{body}\n<!-- /wp:html -->"
 
 
 def wp_table(table_html: str) -> str:
     soup = BeautifulSoup(table_html, "html.parser")
     table = soup.find("table")
     markup = str(table) if table else table_html
-    return f'<!-- wp:table -->\n<figure class="wp-block-table">{markup}</figure>\n<!-- /wp:table -->'
+    return wp_html(markup, "hcai-research-table")
 
 
 def wp_image(url: str, alt_text: str, css_class: str = "") -> str:
-    cls_attr = f" {html_escape(css_class)}" if css_class else ""
-    return (
-        '<!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->\n'
-        f'<figure class="wp-block-image size-large{cls_attr}"><img src="{html_escape(url)}" alt="{html_escape(alt_text)}" loading="lazy"/></figure>\n'
-        '<!-- /wp:image -->'
-    )
+    img = f'<img src="{html_escape(url)}" alt="{html_escape(alt_text)}"/>'
+    if css_class:
+        return wp_html(f'<figure class="wp-block-image {html_escape(css_class)}">{img}</figure>', css_class)
+    return wp_html(f'<figure class="wp-block-image">{img}</figure>')
 
 
 def clean_fragment(value: str) -> str:
@@ -220,7 +216,7 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
         rewrite_internal_urls(str(home.get("mission_html", "")), source_url)
     )
     if mission_html:
-        parts.append(wp_group(mission_html, "hcai-mission"))
+        parts.append(wp_html(mission_html, "hcai-mission"))
 
     table_html = str(home.get("research_table_html") or "").strip()
     areas = home.get("research_areas", [])
@@ -230,33 +226,30 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     elif areas:
         parts.append(wp_heading("Research Areas", 2, "research-areas"))
         for area in areas:
-            area_parts = [wp_heading(area["name"], 3, area.get("slug"))]
+            parts.append(wp_heading(area["name"], 3, area.get("slug")))
             items: list[str] = []
             for item in area.get("items", []):
                 label = str(item.get("label", ""))
                 items.append(external_link(item.get("url"), label, site_path_prefix(config)))
             if items:
-                area_parts.append(wp_list(items))
-            parts.append(wp_group("\n".join(area_parts), "hcai-research-area"))
+                parts.append(wp_list(items))
 
     director = home.get("director", {})
     if director:
         parts.append(wp_heading("Director", 2, "director"))
-        director_parts: list[str] = []
         profile = media_by_role.get("profile")
         if profile:
-            director_parts.append(wp_image(profile["source_url"], profile.get("alt_text", ""), "hcai-director-photo"))
+            parts.append(wp_image(profile["source_url"], profile.get("alt_text", ""), "hcai-director-photo"))
         if director.get("name"):
-            director_parts.append(wp_heading(str(director["name"]), 3))
+            parts.append(wp_heading(str(director["name"]), 3))
         if director.get("bio_html"):
-            director_parts.append(clean_fragment(str(director["bio_html"])))
+            parts.append(wp_html(clean_fragment(str(director["bio_html"]))))
         link_items = [
             external_link(link.get("url"), link.get("label", ""), site_path_prefix(config))
             for link in director.get("links", [])
         ]
         if link_items:
-            director_parts.append(wp_list(link_items))
-        parts.append(wp_group("\n".join(director_parts), "hcai-director"))
+            parts.append(wp_list(link_items))
 
     return "\n\n".join(parts).strip() + "\n"
 
@@ -294,12 +287,12 @@ def render_research(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     if toc_items:
         parts.append(wp_paragraph(" · ".join(toc_items), "hcai-project-toc"))
     for project in data["projects"]:
-        project_parts = [wp_heading(project["name"], 2, project["slug"])]
+        chunks = [f'<h2 id="{html_escape(str(project["slug"]))}">{html_escape(str(project["name"]))}</h2>']
         if project.get("description_html"):
-            project_parts.append(clean_fragment(project["description_html"]))
+            chunks.append(clean_fragment(project["description_html"]))
         reps = project.get("representative_publications", [])
         if reps:
-            project_parts.append(wp_heading("Representative Publications", 3))
+            chunks.append("<h3>Representative Publications</h3>")
             items: list[str] = []
             for rep in reps:
                 context = text_content(rep.get("context_html"))
@@ -313,8 +306,8 @@ def render_research(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
                     if context:
                         entry += f"<br><em>{html_escape(context)}</em>"
                 items.append(entry)
-            project_parts.append(wp_list(items))
-        parts.append(wp_group("\n".join(project_parts), "hcai-project"))
+            chunks.append("<ul>\n" + "\n".join(f"<li>{item}</li>" for item in items) + "\n</ul>")
+        parts.append(wp_html("\n".join(chunks), "hcai-project"))
     return "\n\n".join(parts).strip() + "\n"
 
 
@@ -336,7 +329,7 @@ def render_publications(data: Mapping[str, Any], config: Mapping[str, Any]) -> s
     for year in years:
         parts.append(wp_heading(year, 2, f"year-{slugify(year)}"))
         for pub in by_year[year]:
-            parts.append(wp_group(publication_html(pub, include_bibtex=include_bibtex), "hcai-publication"))
+            parts.append(wp_html(publication_html(pub, include_bibtex=include_bibtex), "hcai-publication"))
     return "\n\n".join(parts).strip() + "\n"
 
 
@@ -354,7 +347,7 @@ def render_theses(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
             entry += "."
         if include_abstracts and thesis.get("abstract_html"):
             entry += "\n<details class=\"thesis-abstract\"><summary>Abstract</summary>" + clean_fragment(thesis["abstract_html"]) + "</details>"
-        parts.append(wp_group(entry, "hcai-thesis"))
+        parts.append(wp_html(entry, "hcai-thesis"))
     return "\n\n".join(parts).strip() + "\n"
 
 
@@ -366,7 +359,7 @@ def render_mark_riedl(data: Mapping[str, Any], config: Mapping[str, Any]) -> str
     if profile:
         parts.append(wp_image(profile["source_url"], profile.get("alt_text", ""), "hcai-profile-photo"))
     if page.get("body_html"):
-        parts.append(clean_fragment(page["body_html"]))
+        parts.append(wp_html(clean_fragment(page["body_html"]), "hcai-bio"))
     sidebar_items = page.get("sidebar", [])
     contact_items: list[str] = []
     for item in sidebar_items:

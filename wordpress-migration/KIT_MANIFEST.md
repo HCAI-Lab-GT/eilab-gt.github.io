@@ -40,6 +40,13 @@ Configured for migration of `HCAI-Lab-GT/eilab-gt.github.io` to:
 - `scripts/verify_site.py`
 - `scripts/run_pipeline.py`
 
+## Flex polish
+
+- `assets/hcai-flex.css` — source of truth for Appearance → Custom CSS.
+- `assets/hcai-footer.html` — four `_config.yml` social links for Appearance → Footer Content.
+- `browser/polish-staging.mjs` — inventory, baseline screenshots, first apply attempt.
+- `browser/apply-flex-chrome.mjs` — CSS/footer save with reload verify, Gutenberg body replace, after screenshots.
+
 ## Browser fallback
 
 - `browser/load-env.mjs` — loads the preconfigured parent `.env`.

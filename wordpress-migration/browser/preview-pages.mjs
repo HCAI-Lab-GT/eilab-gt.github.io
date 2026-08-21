@@ -16,6 +16,7 @@ const localMedia = {
 };
 
 const slugs = ['home', 'people', 'research', 'publications', 'theses', 'mark-riedl'];
+const flexCss = await fs.readFile(path.join(rootDir, 'assets', 'hcai-flex.css'), 'utf8');
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ viewport: { width: 1280, height: 1600 } });
 const page = await context.newPage();
@@ -28,13 +29,8 @@ for (const slug of slugs) {
   const wrapped = `<!doctype html><html><head><meta charset="utf-8"><title>${slug}</title>
 <style>
 body{font-family:Georgia,serif;max-width:900px;margin:2rem auto;padding:0 1.5rem;line-height:1.5;color:#222}
-table{width:100%;border-collapse:collapse;margin:1rem 0}
-th,td{border:1px solid #ccc;padding:.5rem .75rem;vertical-align:top}
-h2{margin-top:1.75rem}
-img{max-width:100%;height:auto}
-.publication-kind,.publication-source{display:inline-block;margin-right:.4rem;padding:.05rem .4rem;border:1px solid #333;font-size:.85rem}
-details{margin-top:.4rem}
-</style></head><body>${html}</body></html>`;
+${flexCss}
+</style></head><body><div class="entry-content">${html}</div></body></html>`;
   const file = path.join(outDir, `${slug}.html`);
   await fs.writeFile(file, wrapped);
   await page.goto(pathToFileURL(file).href, { waitUntil: 'load' });

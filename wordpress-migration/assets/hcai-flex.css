@@ -1,0 +1,174 @@
+/* HCAI lab content polish for Georgia Tech Flex.
+   Scoped to page content and footer socials. Does not restyle Flex chrome,
+   does not load remote fonts, and does not hide content. */
+
+.entry-content {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.entry-content h2 {
+  margin-top: 1.75em;
+  margin-bottom: 0.55em;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.entry-content h3 {
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.entry-content .hcai-hero,
+.entry-content .hcai-hero img {
+  display: block;
+  width: auto;
+  max-width: 42rem;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.entry-content .hcai-director-photo,
+.entry-content .hcai-director-photo img,
+.entry-content .hcai-profile-photo,
+.entry-content .hcai-profile-photo img {
+  display: block;
+  width: auto;
+  max-width: 16rem;
+  height: auto;
+  margin: 0 0 0.85rem;
+}
+
+.entry-content .hcai-tagline {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.85em;
+}
+
+.entry-content .hcai-mission {
+  max-width: 48rem;
+  margin: 0.75em 0 1.5em;
+}
+
+.entry-content .hcai-mission p {
+  margin: 0 0 0.75em;
+}
+
+.entry-content .wp-block-table,
+.entry-content .hcai-research-table,
+.entry-content .hcai-research-table table,
+.entry-content table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0 1.5em;
+}
+
+.entry-content .wp-block-table th,
+.entry-content .hcai-research-table th,
+.entry-content table th {
+  background: #003057;
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6em 0.75em;
+}
+
+.entry-content .wp-block-table td,
+.entry-content .hcai-research-table td,
+.entry-content table td {
+  border: 1px solid #c8c8c8;
+  vertical-align: top;
+  padding: 0.55em 0.75em;
+  word-wrap: break-word;
+}
+
+.entry-content .hcai-project-toc,
+.entry-content .hcai-year-toc {
+  font-size: 1rem;
+  line-height: 1.75;
+  margin: 0 0 1.25em;
+}
+
+.entry-content .hcai-project {
+  margin: 0 0 1.75em;
+}
+
+.entry-content .hcai-publication {
+  margin: 0 0 1.15em;
+  padding-bottom: 0.95em;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.entry-content .hcai-thesis {
+  margin: 0 0 1.4em;
+}
+
+.entry-content ul,
+.entry-content ol {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.entry-content details {
+  margin-top: 0.45em;
+}
+
+.entry-content details summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.entry-content details pre,
+.entry-content details code {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.entry-content details pre {
+  overflow-x: auto;
+  padding: 0.75em;
+  background: #f4f4f4;
+}
+
+.entry-content .publication-kind,
+.entry-content .publication-source {
+  display: inline-block;
+  margin: 0.2em 0.4em 0.2em 0;
+  padding: 0.05em 0.4em;
+  border: 1px solid currentColor;
+  font-size: 0.85em;
+}
+
+.hcai-footer-socials {
+  display: block;
+  text-align: center;
+  margin: 0.75rem 0;
+  font-size: 1rem;
+}
+
+.hcai-footer-socials a {
+  display: inline-block;
+  margin: 0.35rem 0.7rem;
+}
+
+.hcai-footer-socials a {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .entry-content {
+    font-size: 1rem;
+  }
+
+  .entry-content .wp-block-table,
+  .entry-content .hcai-research-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

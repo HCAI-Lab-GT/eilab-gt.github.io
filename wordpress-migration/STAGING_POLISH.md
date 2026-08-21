@@ -114,3 +114,17 @@ Glenn completes GT SSO/Duo in headed Playwright if the saved profile is cold. Po
 2. Any publish or CNAME decision.
 
 Everything else the agent does.
+
+## Polish note (2026-08-21)
+
+Local loop: `wordpress-migration/.venv/bin/pytest -q` twice, then `.venv/bin/python scripts/run_pipeline.py --source-root ..`. Playwright: `browser/polish-staging.mjs` then `SKIP_BODIES=1 node browser/apply-flex-chrome.mjs`. No WXR import.
+
+**CSS control:** Appearance → Custom CSS (`/wp-admin/themes.php?page=simple-custom-css.php`, Simple Custom CSS). Source file `assets/hcai-flex.css`. Reloaded editor contains `.hcai-hero` and `.hcai-publication` (3243 characters). Preview measurement on Home: hero `max-width: 672px`, table header `rgb(0, 48, 87)`.
+
+**Footer control:** Appearance → Footer Content (`/wp-admin/themes.php?page=footer-content`). HTML from `assets/hcai-footer.html`. Reloaded textarea contains Mastodon, Twitter, LinkedIn, BlueSky. Draft Preview shows those four links under the GT gold footer.
+
+**Theme Options used:** Customize → General → Site Layout `body_font_size` 100 → 112. Theme remains Georgia Tech Flex. No plugins installed.
+
+**Drafts:** 9069 `home`, 9070 `people`, 9071 `research`, 9072 `publications`, 9073 `theses`, 9074 `mark-riedl`. All still `draft`. Gutenberg invalid-block count after HTML replace: 0 (images, table, publications, and theses are `wp:html`). Pages list still All (8) | Published (2) | Drafts (6) | Trash (30).
+
+**Remaining Flex limits:** Drafts cannot be the Reading front page. Accessibility Checker overlays appear for logged-in Preview. CampusPress strips some modern CSS (`min()`, `margin-inline`); the tracked stylesheet avoids those. Customizer has no `custom_css` theme_mod; Simple Custom CSS is the live injector. `capabilibara/` and `ei-logo.gif` stay out.

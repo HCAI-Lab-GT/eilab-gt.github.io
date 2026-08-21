@@ -244,3 +244,95 @@ def test_redirects_include_old_core_routes(tmp_path: Path) -> None:
     assert "/members.html,/people/" in redirects
     assert "/projects.html,/research/" in redirects
     assert "/publications.html,/publications/" in redirects
+
+
+KIT_ROOT = Path(__file__).resolve().parents[1]
+REQUIRED_CSS_SELECTORS = (
+    ".hcai-hero",
+    ".hcai-director-photo",
+    ".hcai-tagline",
+    ".hcai-mission",
+    ".wp-block-table",
+    ".hcai-project-toc",
+    ".hcai-year-toc",
+    ".hcai-publication",
+    ".hcai-thesis",
+    ".entry-content h2",
+)
+FOOTER_SOCIALS = (
+    ("Mastodon", "https://sigmoid.social/@Riedl"),
+    ("Twitter", "https://twitter.com/mark_riedl"),
+    ("LinkedIn", "https://www.linkedin.com/in/markriedl/"),
+    ("BlueSky", "https://bsky.app/profile/markriedl.bsky.social"),
+)
+BLOCK_TOKEN = re.compile(r"<!--\s*(/)?wp:([a-z0-9_-]+)(?:\s+\{.*?\})?\s*-->", re.S)
+
+
+def _html_outside_blocks(content: str) -> list[str]:
+    leftovers: list[str] = []
+    depth = 0
+    cursor = 0
+    for match in BLOCK_TOKEN.finditer(content):
+        between = content[cursor : match.start()]
+        if depth == 0 and between.strip():
+            leftovers.append(between.strip())
+        cursor = match.end()
+        depth = max(0, depth - 1) if match.group(1) else depth + 1
+    trailing = content[cursor:]
+    if depth == 0 and trailing.strip():
+        leftovers.append(trailing.strip())
+    return leftovers
+
+
+def test_flex_css_covers_required_selectors() -> None:
+    css_path = KIT_ROOT / "assets" / "hcai-flex.css"
+    css = css_path.read_text(encoding="utf-8")
+    missing = [selector for selector in REQUIRED_CSS_SELECTORS if selector not in css]
+    assert not missing, f"missing CSS selectors: {missing}"
+    assert "@import" not in css
+    assert "fonts.googleapis.com" not in css
+    assert "ei-logo.gif" not in css
+    assert "display:none" not in css.replace(" ", "").lower()
+    assert "display: none" not in css.lower()
+
+
+def test_footer_socials_match_config() -> None:
+    footer = (KIT_ROOT / "assets" / "hcai-footer.html").read_text(encoding="utf-8")
+    for label, url in FOOTER_SOCIALS:
+        assert label in footer
+        assert url in footer
+    assert "github.com" not in footer.lower()
+
+
+def test_rendered_pages_are_gutenberg_html_blocks(tmp_path: Path) -> None:
+    pages = _render_pages(tmp_path)
+    combined = "\n".join(pages.values())
+    assert "<!-- wp:group" not in combined
+    assert "wp-block-group__inner-container" not in combined
+    for slug, html in pages.items():
+        leftovers = _html_outside_blocks(html)
+        assert leftovers == [], f"{slug} has HTML outside Gutenberg blocks: {leftovers[:2]}"
+        assert "<!-- wp:" in html
+
+    home = pages["home"]
+    assert "<!-- wp:html -->" in home
+    assert "hcai-mission" in home
+    assert "hcai-research-table" in home
+    assert "hcai-hero" in home
+    photo_at = home.find("hcai-director-photo")
+    assert photo_at != -1
+    assert "<!-- wp:image" not in combined
+    assert home[:photo_at].count("<!-- wp:group") == home[:photo_at].count("<!-- /wp:group")
+
+    publications = pages["publications"]
+    assert "<!-- wp:html -->" in publications
+    assert "hcai-publication" in publications
+    assert publications.count("<!-- wp:html -->") >= 2
+
+    theses = pages["theses"]
+    assert "<!-- wp:html -->" in theses
+    assert "hcai-thesis" in theses
+
+    mark = pages["mark-riedl"]
+    assert "<!-- wp:html -->" in mark or "<!-- wp:paragraph" in mark
+    assert _html_outside_blocks(mark) == []
