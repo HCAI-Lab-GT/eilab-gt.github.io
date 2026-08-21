@@ -123,3 +123,11 @@ Everything else the agent does.
 - Work on branch `wordpress-migration`. Commit and push kit/code at checkpoints. Never commit `.env`, `build/` except `.gitkeep`, Playwright `.auth/`, or the zip.
 - Pause only for SSO or the single import. Do not pause for “please look at the pages” during Phase A.
 - If tempted to import to see how it looks: regenerate `preview-pages.mjs` instead.
+
+## Local QA note (Phase A, 2026-08-21)
+
+No WordPress Import in this phase. Local rebuild from `wordpress-migration/` with `.venv/bin/python scripts/run_pipeline.py --source-root ..` twice, `.venv/bin/pytest -q` twice (13 passed both times), and `browser/preview-pages.mjs`.
+
+WXR `build/hcai-lab.wordpress.xml` parses as **6 pages / 0 attachments**, all `wp:status=draft`, slugs `home`, `people`, `research`, `publications`, `theses`, `mark-riedl`. Rendered bodies have no `<script>`, prompt-role tags, or `ei-logo.gif`. Internal links use `/hcailab/` prefixes. Images use `https://sites.gatech.edu/hcailab/files/2026/08/davinci-banner.jpeg` and `…/mark-potato.jpg` (both still 302 to the CampusPress CDN). People headings are Faculty → PhD Students → Masters Students → Undergraduate Students → Alumni → Affiliated. Publications are per-paper `hcai-publication` blocks with a year jump list. Live unresolved project publication IDs = 0. `capabilibara/` excluded. `build/redirects.csv` present.
+
+Local preview PNGs in `build/preview/` inspected: Home table + banner + director photo; People group order; Research TOC; Publications year jump; Theses “Ph.D. Dissertation” lines; Mark page sanitized (no prompt-injection, “Technology Tech” fixed, photo present). Ready for one SSO inventory, then one import.
