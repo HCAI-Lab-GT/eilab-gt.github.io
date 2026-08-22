@@ -1,17 +1,19 @@
 ---
-layout: home
+layout: single
+title: "Human-Centered Artificial Intelligence Lab"
+subtitle: "(formerly Entertainment Intelligence)"
 author_profile: true
 header:
   overlay_image: /assets/images/davinci-banner.jpeg
   og_image: /assets/images/og-card.png
   overlay_filter: 0.5
 show_overlay_excerpt: true
-tagline: "Director: Mark Riedl"
+tagline: "Mark Riedl, Primary Investigator"
 classes: wide
 author:
   name: "Mark Riedl"
   avatar: "/assets/images/mark-potato.jpg"
-  bio: "**Gitesh Ramamurthy Endowed Professor in AI** School of Interactive Computing, College of Computing, Georgia Institute of Technology **Director** GT Machine Learning Center"
+  bio: "**Gitesh Ramamurthy Endowed Professor in AI**<br>School of Interactive Computing, College of Computing, Georgia Institute of Technology<br>**Director**, GT Machine Learning Center"
   links:
     - label: "Google Scholar"
       icon: "fas fa-graduation-cap"
@@ -27,7 +29,7 @@ author:
       url: "https://www.linkedin.com/in/markriedl/"
 ---
 
-The Entertainment Intelligence and Human-Centered AI Labs seek to make fundamental contributions to the fields of artificial intelligence and machine learning by researching intelligent systems that can understand and enhance the human condition.
+The Human-Centered AI Lab (formerly Entertainment Intelligence) at Georgia Tech seeks to make fundamental contributions to the fields of artificial intelligence and machine learning by researching intelligent systems that can understand and enhance the human condition.
 
 <div class="research-areas">
   <section class="research-area">

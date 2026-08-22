@@ -1,16 +1,10 @@
-<ul class="members-grid">
+<ul class="member-list">
 {% for x in include.members %}
-  <li class="member">
-    <span class="member-avatar" aria-hidden="true">
-      {% if x.photo %}
-        <img src="{{ x.photo | relative_url }}" alt="">
-      {% else %}
-        <span class="member-initials">{{ x.name | split: ' ' | first | slice: 0 }}{{ x.name | split: ' ' | last | slice: 0 }}</span>
-      {% endif %}
-    </span>
+  <li>
+    {% if x.photo %}<img class="member-photo" src="{{ x.photo | relative_url }}" alt="">{% endif %}
     <span class="member-name">
-      {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-      {% if include.show_where and x.where %}: {{ x.where }}{% endif %}
+      {%- if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif -%}
+      {%- if include.show_where and x.where %}: {{ x.where }}{% endif -%}
     </span>
   </li>
 {% endfor %}
