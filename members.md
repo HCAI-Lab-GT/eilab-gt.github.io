@@ -8,60 +8,24 @@ title: Members
 
 **Faculty**
 
-<ul>
-{% for x in site.data.faculty.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.faculty.members %}
 
 **PhD Students**
 
-<ul>
-{% for x in site.data.phds.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.phds.members %}
 
 **Masters Students**
 
-<ul>
-{% for x in site.data.masters.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.masters.members %}
 
 **Undergraduate Students**
 
-<ul>
-{% for x in site.data.undergrads.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.undergrads.members %}
 
 **Alumni**
 
-<ul>
-{% for x in site.data.alumni.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}: {{ x.where }}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.alumni.members show_where=true %}
 
 **Affiliated**
 
-<ul>
-{% for x in site.data.affiliated.members %}
-  <li>
-    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.affiliated.members %}

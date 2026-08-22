@@ -23,3 +23,46 @@
     padding-left: 1.25em;
   }
 }
+
+// Members page: card grid with round headshots; members without a photo
+// fall back to a monogram disc so the grid stays uniform.
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75em 1em;
+  margin: 0 0 1.5em;
+  padding-left: 0;
+  list-style: none;
+
+  .member {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    min-width: 0;
+  }
+
+  .member-avatar img,
+  .member-initials {
+    flex: 0 0 auto;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .member-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #7a8494;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+
+  .member-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
