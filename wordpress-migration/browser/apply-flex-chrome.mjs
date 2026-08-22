@@ -185,25 +185,68 @@ async function saveFooter() {
 
 async function replaceDraft(draft) {
   const html = await fs.readFile(path.join(pagesDir, `${draft.slug}.html`), 'utf8');
+  const needle = html.includes('Databricks')
+    ? 'Databricks'
+    : html.includes('Wayfarer Labs, Amphia')
+      ? 'Wayfarer Labs, Amphia'
+      : html.slice(120, 180).replace(/\s+/g, ' ').trim();
   await page.goto(`${wpUrl}/wp-admin/post.php?post=${draft.id}&action=edit`, { waitUntil: 'domcontentloaded' });
   await sleep(1400);
   await page.keyboard.press('Escape').catch(() => {});
   await page.waitForFunction(() => Boolean(window.wp?.data?.select && window.wp?.blocks?.parse), { timeout: 25_000 });
-  const saved = await page.evaluate(async (nextHtml) => {
+  const saved = await page.evaluate(async ({ nextHtml, postId, needle: check }) => {
+    const sleepMs = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     const select = wp.data.select('core/editor');
     const dispatch = wp.data.dispatch('core/editor');
     const post = select.getCurrentPost();
     if (post.status !== 'draft' && post.status !== 'publish') {
       return { ok: false, reason: `status=${post.status}` };
     }
-    dispatch.resetBlocks(wp.blocks.parse(nextHtml));
-    dispatch.editPost({ status: post.status, slug: post.slug });
+    const blocks = wp.blocks.parse(nextHtml);
+    dispatch.resetBlocks(blocks);
+    dispatch.editPost({ content: nextHtml, status: post.status, slug: post.slug });
+    await sleepMs(500);
+    const dirtyBefore = select.isEditedPostDirty();
     await dispatch.savePost();
     const deadline = Date.now() + 90_000;
+    let sawSaving = false;
     while (Date.now() < deadline) {
-      if (!select.isSavingPost() && !select.isAutosavingPost()) break;
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      if (select.isSavingPost() || select.isAutosavingPost()) sawSaving = true;
+      if (sawSaving && !select.isSavingPost() && !select.isAutosavingPost()) break;
+      await sleepMs(250);
     }
+    while (Date.now() < deadline && select.isEditedPostDirty()) await sleepMs(250);
+
+    async function restWrite() {
+      const nonce = window.wpApiSettings?.nonce;
+      const res = await fetch(`/hcailab/wp-json/wp/v2/pages/${postId}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(nonce ? { 'X-WP-Nonce': nonce } : {}),
+        },
+        body: JSON.stringify({ content: nextHtml, status: post.status, slug: post.slug }),
+      });
+      const text = await res.text();
+      let body = {};
+      try {
+        body = JSON.parse(text);
+      } catch {
+        body = { raw: text.slice(0, 240) };
+      }
+      const rendered = String(body.content?.raw || body.content?.rendered || '');
+      return {
+        http: res.status,
+        ok: res.ok,
+        wpStatus: body.status,
+        slug: body.slug,
+        hasNeedle: rendered.includes(check),
+        error: body.code || body.message || null,
+      };
+    }
+
+    let rest = await restWrite();
     function walk(list) {
       return list.flatMap((block) => [
         { name: block.name, isValid: block.isValid !== false },
@@ -212,14 +255,21 @@ async function replaceDraft(draft) {
     }
     const walked = walk(wp.data.select('core/block-editor').getBlocks());
     const after = select.getCurrentPost();
+    const editorHasNeedle = String(select.getEditedPostContent() || '').includes(check);
     return {
-      ok: after.status === 'draft' && after.slug === post.slug,
+      ok: (after.status === post.status && after.slug === post.slug && (rest.ok || editorHasNeedle)),
       status: after.status,
       slug: after.slug,
       invalid: walked.filter((block) => !block.isValid).map((block) => block.name),
       blockCount: walked.length,
+      dirtyBefore,
+      dirtyAfter: select.isEditedPostDirty(),
+      sawSaving,
+      saveSucceeded: select.didPostSaveRequestSucceed(),
+      editorHasNeedle,
+      rest,
     };
-  }, html);
+  }, { nextHtml: html, postId: draft.id, needle });
   await sleep(400);
   const recoveryButtons = await page.locator('button:has-text("Attempt recovery")').count();
   result.actions.push(`saved ${draft.slug} ${JSON.stringify(saved)} recoveryButtons=${recoveryButtons}`);
@@ -227,8 +277,13 @@ async function replaceDraft(draft) {
   if (saved.invalid?.length || recoveryButtons) {
     result.warnings.push(`${draft.slug} still invalid=${JSON.stringify(saved.invalid)} recovery=${recoveryButtons}`);
   }
+  const publicUrl = draft.slug === 'home' ? `${wpUrl}/` : `${wpUrl}/${draft.slug}/`;
+  await page.goto(`${publicUrl}?v=${Date.now()}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+  const publicHasNeedle = await page.evaluate((check) => (document.body.innerText || '').includes(check), needle).catch(() => false);
+  result.actions.push(`public ${draft.slug} hasNeedle=${publicHasNeedle} needle=${needle}`);
+  if (!publicHasNeedle) result.warnings.push(`public ${draft.slug} missing ${needle}`);
   await page.screenshot({ path: path.join(inventoryDir, `editor-after-${draft.slug}.png`), fullPage: true }).catch(() => {});
-  return { ...saved, recoveryButtons };
+  return { ...saved, recoveryButtons, publicHasNeedle, needle };
 }
 
 async function clearExcerpts() {
@@ -264,7 +319,8 @@ async function screenshotAfter() {
       let loaded = false;
       for (let attempt = 0; attempt < 4 && !loaded; attempt += 1) {
         try {
-          await page.goto(`${wpUrl}/?page_id=${draft.id}&preview=true`, { waitUntil: 'domcontentloaded', timeout: 45_000 });
+          const publicUrl = draft.slug === 'home' ? `${wpUrl}/` : `${wpUrl}/${draft.slug}/`;
+          await page.goto(publicUrl, { waitUntil: 'domcontentloaded', timeout: 45_000 });
           loaded = !/ERR_|interrupted|offline/i.test(await page.title());
         } catch (error) {
           result.warnings.push(`preview retry ${draft.slug} ${viewport.name}: ${error.message}`);
@@ -319,6 +375,7 @@ const onlySlugs = (process.env.ONLY_SLUGS || '')
   .map((value) => value.trim())
   .filter(Boolean);
 const shotDrafts = onlySlugs.length ? drafts.filter((item) => onlySlugs.includes(item.slug)) : drafts;
+const bodyDrafts = shotDrafts;
 
 try {
   await waitForAdmin();
@@ -326,7 +383,7 @@ try {
   await saveFooter();
   result.drafts = [];
   if (!skipBodies) {
-    for (const draft of drafts) result.drafts.push({ ...draft, ...(await replaceDraft(draft)) });
+    for (const draft of bodyDrafts) result.drafts.push({ ...draft, ...(await replaceDraft(draft)) });
   } else {
     result.actions.push('skipped draft body replace (SKIP_BODIES=1)');
     if (!skipExcerpts) await clearExcerpts();

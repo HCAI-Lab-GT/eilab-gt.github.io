@@ -225,9 +225,24 @@ def test_live_source_render_matches_staging_contract(tmp_path: Path) -> None:
         assert at != -1, name
         assert at > alumni_at, name
         assert not (phd_at < at < alumni_at), name
-    assert "Faculty, Northeastern University" in people
+    assert "Assistant Professor, Northeastern University" in people
     assert "Senior Software Engineer, Anduril" in people
     assert "Wayfarer Labs, Amphia" in people
+    assert "Assistant Professor, University of Utah" in people
+    assert "Research Scientist, Databricks" in people
+    assert "Xiangyu (Becky) Peng" in people
+    assert "Senior Research Scientist, Salesforce Research" in people
+    assert "Sarah Wiegreffe" in people
+    assert "Faculty, University of Maryland</li>" in people or "— Faculty, University of Maryland" in people
+    assert "Faculty, University of California, San Diego and NVIDIA" in people
+    assert "Associate Professor, University of Alberta" in people
+    assert "Senior Research Scientist, NVIDIA" in people
+    assert "Associate Professor, Nanyang Technological University" in people
+    assert "Associate Dean, School of Computing and Engineering, Quinnipiac University" in people
+    assert "Xiangu" not in people
+    assert "MosaicML" not in people
+    assert "Allen Institute for Artificial Intelligence" not in people
+    assert "Postdoc, University of California, Santa Cruz" not in people
 
     years = {str(item.get("year") or "Undated") for item in normalized["publications"]}
     publications = pages["publications"]

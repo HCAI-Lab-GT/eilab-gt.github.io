@@ -6,24 +6,24 @@ members:
     where: Senior Software Engineer, Anduril
   - name: Upol Ehsan
     website: https://www.upolehsan.com/
-    where: Faculty, Northeastern University
+    where: Assistant Professor, Northeastern University
   - name: Spencer Frazier
     website: https://www.linkedin.com/in/spencer-frazier-ai/
     where: Wayfarer Labs, Amphia
   - name: Zhiyu Lin
     website: https://www.zhiyulin.info/
-    where: Postdoc, University of California, Santa Cruz
+    where: Assistant Professor, University of Utah
   - name: Ashutosh Baheti (co-advised with Alan Ritter)
     website: https://abaheti95.github.io/
-    where: Research Scientist, MosaicML
-  - name: Xiangu (Becky) Peng
-    where: Salesforce Research
+    where: Research Scientist, Databricks
+  - name: Xiangyu (Becky) Peng
+    where: Senior Research Scientist, Salesforce Research
     website: https://xiangyu-peng.github.io/
   - name: Sarah Wiegreffe
-    where: Allen Institute for Artificial Intelligence
+    where: Faculty, University of Maryland
     website: https://sarahwie.github.io/
   - name: Prithviraj Ammanabrolu
-    where: Faculty, University of California, San Diego and MosaicML
+    where: Faculty, University of California, San Diego and NVIDIA
     website: http://prithvirajva.com/
   - name: Kristin Siu
     where: Riot Games
@@ -32,17 +32,17 @@ members:
     where: Faculty, University of Maryland, Baltimore County 
     website: https://laramartin.net/
   - name: Matthew Guzdial
-    where: Faculty, University of Alberta
+    where: Associate Professor, University of Alberta
     website: http://guzdial.com/
   - name: Alexander Zook
-    where: NVIDIA
+    where: Senior Research Scientist, NVIDIA
     website: https://www.linkedin.com/in/alexander-zook-b75b7a31/
   - name: Boyang (Albert) Li
-    where: Faculty, Nanyang Technological University
+    where: Associate Professor, Nanyang Technological University
     website: http://boyangli.org/
   - name: Hong Yu
     where: Apple
     website: None
   - name: Brian O'Neill
-    where: Faculty, Quinnipiac University
+    where: Associate Dean, School of Computing and Engineering, Quinnipiac University
     website: https://www.qu.edu/faculty-and-staff/brian-oneill/
