@@ -8,7 +8,7 @@ header:
   og_image: /assets/images/og-card.png
   overlay_filter: 0.5
 show_overlay_excerpt: true
-tagline: "Director: Mark Riedl"
+tagline: "Mark Riedl, Primary Investigator"
 classes: wide
 author:
   name: "Mark Riedl"
