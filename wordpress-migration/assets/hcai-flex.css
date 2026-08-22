@@ -1,61 +1,97 @@
 /* HCAI lab content polish for Georgia Tech Flex.
-   Scoped to page content and footer socials. Does not restyle Flex chrome,
-   does not load remote fonts, and does not hide content. */
+   Content only. No remote fonts, no Minimal Mistakes clone.
+   Palette: navy #003057, tech gold #B3A369, rule #d7d2c8, ink inherited. */
+
+.entry-summary {
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
 
 .entry-content {
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.entry-content::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .entry-content h2 {
-  margin-top: 1.75em;
-  margin-bottom: 0.55em;
-  font-size: 1.5rem;
-  line-height: 1.3;
+  margin-top: 1.45em;
+  margin-bottom: 0.4em;
+  font-size: 1.7rem;
+  line-height: 1.25;
 }
 
 .entry-content h3 {
-  margin-top: 1.2em;
-  margin-bottom: 0.4em;
-  font-size: 1.2rem;
-  line-height: 1.35;
+  margin-top: 0.15em;
+  margin-bottom: 0.35em;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.entry-content p {
+  max-width: 40rem;
 }
 
 .entry-content .hcai-hero,
 .entry-content .hcai-hero img {
   display: block;
-  width: auto;
-  max-width: 42rem;
+  width: 100%;
+  max-width: 100%;
   height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1rem;
-}
-
-.entry-content .hcai-director-photo,
-.entry-content .hcai-director-photo img,
-.entry-content .hcai-profile-photo,
-.entry-content .hcai-profile-photo img {
-  display: block;
-  width: auto;
-  max-width: 16rem;
-  height: auto;
-  margin: 0 0 0.85rem;
+  margin: 0 0 1.35rem;
 }
 
 .entry-content .hcai-tagline {
-  font-size: 1.125rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  max-width: 40rem;
   margin: 0 0 0.85em;
 }
 
-.entry-content .hcai-mission {
-  max-width: 48rem;
-  margin: 0.75em 0 1.5em;
+.entry-content .hcai-mission,
+.entry-content .hcai-mission p,
+.entry-content .hcai-bio,
+.entry-content .hcai-bio p {
+  max-width: 40rem;
 }
 
-.entry-content .hcai-mission p {
-  margin: 0 0 0.75em;
+.entry-content .hcai-mission {
+  margin: 0 0 1.6em;
+}
+
+.entry-content .hcai-director,
+.entry-content .hcai-profile {
+  overflow: hidden;
+  max-width: 46rem;
+  margin: 0 0 1.5em;
+}
+
+.entry-content .hcai-director img.hcai-director-photo,
+.entry-content .hcai-profile img.hcai-profile-photo {
+  float: left;
+  width: 12.5rem;
+  max-width: 40%;
+  height: auto;
+  margin: 0 1.5rem 0.75rem 0;
+}
+
+.entry-content .hcai-director h3,
+.entry-content .hcai-profile h3 {
+  margin-top: 0;
+  overflow: hidden;
+}
+
+.entry-content .hcai-director p,
+.entry-content .hcai-director ul,
+.entry-content .hcai-profile p {
+  overflow: hidden;
 }
 
 .entry-content .wp-block-table,
@@ -65,58 +101,92 @@
   width: 100%;
   max-width: 100%;
   border-collapse: collapse;
-  margin: 0.75em 0 1.5em;
+  margin: 0.4em 0 1.75em;
 }
 
 .entry-content .wp-block-table th,
 .entry-content .hcai-research-table th,
 .entry-content table th {
-  background: #003057;
-  color: #fff;
-  font-weight: 600;
+  background: #b3a369;
+  color: #003057;
+  font-weight: 700;
   text-align: left;
   vertical-align: top;
-  padding: 0.6em 0.75em;
+  padding: 0.7em 0.9em;
+  border: 0;
 }
 
 .entry-content .wp-block-table td,
 .entry-content .hcai-research-table td,
 .entry-content table td {
-  border: 1px solid #c8c8c8;
+  border: 0;
+  border-bottom: 1px solid #d7d2c8;
   vertical-align: top;
-  padding: 0.55em 0.75em;
+  padding: 0.65em 0.9em;
   word-wrap: break-word;
 }
 
 .entry-content .hcai-project-toc,
 .entry-content .hcai-year-toc {
-  font-size: 1rem;
-  line-height: 1.75;
-  margin: 0 0 1.25em;
+  font-size: 0.98rem;
+  line-height: 1.9;
+  max-width: none;
+  margin: 0 0 1.4em;
+}
+
+.entry-content .hcai-project-toc a,
+.entry-content .hcai-year-toc a {
+  display: inline-block;
+  margin: 0 0.55em 0.2em 0;
+  padding: 0 0 0.05em;
+  text-decoration: none;
+  border-bottom: 1px solid #b3a369;
+}
+
+.entry-content h2[id^="year-"] {
+  margin-top: 1.5em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid #b3a369;
 }
 
 .entry-content .hcai-project {
-  margin: 0 0 1.75em;
+  margin: 0 0 2em;
 }
 
 .entry-content .hcai-publication {
-  margin: 0 0 1.15em;
-  padding-bottom: 0.95em;
-  border-bottom: 1px solid #e3e3e3;
+  max-width: 46rem;
+  margin: 0 0 1.05em;
+  padding: 0 0 0.95em;
+  border-bottom: 1px solid #d7d2c8;
 }
 
 .entry-content .hcai-thesis {
-  margin: 0 0 1.4em;
+  max-width: 46rem;
+  margin: 0 0 1.25em;
 }
 
 .entry-content ul,
 .entry-content ol {
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  padding-left: 1.2em;
+}
+
+.entry-content h2 + ul {
+  column-count: 2;
+  -webkit-column-count: 2;
+  column-gap: 2.4rem;
+  -webkit-column-gap: 2.4rem;
+}
+
+.entry-content li {
+  margin: 0 0 0.28em;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
 }
 
 .entry-content details {
-  margin-top: 0.45em;
+  margin-top: 0.4em;
 }
 
 .entry-content details summary {
@@ -126,7 +196,7 @@
 
 .entry-content details pre,
 .entry-content details code {
-  font-size: 0.875rem;
+  font-size: 0.84rem;
   line-height: 1.45;
 }
 
@@ -139,31 +209,43 @@
 .entry-content .publication-kind,
 .entry-content .publication-source {
   display: inline-block;
-  margin: 0.2em 0.4em 0.2em 0;
-  padding: 0.05em 0.4em;
-  border: 1px solid currentColor;
-  font-size: 0.85em;
+  margin: 0.25em 0.45em 0.15em 0;
+  padding: 0.08em 0.45em;
+  border: 1px solid #b3a369;
+  font-size: 0.8em;
 }
 
 .hcai-footer-socials {
   display: block;
   text-align: center;
-  margin: 0.75rem 0;
-  font-size: 1rem;
+  margin: 0.85rem 0 1.1rem;
+  font-size: 0.95rem;
 }
 
 .hcai-footer-socials a {
   display: inline-block;
-  margin: 0.35rem 0.7rem;
+  margin: 0.3rem 0.85rem;
+  color: #003057;
+  text-decoration: none;
+  border-bottom: 1px solid #b3a369;
 }
 
-.hcai-footer-socials a {
-  text-decoration: underline;
-}
-
-@media (max-width: 480px) {
+@media (max-width: 700px) {
   .entry-content {
-    font-size: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .entry-content .hcai-director img.hcai-director-photo,
+  .entry-content .hcai-profile img.hcai-profile-photo {
+    float: none;
+    width: 11.5rem;
+    max-width: 70%;
+    margin: 0 0 1rem;
+  }
+
+  .entry-content h2 + ul {
+    column-count: 1;
+    -webkit-column-count: 1;
   }
 
   .entry-content .wp-block-table,

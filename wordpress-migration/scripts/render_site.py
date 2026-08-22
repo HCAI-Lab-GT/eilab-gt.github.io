@@ -237,19 +237,25 @@ def render_home(data: Mapping[str, Any], config: Mapping[str, Any]) -> str:
     director = home.get("director", {})
     if director:
         parts.append(wp_heading("Director", 2, "director"))
+        director_chunks: list[str] = []
         profile = media_by_role.get("profile")
         if profile:
-            parts.append(wp_image(profile["source_url"], profile.get("alt_text", ""), "hcai-director-photo"))
+            director_chunks.append(
+                f'<img class="hcai-director-photo" src="{html_escape(profile["source_url"])}" '
+                f'alt="{html_escape(profile.get("alt_text", ""))}"/>'
+            )
         if director.get("name"):
-            parts.append(wp_heading(str(director["name"]), 3))
+            director_chunks.append(f'<h3>{html_escape(str(director["name"]))}</h3>')
         if director.get("bio_html"):
-            parts.append(wp_html(clean_fragment(str(director["bio_html"]))))
+            director_chunks.append(clean_fragment(str(director["bio_html"])))
         link_items = [
             external_link(link.get("url"), link.get("label", ""), site_path_prefix(config))
             for link in director.get("links", [])
         ]
         if link_items:
-            parts.append(wp_list(link_items))
+            director_chunks.append("<ul>\n" + "\n".join(f"<li>{item}</li>" for item in link_items) + "\n</ul>")
+        if director_chunks:
+            parts.append(wp_html("\n".join(director_chunks), "hcai-director"))
 
     return "\n\n".join(parts).strip() + "\n"
 
@@ -356,10 +362,16 @@ def render_mark_riedl(data: Mapping[str, Any], config: Mapping[str, Any]) -> str
     parts: list[str] = []
     media_by_role = {item.get("role"): item for item in data.get("media", [])}
     profile = media_by_role.get("profile")
+    mark_chunks: list[str] = []
     if profile:
-        parts.append(wp_image(profile["source_url"], profile.get("alt_text", ""), "hcai-profile-photo"))
+        mark_chunks.append(
+            f'<img class="hcai-profile-photo" src="{html_escape(profile["source_url"])}" '
+            f'alt="{html_escape(profile.get("alt_text", ""))}"/>'
+        )
     if page.get("body_html"):
-        parts.append(wp_html(clean_fragment(page["body_html"]), "hcai-bio"))
+        mark_chunks.append(clean_fragment(page["body_html"]))
+    if mark_chunks:
+        parts.append(wp_html("\n".join(mark_chunks), "hcai-profile"))
     sidebar_items = page.get("sidebar", [])
     contact_items: list[str] = []
     for item in sidebar_items:

@@ -229,8 +229,34 @@ async function replaceDraft(draft) {
   return { ...saved, recoveryButtons };
 }
 
-async function screenshotAfter() {
+async function clearExcerpts() {
   for (const draft of drafts) {
+    await page.goto(`${wpUrl}/wp-admin/post.php?post=${draft.id}&action=edit`, { waitUntil: 'domcontentloaded' });
+    await sleep(1200);
+    await page.keyboard.press('Escape').catch(() => {});
+    await page.waitForFunction(() => Boolean(window.wp?.data?.dispatch), { timeout: 20_000 }).catch(() => {});
+    const saved = await page.evaluate(async () => {
+      const select = wp.data.select('core/editor');
+      const dispatch = wp.data.dispatch('core/editor');
+      const post = select.getCurrentPost();
+      if (post.status !== 'draft') return { ok: false, reason: `status=${post.status}` };
+      dispatch.editPost({ excerpt: '', status: 'draft', slug: post.slug });
+      await dispatch.savePost();
+      const deadline = Date.now() + 20_000;
+      while (Date.now() < deadline) {
+        if (!select.isSavingPost() && !select.isAutosavingPost()) break;
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+      const after = select.getCurrentPost();
+      return { ok: after.status === 'draft', excerpt: after.excerpt || '', slug: after.slug };
+    });
+    result.actions.push(`cleared excerpt ${draft.slug} ${JSON.stringify(saved)}`);
+    if (saved.excerpt) result.warnings.push(`excerpt still set on ${draft.slug}`);
+  }
+}
+
+async function screenshotAfter() {
+  for (const draft of shotDrafts) {
     for (const viewport of viewports) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       let loaded = false;
@@ -256,13 +282,20 @@ async function screenshotAfter() {
         const text = document.body.innerText || '';
         const heroStyle = hero ? getComputedStyle(hero) : null;
         const thStyle = th ? getComputedStyle(th) : null;
+        const portrait = document.querySelector('.hcai-director-photo img, .hcai-profile-photo img');
+        const migrated = [...document.querySelectorAll('p, div, span')].find((el) =>
+          /^\s*Migrated page:/i.test(el.textContent || ''),
+        );
         return {
           url: location.href,
           title: document.title,
           hasHeroClass: Boolean(document.querySelector('.hcai-hero')),
           heroMaxWidth: heroStyle?.maxWidth || '',
           heroWidth: hero ? Math.round(hero.getBoundingClientRect().width) : 0,
+          portraitWidth: portrait ? Math.round(portrait.getBoundingClientRect().width) : 0,
           thBg: thStyle?.backgroundColor || '',
+          migrated: Boolean(migrated),
+          migratedClass: migrated ? `${migrated.tagName}.${migrated.className}` : '',
           mastodon: /Mastodon/.test(text),
           bluesky: /BlueSky|Bluesky/.test(text),
         };
@@ -278,6 +311,12 @@ async function screenshotAfter() {
 }
 
 const skipBodies = process.env.SKIP_BODIES === '1';
+const skipExcerpts = process.env.SKIP_EXCERPTS === '1';
+const onlySlugs = (process.env.ONLY_SLUGS || '')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
+const shotDrafts = onlySlugs.length ? drafts.filter((item) => onlySlugs.includes(item.slug)) : drafts;
 
 try {
   await waitForAdmin();
@@ -288,6 +327,8 @@ try {
     for (const draft of drafts) result.drafts.push({ ...draft, ...(await replaceDraft(draft)) });
   } else {
     result.actions.push('skipped draft body replace (SKIP_BODIES=1)');
+    if (!skipExcerpts) await clearExcerpts();
+    else result.actions.push('skipped excerpt clear (SKIP_EXCERPTS=1)');
   }
   await screenshotAfter();
   await page.goto(`${wpUrl}/wp-admin/themes.php`, { waitUntil: 'domcontentloaded' });

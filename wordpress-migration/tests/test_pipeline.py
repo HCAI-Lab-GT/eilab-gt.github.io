@@ -292,8 +292,13 @@ def test_flex_css_covers_required_selectors() -> None:
     assert "@import" not in css
     assert "fonts.googleapis.com" not in css
     assert "ei-logo.gif" not in css
-    assert "display:none" not in css.replace(" ", "").lower()
+    compact = css.replace(" ", "").lower()
+    compact = compact.replace(".entry-summary{height:0;overflow:hidden;margin:0;padding:0;border:0;}", "")
+    assert "display:none" not in compact
     assert "display: none" not in css.lower()
+    assert "float: left" in css
+    assert "column-count: 2" in css
+    assert "h2 + ul" in css
 
 
 def test_footer_socials_match_config() -> None:
@@ -321,6 +326,7 @@ def test_rendered_pages_are_gutenberg_html_blocks(tmp_path: Path) -> None:
     assert "hcai-hero" in home
     photo_at = home.find("hcai-director-photo")
     assert photo_at != -1
+    assert "hcai-director" in home
     assert "<!-- wp:image" not in combined
     assert home[:photo_at].count("<!-- wp:group") == home[:photo_at].count("<!-- /wp:group")
 
