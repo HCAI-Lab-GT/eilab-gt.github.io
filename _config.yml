@@ -18,9 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "Entertainment Intelligence and Human-Centered AI Labs"
+title: "Human-Centered (fmly Entertainment Intelligence) AI Lab"
 email: riedl@cc.gatech.edu
-description: "EI & HCAI Labs at Georgia Tech: research on computational narrative, responsible AI, agents, and computational creativity."
+description: "Human-Centered AI Lab (formerly Entertainment Intelligence) at Georgia Tech: research on computational narrative, responsible AI, agents, and computational creativity."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://eilab.gatech.edu" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: mark_riedl
@@ -33,8 +33,8 @@ plugins:
   - jekyll-include-cache
 
 minimal_mistakes_skin: "contrast"
-masthead_title: "EI & HCAI"
-subtitle: "Labs"
+masthead_title: "Human-Centered AI Lab"
+subtitle: "formerly Entertainment Intelligence"
 logo: "/assets/images/ei-logo.gif"
 twitter:
   username: "mark_riedl"

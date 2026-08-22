@@ -7,62 +7,100 @@
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// Homepage research areas: fluid grid that collapses to one column on
-// narrow screens (replaces the old fixed two-column <table>).
+// ---------------------------------------------------------------------------
+// "Scholarly print" layer.
+// Palette drawn from Georgia Tech: ink on warm paper, navy for links,
+// gold for hairlines. Fraunces carries display type; body stays system sans.
+// ---------------------------------------------------------------------------
+
+$paper: #fbfaf7;
+$ink: #1a1a18;
+$navy: #003057;
+$gold: #b3a369;
+$muted: #6b6a64;
+
+body {
+  background-color: $paper;
+  color: $ink;
+}
+
+// Display face for page titles, section headings, and the masthead.
+.masthead .site-title,
+.page__title,
+h1, h2, h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// Links: GT navy with a gold underline that warms on hover.
+.page__content a:not(.btn) {
+  color: $navy;
+  text-decoration-color: rgba($gold, 0.65);
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: darken($navy, 4%);
+    text-decoration-color: $gold;
+  }
+}
+
+// Sidebar author card: square-crop the avatar into a true circle (the
+// source photo is 3:2 and was rendering as an oval), quiet the bio.
+.author__avatar img {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 110px;
+}
+
+.author__bio {
+  font-size: 0.85em;
+  line-height: 1.55;
+  color: $muted;
+
+  strong {
+    color: $ink;
+  }
+}
+
+// Homepage research areas: a 2x2 quadrant catalogue divided by gold
+// hairlines — the four-fields structure made visible.
 .research-areas {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0 2em;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin: 2em 0 0;
+  border-top: 1px solid rgba($gold, 0.8);
+  border-left: 1px solid rgba($gold, 0.8);
+
+  .research-area {
+    border-right: 1px solid rgba($gold, 0.8);
+    border-bottom: 1px solid rgba($gold, 0.8);
+    padding: 1.25em 1.5em 1.5em;
+    min-width: 0;
+  }
 
   .research-area h2 {
-    margin-bottom: 0.25em;
+    font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+    margin-bottom: 0.6em;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   .research-area ul {
     margin-top: 0;
-    padding-left: 1.25em;
+    padding-left: 1.1em;
+
+    li {
+      margin-bottom: 0.35em;
+      line-height: 1.45;
+    }
   }
 }
 
-// Members page: card grid with round headshots; members without a photo
-// fall back to a monogram disc so the grid stays uniform.
-.members-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 0.75em 1em;
-  margin: 0 0 1.5em;
-  padding-left: 0;
-  list-style: none;
-
-  .member {
-    display: flex;
-    align-items: center;
-    gap: 0.75em;
-    min-width: 0;
-  }
-
-  .member-avatar img,
-  .member-initials {
-    flex: 0 0 auto;
-    width: 3em;
-    height: 3em;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .member-initials {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #7a8494;
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    user-select: none;
-  }
-
-  .member-name {
-    min-width: 0;
-    overflow-wrap: anywhere;
+@media (max-width: 600px) {
+  .research-areas {
+    grid-template-columns: 1fr;
   }
 }
