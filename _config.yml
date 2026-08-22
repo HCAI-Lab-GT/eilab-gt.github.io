@@ -52,7 +52,7 @@ footer:
       icon: "fab fa-linkedin"
       url: https://www.linkedin.com/in/markriedl/
     - label: "BlueSky"
-      icon: "fa-bluesky"
+      icon: "fa-brands fa-bluesky"
       url: https://bsky.app/profile/markriedl.bsky.social
 #    - label: "GitHub"
 #      icon: "fab fa-fw fa-github"
