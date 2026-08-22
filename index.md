@@ -3,6 +3,7 @@ layout: home
 author_profile: true
 header:
   overlay_image: /assets/images/davinci-banner.jpeg
+  og_image: /assets/images/og-card.png
   overlay_filter: 0.5
 show_overlay_excerpt: true
 tagline: "Director: Mark Riedl"

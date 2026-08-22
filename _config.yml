@@ -18,10 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "Entertainment Intelligence and\ 
-Human-Centered AI Labs"
+title: "Entertainment Intelligence and Human-Centered AI Labs"
 email: riedl@cc.gatech.edu
-description: "Cool research" # this means to ignore newlines until "baseurl:"
+description: "EI & HCAI Labs at Georgia Tech: research on computational narrative, responsible AI, agents, and computational creativity."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://eilab.gatech.edu" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: mark_riedl
@@ -39,7 +38,7 @@ subtitle: "Labs"
 logo: "/assets/images/ei-logo.gif"
 twitter:
   username: "mark_riedl"
-og_image: /assets/images/ei-logo.gif
+og_image: /assets/images/og-card.png
 footer:
   links:
     - label: "Mastodon"
