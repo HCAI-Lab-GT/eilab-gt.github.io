@@ -1,5 +1,7 @@
 ---
 layout: single
+title: "Human-Centered Artificial Intelligence Lab"
+subtitle: "(formerly Entertainment Intelligence)"
 author_profile: true
 header:
   overlay_image: /assets/images/davinci-banner.jpeg

@@ -104,3 +104,93 @@ h1, h2, h3 {
     grid-template-columns: 1fr;
   }
 }
+
+// Members page: compact rows; a small round photo appears only when the
+// member has one, so the page reads as a clean list until headshots arrive.
+.member-list {
+  margin: 0 0 1.5em;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.4em;
+    min-width: 0;
+  }
+
+  .member-photo {
+    flex: 0 0 auto;
+    width: 1.9em;
+    height: 1.9em;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+// Theses page: callout cards with the citation in a quiet byline and the
+// (very long) abstracts collapsed until asked for.
+.thesis-card {
+  background: #f3f1e9;
+  border-left: 3px solid $gold;
+  border-radius: 0 6px 6px 0;
+  padding: 1.1em 1.4em 0.9em;
+  margin-bottom: 1.25em;
+
+  .thesis-title {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin: 0 0 0.35em;
+    padding-bottom: 0;
+    border-bottom: none;
+
+    a {
+      color: $navy;
+    }
+  }
+
+  .thesis-meta {
+    color: $muted;
+    font-size: 0.85em;
+    margin: 0 0 0.7em;
+  }
+
+  .thesis-abstract summary {
+    cursor: pointer;
+    color: darken($gold, 25%);
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    &:hover {
+      color: $navy;
+    }
+  }
+
+  .thesis-abstract[open] summary {
+    margin-bottom: 0.5em;
+  }
+
+  .thesis-abstract p {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: $ink;
+  }
+}
+
+// Homepage hero: the lab's display title with a quiet subtitle line.
+.page__hero--overlay .page__title {
+  font-size: clamp(1.6rem, 4.5vw, 2.4em);
+
+  .page__subtitle {
+    display: block;
+    margin-top: 0.4em;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-size: 0.45em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+}
