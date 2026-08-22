@@ -11,7 +11,7 @@ title: Members
 <ul>
 {% for x in site.data.faculty.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
   </li>
 {% endfor %}
 </ul>
@@ -21,7 +21,7 @@ title: Members
 <ul>
 {% for x in site.data.phds.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
   </li>
 {% endfor %}
 </ul>
@@ -31,7 +31,7 @@ title: Members
 <ul>
 {% for x in site.data.masters.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
   </li>
 {% endfor %}
 </ul>
@@ -41,7 +41,7 @@ title: Members
 <ul>
 {% for x in site.data.undergrads.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
   </li>
 {% endfor %}
 </ul>
@@ -51,7 +51,7 @@ title: Members
 <ul>
 {% for x in site.data.alumni.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>: {{ x.where }}
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}: {{ x.where }}
   </li>
 {% endfor %}
 </ul>
@@ -61,7 +61,7 @@ title: Members
 <ul>
 {% for x in site.data.affiliated.members %}
   <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
+    {% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}
   </li>
 {% endfor %}
 </ul>
