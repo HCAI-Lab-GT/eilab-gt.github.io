@@ -5,114 +5,11 @@ classes: wide
 ---
 <script type="text/javascript" src="toggle.js"> </script>
 
-<link rel="stylesheet" href="bibs.css">
-<style type="text/css">
-a:link, a:visited, a:hover, a:active {text-decoration: none;}
-.arxiv {
-	font-size: small;
-	background-color: #000000;
-	color: white;
-	border: 1px solid #000000;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.zenodo {
-	font-size: small;
-	background-color: #1D49A4;
-	color: white;
-	border: 1px solid #1D49A4;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.ssrn {
-	font-size: small;
-	background-color: #18386F;
-	color: white;
-	border: 1px solid #18386F;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.openreview {
-	font-size: small;
-	background-color: red;
-	color: white;
-	border: 1px solid red;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.pdf {
-	font-size: small;
-	background-color: blue;
-	color: white;
-	border: 1px solid blue;
-	text-decoration: none;
-	text-decoration-color: black;
-	border-radius: 2px;
-}
-.link {
-	font-size: small;
-	background-color: blue;
-	color: white;
-	border: 1px solid blue;
-	text-decoration: none;
-	text-decoration-color: black;
-	border-radius: 2px;
-}
-.journal {
-	font-size: small;
-	background-color: green;
-	color: white;
-	border: 1px solid green;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.conference {
-	font-size: small;
-	background-color: orange;
-	color: white;
-	border: 1px solid orange;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.workshop {
-	font-size: small;
-	background-color: purple;
-	color: white;
-	border: 1px solid purple;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.bibbutton {
-	font-size: small;
-	background-color: white;
-	color: black;
-	border: 1px solid black;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.bibtex {
-	white-space: pre-wrap;
-	font-size: small;
-	font-family: Courier;
-	background: #eeeeee;
-	border: 1px dotted black;
-	width: 75%;
-}	
-</style>
-
 # Publications
 
 {% for y in site.data.years %}
 ## {{ y }}
-<p>
+<div>
 {% for x in site.data.pubs.entries reversed %}
   {% assign ystr = y | downcase %}
   {% if x.year == ystr %}
@@ -137,6 +34,6 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 	  </p>
   {% endif %}
 {% endfor %}
-</p>
+</div>
 {% endfor %}
 

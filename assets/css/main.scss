@@ -194,3 +194,68 @@ h1, h2, h3 {
     opacity: 0.85;
   }
 }
+
+// Publication badges on the projects/publications pages: two kinds of
+// metadata get two quiet treatments. Navy outline = where to get the paper
+// (arXiv, PDF, ACM/DL); gold tint = venue type (Journal, Conference,
+// Workshop). Class names match the existing Liquid templates.
+.arxiv, .openreview, .pdf, .link, .zenodo, .ssrn,
+.journal, .conference, .workshop, .bibbutton {
+  display: inline-block;
+  font-size: 0.68em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  padding: 0.28em 0.65em 0.24em;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  vertical-align: middle;
+}
+
+.arxiv, .openreview, .pdf, .link, .zenodo, .ssrn {
+  color: $navy;
+  border-color: rgba($navy, 0.45);
+}
+
+.journal, .conference, .workshop {
+  color: darken($gold, 32%);
+  background: rgba($gold, 0.16);
+  border-color: rgba($gold, 0.55);
+}
+
+.bibbutton {
+  cursor: pointer;
+  color: $muted;
+  border-color: rgba($muted, 0.5);
+}
+
+// Venue context note on project publications ("Oral", "Award" etc).
+.context {
+  font-style: italic;
+  color: $muted;
+}
+
+.page__content a:has(> .arxiv):hover,
+.page__content a:has(> .openreview):hover,
+.page__content a:has(> .pdf):hover,
+.page__content a:has(> .link):hover,
+.page__content a:has(> .zenodo):hover,
+.page__content a:has(> .ssrn):hover {
+  text-decoration: none;
+
+  > span { border-color: $navy; }
+}
+
+// Expanded BibTeX blocks.
+.bibtex {
+  white-space: pre-wrap;
+  font-family: ui-monospace, Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 0.78em;
+  line-height: 1.5;
+  background: #f3f1e9;
+  border: 1px dashed rgba($gold, 0.7);
+  border-radius: 6px;
+  padding: 1em 1.2em;
+  margin-top: 0.6em;
+  width: 100%;
+}
