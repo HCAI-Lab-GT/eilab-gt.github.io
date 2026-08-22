@@ -11,6 +11,7 @@ Entertainment Intelligence and Human-Centered AI Labs
 **To update lab members:**
 
 1. Edit phds.yml, masters.yml, undergrads.yml, faculty.yml, or alumni.yml in the `_data` directory.
+2. Optional headshot: add the image to `assets/images/members/` and set `photo: /assets/images/members/<file>.jpg` on that member's entry. Square images around 400x400 look best; members without a photo get a monogram disc.
 
 **To update the Capabilibara project page:**
 
