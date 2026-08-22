@@ -227,7 +227,7 @@ def test_live_source_render_matches_staging_contract(tmp_path: Path) -> None:
         assert not (phd_at < at < alumni_at), name
     assert "Faculty, Northeastern University" in people
     assert "Senior Software Engineer, Anduril" in people
-    assert "Researcher, Wayfarer Labs" in people
+    assert "Wayfarer Labs, Amphia" in people
 
     years = {str(item.get("year") or "Undated") for item in normalized["publications"]}
     publications = pages["publications"]

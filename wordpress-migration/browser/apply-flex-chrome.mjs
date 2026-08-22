@@ -193,9 +193,11 @@ async function replaceDraft(draft) {
     const select = wp.data.select('core/editor');
     const dispatch = wp.data.dispatch('core/editor');
     const post = select.getCurrentPost();
-    if (post.status !== 'draft') return { ok: false, reason: `status=${post.status}` };
+    if (post.status !== 'draft' && post.status !== 'publish') {
+      return { ok: false, reason: `status=${post.status}` };
+    }
     dispatch.resetBlocks(wp.blocks.parse(nextHtml));
-    dispatch.editPost({ status: 'draft', slug: post.slug });
+    dispatch.editPost({ status: post.status, slug: post.slug });
     await dispatch.savePost();
     const deadline = Date.now() + 90_000;
     while (Date.now() < deadline) {

@@ -133,6 +133,6 @@ Local loop: `wordpress-migration/.venv/bin/pytest -q` twice, then `.venv/bin/pyt
 
 **Published (2026-08-22):** Six HCAI pages are `publish`. Home (9069) is the static front page. Sample Page and Main page are drafts. Menu uses `/hcailab/`, `/people/`, `/research/`, `/publications/`, `/theses/`, `/mark-riedl/`. Public site: https://sites.gatech.edu/hcailab/. `CNAME` / DNS / GitHub Pages untouched, so `eilab.gatech.edu` still serves the old Jekyll site.
 
-**People (2026-08-22):** Gennie Mansi, Jonathan Balloch (Senior Software Engineer, Anduril), Upol Ehsan (Faculty, Northeastern University), and Spencer Frazier (Researcher, Wayfarer Labs) moved PhD → Alumni. PhD roster is Amal, Kaige, Geigh, Glenn.
+**People (2026-08-22):** Gennie Mansi, Jonathan Balloch (Senior Software Engineer, Anduril), Upol Ehsan (Faculty, Northeastern University), and Spencer Frazier (Wayfarer Labs, Amphia) moved PhD → Alumni. PhD roster is Amal, Kaige, Geigh, Glenn.
 
 **A11y (2026-08-22):** Year-jump links expose “Publications from YEAR” to assistive text. Publication/research source chips use “Paper on arXiv”, “Download PDF”, “Open publication”, and similar instead of `arXiv` / `PDF` / `Link`.
