@@ -14,14 +14,14 @@
 - name: "Brian O'Neill"
   title: A Computational Model of Suspense for the Augmentation of Intelligent Story Generation
   url: https://smartech.gatech.edu/handle/1853/50416
-  institute: Georgia institute of Technology
+  institute: Georgia Institute of Technology
   year: 2013
   abstract: |
     In this dissertation, I present Dramatis, a computational human behavior model of suspense based on Gerrig and Bernardo's de nition of suspense. In this model, readers traverse a search space on behalf of the protagonist, searching for an escape from some oncoming negative outcome. As the quality or quantity of escapes available to the protagonist decreases, the level of suspense felt by the audience increases. The major components of Dramatis are a model of reader salience, used to determine what elements of the story are foregrounded in the reader's mind, and an algorithm for determining the escape plan that a reader would perceive to be the most likely to succeed for the protagonist. I evaluate my model by comparing its ratings of suspense to the self-reported suspense ratings of human readers. Additionally, I demonstrate that the components of the suspense model are sufficient to produce these human-comparable ratings.
 - name: Boyang Li
   title: Learning Knowledge to Support Domain-Independent Narrative Intelligence
   url: https://smartech.gatech.edu/handle/1853/53376
-  institute: Georgia institute of Technology
+  institute: Georgia Institute of Technology
   year: 2014
   abstract: |
     Narrative Intelligence is the ability to craft, tell, understand, and respond appropriately to narratives. It has been proposed as a vital component of machines aiming to understand human activities or to communicate effectively with humans. However, most existing systems purported to demonstrate Narrative Intelligence rely on manually authored knowledge structures that require extensive expert labor. These systems are constrained to operate in a few domains where knowledge has been provided. This dissertation investigates the learning of knowledge structures to support Narrative Intelligence in any domain. I propose and build a system that, from an corpus of simple exemplar stories, learns complex knowledge structures that subsequently enable the creation, telling, and understanding of narratives. The knowledge representation balances the complexity of learning and the richness of narrative applications, so that we can (1) learn the knowledge robustly in the presence of noise, (2) generate a large variety of highly coherent stories, (3) tell them in recognizably different narration styles and (4) understand stories efficiently. The accuracy and effectiveness of the system have been verified by a series of user studies and computational experiments. As a result, the system is able to demonstrate Narrative Intelligence in any domain where we can collect a small number of exemplar stories. This dissertation is the first step toward scaling computational narrative intelligence to meet the challenges of the real world.
