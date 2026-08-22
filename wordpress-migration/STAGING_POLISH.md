@@ -130,3 +130,9 @@ Local loop: `wordpress-migration/.venv/bin/pytest -q` twice, then `.venv/bin/pyt
 **Remaining Flex limits:** Drafts cannot be the Reading front page. Accessibility Checker overlays appear for logged-in Preview. CampusPress strips some modern CSS (`min()`, `margin-inline`); the tracked stylesheet avoids those. Customizer has no `custom_css` theme_mod; Simple Custom CSS is the live injector. `capabilibara/` and `ei-logo.gif` stay out.
 
 **Visual revision (2026-08-22):** First CSS pass boxed the banner to 42rem and the portrait to 16rem, so Home read as a stamp, a navy admin table, and a photo in a white field. Revision uses the full content column for the da Vinci banner, floats the director/profile portrait beside the bio, paints research-area `th` cells GT gold on navy text, two-column People lists, gold underline chips on year/project TOCs, and collapses the leftover `Migrated page:` excerpt. Still Flex-only; still no Minimal Mistakes skin.
+
+**Published (2026-08-22):** Six HCAI pages are `publish`. Home (9069) is the static front page. Sample Page and Main page are drafts. Menu uses `/hcailab/`, `/people/`, `/research/`, `/publications/`, `/theses/`, `/mark-riedl/`. Public site: https://sites.gatech.edu/hcailab/. `CNAME` / DNS / GitHub Pages untouched, so `eilab.gatech.edu` still serves the old Jekyll site.
+
+**People (2026-08-22):** Gennie Mansi, Jonathan Balloch (Senior Software Engineer, Anduril), Upol Ehsan (Faculty, Northeastern University), and Spencer Frazier (Researcher, Wayfarer Labs) moved PhD → Alumni. PhD roster is Amal, Kaige, Geigh, Glenn.
+
+**A11y (2026-08-22):** Year-jump links expose “Publications from YEAR” to assistive text. Publication/research source chips use “Paper on arXiv”, “Download PDF”, “Open publication”, and similar instead of `arXiv` / `PDF` / `Link`.

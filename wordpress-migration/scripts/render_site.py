@@ -130,20 +130,20 @@ def format_author_list(authors: Iterable[str]) -> str:
 def publication_link_label(url: str) -> str:
     lowered = url.lower()
     if "arxiv" in lowered:
-        return "arXiv"
+        return "Paper on arXiv"
     if "openreview" in lowered:
-        return "OpenReview"
+        return "Paper on OpenReview"
     if "ssrn" in lowered:
-        return "SSRN"
+        return "Paper on SSRN"
     if "zenodo" in lowered:
-        return "zenodo"
+        return "Record on Zenodo"
     if "dl.acm.org" in lowered:
-        return "ACM/DL"
+        return "ACM Digital Library"
     if "ieee" in lowered:
-        return "IEEE"
+        return "IEEE Xplore"
     if ".pdf" in lowered:
-        return "PDF"
-    return "Link"
+        return "Download PDF"
+    return "Open publication"
 
 
 def publication_kind_labels(publication: Mapping[str, Any]) -> list[str]:
@@ -330,7 +330,10 @@ def render_publications(data: Mapping[str, Any], config: Mapping[str, Any]) -> s
     years = sorted(by_year, key=year_key, reverse=True)
     parts: list[str] = []
     if years:
-        toc = " · ".join(f'<a href="#year-{slugify(year)}">{html_escape(year)}</a>' for year in years)
+        toc = " · ".join(
+            f'<a href="#year-{slugify(year)}"><span class="hcai-sr-only">Publications from </span>{html_escape(year)}</a>'
+            for year in years
+        )
         parts.append(wp_paragraph(toc, "hcai-year-toc"))
     for year in years:
         parts.append(wp_heading(year, 2, f"year-{slugify(year)}"))

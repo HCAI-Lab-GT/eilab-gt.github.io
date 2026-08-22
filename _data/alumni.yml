@@ -1,4 +1,15 @@
-members: 
+members:
+  - name: Gennie Mansi
+    website: https://www.linkedin.com/in/gennie-mansi-308a49269/
+  - name: Jonathan Balloch
+    website: https://jballoch.com/
+    where: Senior Software Engineer, Anduril
+  - name: Upol Ehsan
+    website: https://www.upolehsan.com/
+    where: Faculty, Northeastern University
+  - name: Spencer Frazier
+    website: https://www.linkedin.com/in/spencer-frazier-ai/
+    where: Researcher, Wayfarer Labs
   - name: Zhiyu Lin
     website: https://www.zhiyulin.info/
     where: Postdoc, University of California, Santa Cruz

@@ -144,7 +144,7 @@ def test_publications_match_original_entry_shape(tmp_path: Path) -> None:
     assert "Glenn Matlin and Ada Lovelace" in publications
     assert "<strong" in publications and "A Test Publication" in publications
     assert 'href="https://example.com/paper">A Test Publication' not in publications
-    assert ">Link</a>" in publications
+    assert ">Open publication</a>" in publications
     assert "Conference" in publications
     assert "(2026)" in publications
     assert 'href="#year-2026"' in publications
@@ -216,15 +216,30 @@ def test_live_source_render_matches_staging_contract(tmp_path: Path) -> None:
     positions = [pages["people"].find(f">{title}<") for title in titles]
     assert all(pos != -1 for pos in positions)
     assert positions == sorted(positions)
+    people = pages["people"]
+    phd_at = people.find(">PhD Students<")
+    alumni_at = people.find(">Alumni<")
+    assert phd_at != -1 and alumni_at != -1
+    for name in ("Upol Ehsan", "Spencer Frazier", "Jonathan Balloch", "Gennie Mansi"):
+        at = people.find(name)
+        assert at != -1, name
+        assert at > alumni_at, name
+        assert not (phd_at < at < alumni_at), name
+    assert "Faculty, Northeastern University" in people
+    assert "Senior Software Engineer, Anduril" in people
+    assert "Researcher, Wayfarer Labs" in people
 
     years = {str(item.get("year") or "Undated") for item in normalized["publications"]}
     publications = pages["publications"]
     assert "hcai-year-toc" in publications
     assert "hcai-publication" in publications
+    assert "hcai-sr-only" in publications
+    assert "Paper on arXiv" in publications or "Open publication" in publications or "Download PDF" in publications
     for year in years:
         year_slug = slugify(year)
         assert f'href="#year-{year_slug}"' in publications
         assert f'id="year-{year_slug}"' in publications
+        assert f"Publications from </span>{year}" in publications or f">Publications from {year}<" in publications
 
     wxr_path = tmp_path / "site.wordpress.xml"
     build_wxr(tmp_path, config, wxr_path, str(config["site"]["staging_url"]))
