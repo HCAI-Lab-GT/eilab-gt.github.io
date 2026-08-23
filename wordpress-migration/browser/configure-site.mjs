@@ -13,7 +13,7 @@ await loadEnvFile(path.join(rootDir, '.env'));
 
 const wpUrl = (process.env.WP_URL || '').replace(/\/$/, '');
 if (!wpUrl) {
-  throw new Error('Set WP_URL in migration/.env; expected https://sites.gatech.edu/hcailab');
+  throw new Error('Set WP_URL in wordpress-migration/.env; expected https://sites.gatech.edu/hcailab');
 }
 
 const apply = process.env.APPLY === '1';

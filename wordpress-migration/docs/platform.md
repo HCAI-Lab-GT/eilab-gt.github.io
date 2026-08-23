@@ -1,10 +1,26 @@
-# Discovering Sites@GT Capabilities Without Asking OIT
+# Sites@GT host facts
 
-This migration does not assume that every CampusPress feature is enabled on Georgia Tech's network. Instead, it discovers the site-specific answer through public REST metadata, authenticated REST reads, and an authenticated browser inventory.
+Discovery scripts still probe the live site because CampusPress settings vary. For this HCAI host, the answers are already known. Use them; do not rediscover from a clean slate unless the site is rebuilt.
+
+## Observed on https://sites.gatech.edu/hcailab/
+
+- Theme: Georgia Tech Flex. Stay on it.
+- Anonymous REST GET works for public pages. Anonymous REST POST returns `401 rest_not_logged_in`.
+- Application Passwords are advertised in the REST index and fail for `/wp-json/wp/v2/users/me`. Do not spend a loop on app-password login.
+- Cookie + `X-WP-Nonce` from a logged-in `wp-admin` session can POST `/hcailab/wp-json/wp/v2/pages/{id}`. That is the persist path after import.
+- WXR Tools → Import is create-not-update. Import ran once. A second import duplicates `home`, `people`, and the rest.
+- Customizer `custom_css` is not the live injector. Appearance → Custom CSS (Simple Custom CSS, `themes.php?page=simple-custom-css.php`) is.
+- Footer HTML is Appearance → Footer Content (`themes.php?page=footer-content`).
+- CampusPress CSS sanitizer strips `min()` and `margin-inline`.
+- Drafts cannot be the Reading front page. Home had to be published before it could be assigned.
+- Equalize Digital Accessibility Checker flags four-character link text. Year chips and `PDF`/`Link`/`arXiv` labels need longer accessible names (see render output).
+- Playwright must poll `#wpadminbar`. Do not wait for an Enter key.
+
+`scripts/discover_wordpress.py` remains useful as a GET-only health check. It is not a write path.
 
 ## 1. Public command-line discovery
 
-The staging URL is preconfigured in `migration/.env` as `https://sites.gatech.edu/hcailab`:
+The staging URL is preconfigured in `wordpress-migration/.env` as `https://sites.gatech.edu/hcailab`:
 
 ```bash
 python scripts/discover_wordpress.py
@@ -100,7 +116,7 @@ npx playwright install chromium
 npm run discover
 ```
 
-The browser opens. Complete SSO/Duo and press Enter in the terminal after the dashboard appears. The script then inventories:
+The browser opens. Complete SSO/Duo. The script polls `#wpadminbar`, then inventories:
 
 - Installed themes and the active theme.
 - Visible plugins.

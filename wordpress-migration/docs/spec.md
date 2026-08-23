@@ -1,10 +1,12 @@
 # Migration Specification
 
+The six lab pages are already published at `https://sites.gatech.edu/hcailab/`. This spec is the content contract the kit still has to satisfy on every rebuild. Operator steps are in `../README.md` and `runbook.md`. Host behavior is in `platform.md`.
+
 ## 1. Objective
 
-Rebuild the public Human-Centered AI Lab website on Georgia Tech's managed Sites@GeorgiaTech WordPress platform while preserving the useful content and URL history of the existing Jekyll/GitHub Pages site.
+Translate the Jekyll sources in `HCAI-Lab-GT/eilab-gt.github.io` into Gutenberg HTML for the HCAI lab site on Sites@GeorgiaTech, preserving useful content and old URL history as redirects.
 
-The staging site is created already. The migration must be reproducible, agent-friendly, and executable primarily from the command line.
+YAML and Markdown in the repository remain the source of truth. The pipeline must stay runnable from the command line. WordPress writes after the first import go through the authenticated dashboard session in `runbook.md`.
 
 ## 2. Policy-derived constraints
 
@@ -30,6 +32,7 @@ The migration pipeline must not:
 - Install arbitrary WordPress plugins or themes.
 - Bypass Georgia Tech SSO or Duo.
 - Rehost the `capabilibara/` static microsite without a separate decision.
+- Run WordPress Import a second time (create-not-update; duplicates pages).
 
 ## 4. Source system
 
@@ -95,11 +98,13 @@ After import/sync, the `Home` page should be assigned as the static front page. 
 Render groups in this order:
 
 1. Faculty
-2. Ph.D. Students
-3. Master's Students
+2. PhD Students
+3. Masters Students
 4. Undergraduate Students
-5. Affiliated Researchers
-6. Alumni
+5. Alumni
+6. Affiliated
+
+That order matches `site-config.yaml` and `members.md`. Do not put Affiliated above Alumni.
 
 Each member may include name, website, rank, and current destination. Missing websites must not generate empty links.
 

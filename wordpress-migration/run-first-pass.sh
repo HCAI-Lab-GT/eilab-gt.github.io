@@ -5,7 +5,7 @@ MIGRATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$MIGRATION_DIR"
 
 if [[ ! -f ../_config.yml || ! -d ../_data ]]; then
-  echo "ERROR: Place migration/ inside a clone of HCAI-Lab-GT/eilab-gt.github.io." >&2
+  echo "ERROR: Run wordpress-migration/ from a clone of HCAI-Lab-GT/eilab-gt.github.io (need ../_config.yml and ../_data)." >&2
   exit 2
 fi
 

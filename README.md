@@ -12,6 +12,8 @@ Entertainment Intelligence and Human-Centered AI Labs
 
 1. Edit phds.yml, masters.yml, undergrads.yml, faculty.yml, or alumni.yml in the `_data` directory.
 
+**Sites@GT WordPress kit:** `wordpress-migration/` rebuilds Gutenberg HTML from these YAML/Markdown sources for https://sites.gatech.edu/hcailab/. GitHub Pages at `eilab.gatech.edu` is unchanged until a DNS/`CNAME` cutover. See `wordpress-migration/README.md`.
+
 **To update the Capabilibara project page:**
 
 1. Copy the built site from the `capabilibara` repo `public/` directory into `capabilibara/` here.

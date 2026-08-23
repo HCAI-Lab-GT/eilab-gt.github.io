@@ -1,5 +1,7 @@
 # Staging finish spec — HCAI Sites@GT
 
+Closed 2026 run log. Current operator docs: `../../README.md` and `../runbook.md`.
+
 Binding plan for the autonomous goal. Read this file before doing anything.
 
 **Staging URL:** https://sites.gatech.edu/hcailab/

@@ -6,6 +6,9 @@
   "scripts": {
     "discover": "node discover-admin.mjs",
     "configure": "node configure-site.mjs",
+    "preview": "node preview-pages.mjs",
+    "apply": "node apply-flex-chrome.mjs",
+    "publish": "node publish-live.mjs",
     "install-browser": "playwright install chromium"
   },
   "dependencies": {

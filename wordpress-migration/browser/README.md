@@ -1,76 +1,61 @@
-# Sites@GT Playwright fallback
+# Sites@GT Playwright scripts
 
-These scripts automate the WordPress dashboard only after you complete Georgia Tech SSO/Duo in a real browser window.
+These scripts drive the WordPress dashboard after Glenn completes Georgia Tech SSO/Duo in a headed Chromium window. They poll `#wpadminbar`. They do not bypass MFA.
 
-They are a fallback for settings that are not exposed through the WordPress REST API, especially:
-
-- Discovering the exact official Georgia Tech theme name.
-- Discovering visible plugins and import tools.
-- Activating the official theme.
-- Setting the site title/tagline and static homepage.
-- Uploading the generated WXR package through the standard WordPress importer.
+Persistent profile: `browser/.auth/gt-wordpress` (gitignored). Do not commit or share it.
 
 ## Install
 
 ```bash
-cd migration/browser
+cd wordpress-migration/browser
 npm install
 npx playwright install chromium
 ```
 
-## Discover, read-only
+Copy `../.env.example` to `../.env` if needed. `WP_URL` must be `https://sites.gatech.edu/hcailab`.
+
+## Commands that still matter
+
+**Preview local HTML** (no WordPress):
+
+```bash
+npm run preview
+```
+
+Writes `../build/preview/*.png`.
+
+**Apply rebuilt bodies and Flex chrome** to the existing six pages:
+
+```bash
+npm run apply
+ONLY_SLUGS=people npm run apply
+SKIP_BODIES=1 npm run apply
+```
+
+See `../docs/runbook.md` for the persist contract. This is the post-import write path.
+
+**Discover** (read-only dashboard inventory):
 
 ```bash
 npm run discover
 ```
 
-A browser opens. Complete GT SSO/Duo yourself, make sure the WordPress dashboard loads, then press Enter in the terminal. Results are saved under:
+Writes `../build/admin-discovery/`.
 
-```text
-migration/build/admin-discovery/
-```
-
-The script records:
-
-- Installed and active themes.
-- Visible and active plugins.
-- Tools → Import options.
-- General and Reading settings.
-- Whether an Application Password section is visible in the profile.
-
-## Configure, guarded
-
-No settings change unless `APPLY=1` is supplied.
-
-Dry plan:
+**Publish** the six pages and assign Home as the front page. Already done on this host. Do not rerun unless a page was accidentally drafted.
 
 ```bash
-GT_THEME_NAME="<exact theme name from discovery>" \
-npm run configure
+npm run publish
 ```
 
-Apply theme, title/tagline, and front page:
+## First-import leftovers
 
-```bash
-APPLY=1 \
-GT_THEME_NAME="<exact theme name>" \
-npm run configure
-```
+`import-once.mjs`, `configure-site.mjs`, `finish-chrome.mjs`, `verify-import.mjs`, and `verify-slugs.mjs` were for the 2026 staging import. They remain for a from-scratch Sites@GT rebuild. They must not run against the live HCAI site while `wxr-import-done.json` is `imported: true`.
 
-Optional standard WXR importer attempt:
-
-```bash
-APPLY=1 IMPORT_WXR=1 \
-WXR_PATH=../build/hcai-lab.wordpress.xml \
-GT_THEME_NAME="<exact theme name>" \
-npm run configure
-```
-
-The script does not install an importer plugin. It only uses a visible preapproved “Run Importer” route. If that route is absent, it stops and records the remaining action.
+`configure-site.mjs` is a no-op unless `APPLY=1`.
 
 ## Security
 
-- `.auth/` contains a persistent authenticated browser profile and is ignored by Git.
-- Do not share or commit `.auth/`.
+- `.auth/` stays local and untracked.
 - Do not enter credentials into the terminal or an AI prompt.
-- The user, not the automation, completes Duo.
+- Glenn, not the automation, completes Duo.

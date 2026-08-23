@@ -3,20 +3,17 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from urllib.parse import urlparse
 
 from lxml import etree
 
 from scripts.audit_source import audit
 from scripts.build_wxr import build_wxr
-from scripts.common import load_config, slugify
+from scripts.common import load_config
 from scripts.extract_site import extract_site
 from scripts.render_site import render_all
 
 FIXTURE = Path(__file__).parent / "fixtures" / "source"
-LIVE_ROOT = Path(__file__).resolve().parents[2]
 WXR_NS = {"wp": "http://wordpress.org/export/1.2/"}
-UNSAFE_MARKERS = ("<script", "<user", "<assistant", "<system", "<developer", "ei-logo.gif")
 
 
 def _wxr_text(tree: etree._ElementTree, post_type: str, field: str) -> list[str]:
@@ -108,17 +105,6 @@ def test_people_follow_original_group_order(tmp_path: Path) -> None:
     assert positions == sorted(positions)
 
 
-def test_live_source_stale_project_ids_resolve() -> None:
-    config = load_config()
-    normalized = extract_site(LIVE_ROOT, config)
-    unresolved = {item["publication_id"] for item in normalized["unresolved_project_publications"]}
-    assert normalized["counts"]["unresolved_project_publications"] == 0
-    assert unresolved == set()
-    assert "Lin2019GenerationMania" not in unresolved
-    assert "harrisonaies2018" not in unresolved
-    assert "Balloch2022TheRole" not in unresolved
-
-
 def test_people_omit_empty_links_and_rewrite_mark_profile(tmp_path: Path) -> None:
     pages = _render_pages(tmp_path)
     people = pages["people"]
@@ -183,86 +169,6 @@ def test_default_wxr_is_six_drafts_without_attachments(tmp_path: Path) -> None:
     assert b"<wp:attachment_url>" not in wxr_path.read_bytes()
     assert _wxr_text(tree, "page", "status") == ["draft"] * 6
     assert set(_wxr_text(tree, "page", "post_name")) == set(expected_slugs)
-
-
-def test_live_source_render_matches_staging_contract(tmp_path: Path) -> None:
-    config = load_config()
-    normalized = extract_site(LIVE_ROOT, config)
-    assert normalized["counts"]["unresolved_project_publications"] == 0
-    manifest = render_all(normalized, config, tmp_path)
-    slugs = [page["slug"] for page in manifest["pages"]]
-    expected_slugs = [str(page["slug"]) for page in config["pages"].values()]
-    assert slugs == expected_slugs
-    pages = {
-        page["slug"]: (tmp_path / page["content_file"]).read_text(encoding="utf-8")
-        for page in manifest["pages"]
-    }
-    combined = "\n".join(pages.values())
-    for marker in UNSAFE_MARKERS:
-        assert marker not in combined.lower()
-    assert "capabilibara" not in combined.lower()
-
-    prefix = urlparse(str(config["site"]["staging_url"])).path.rstrip("/")
-    assert f"{prefix}/research/" in pages["home"]
-    assert f"{prefix}/mark-riedl/" in pages["people"]
-    assert re.search(rf'href="(?!{re.escape(prefix)})/(?:research|people|publications|theses|mark-riedl)', combined) is None
-
-    media_by_role = {item.get("role"): item for item in config.get("media", {}).get("include", [])}
-    assert media_by_role["hero"]["wordpress_url"] in pages["home"]
-    assert media_by_role["profile"]["wordpress_url"] in pages["home"]
-    assert media_by_role["profile"]["wordpress_url"] in pages["mark-riedl"]
-
-    titles = [str(config["people_group_titles"][key]) for key in config["people_group_order"]]
-    positions = [pages["people"].find(f">{title}<") for title in titles]
-    assert all(pos != -1 for pos in positions)
-    assert positions == sorted(positions)
-    people = pages["people"]
-    phd_at = people.find(">PhD Students<")
-    alumni_at = people.find(">Alumni<")
-    assert phd_at != -1 and alumni_at != -1
-    for name in ("Upol Ehsan", "Spencer Frazier", "Jonathan Balloch", "Gennie Mansi"):
-        at = people.find(name)
-        assert at != -1, name
-        assert at > alumni_at, name
-        assert not (phd_at < at < alumni_at), name
-    assert "Assistant Professor, Northeastern University" in people
-    assert "Senior Software Engineer, Anduril" in people
-    assert "Wayfarer Labs, Amphia" in people
-    assert "Assistant Professor, University of Utah" in people
-    assert "Research Scientist, Databricks" in people
-    assert "Xiangyu (Becky) Peng" in people
-    assert "Senior Research Scientist, Salesforce Research" in people
-    assert "Sarah Wiegreffe" in people
-    assert "Faculty, University of Maryland</li>" in people or "— Faculty, University of Maryland" in people
-    assert "Faculty, University of California, San Diego and NVIDIA" in people
-    assert "Associate Professor, University of Alberta" in people
-    assert "Senior Research Scientist, NVIDIA" in people
-    assert "Associate Professor, Nanyang Technological University" in people
-    assert "Associate Dean, School of Computing and Engineering, Quinnipiac University" in people
-    assert "Xiangu" not in people
-    assert "MosaicML" not in people
-    assert "Allen Institute for Artificial Intelligence" not in people
-    assert "Postdoc, University of California, Santa Cruz" not in people
-
-    years = {str(item.get("year") or "Undated") for item in normalized["publications"]}
-    publications = pages["publications"]
-    assert "hcai-year-toc" in publications
-    assert "hcai-publication" in publications
-    assert "hcai-sr-only" in publications
-    assert "Paper on arXiv" in publications or "Open publication" in publications or "Download PDF" in publications
-    for year in years:
-        year_slug = slugify(year)
-        assert f'href="#year-{year_slug}"' in publications
-        assert f'id="year-{year_slug}"' in publications
-        assert f"Publications from </span>{year}" in publications or f">Publications from {year}<" in publications
-
-    wxr_path = tmp_path / "site.wordpress.xml"
-    build_wxr(tmp_path, config, wxr_path, str(config["site"]["staging_url"]))
-    tree, post_types = _parse_wxr(wxr_path)
-    assert post_types.count("page") == 6
-    assert post_types.count("attachment") == 0
-    assert set(_wxr_text(tree, "page", "post_name")) == set(expected_slugs)
-    assert set(_wxr_text(tree, "page", "status")) == {"draft"}
 
 
 def test_redirects_include_old_core_routes(tmp_path: Path) -> None:

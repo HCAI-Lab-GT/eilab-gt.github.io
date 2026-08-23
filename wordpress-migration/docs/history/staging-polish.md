@@ -1,6 +1,8 @@
 # Staging polish spec — HCAI on Georgia Tech Flex
 
-Binding plan for the visual-polish goal. Read this file and `STAGING_FINISH.md` before doing anything.
+Closed 2026 run log. Current operator docs: `../../README.md` and `../runbook.md`.
+
+Binding plan for the visual-polish goal. Read this file and `staging-finish.md` before doing anything.
 
 **Staging URL:** https://sites.gatech.edu/hcailab/
 **Dashboard:** https://sites.gatech.edu/hcailab/wp-admin/

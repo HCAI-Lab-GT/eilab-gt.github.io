@@ -41,9 +41,9 @@ Allow ordinary semantic content tags and safe `http`, `https`, `mailto`, and rel
 Allowed locations:
 
 - Environment variables in the current shell.
-- An untracked `migration/.env` file.
+- An untracked `wordpress-migration/.env` file.
 - A local OS keychain.
-- An untracked Playwright persistent profile under `migration/browser/.auth/`.
+- An untracked Playwright persistent profile under `wordpress-migration/browser/.auth/`.
 
 Forbidden locations:
 
