@@ -1,0 +1,10 @@
+[project]
+name = "hcai-wordpress-migration"
+version = "0.1.0"
+description = "Reproducible Jekyll-to-Sites@GeorgiaTech WordPress migration tools"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"

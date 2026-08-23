@@ -1,0 +1,10 @@
+- name: Student Example
+  title: A Test Thesis
+  institute: Georgia Institute of Technology
+  url: https://example.com/thesis
+  year: 2026
+  abstract: |
+    This is a test abstract.
+- name: Student Without Institute
+  title: Another Test Thesis
+  year: 2024

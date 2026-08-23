@@ -1,0 +1,6 @@
+- name: Explainable AI
+  description: >
+    Research on **human-centered explanations**.
+  pubs:
+    - id: test2026
+      context: Representative work.
