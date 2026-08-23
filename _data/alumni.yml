@@ -2,20 +2,20 @@ members:
   - name: Gennie Mansi
     website: https://www.linkedin.com/in/gennie-mansi-308a49269/
   - name: Jonathan Balloch
-    website: https://jballoch.com/
     where: Senior Software Engineer, Anduril
+    website: https://jballoch.com/
   - name: Upol Ehsan
-    website: https://www.upolehsan.com/
     where: Assistant Professor, Northeastern University
+    website: https://www.upolehsan.com/
   - name: Spencer Frazier
-    website: https://www.linkedin.com/in/spencer-frazier-ai/
     where: Wayfarer Labs, Amphia
+    website: https://www.linkedin.com/in/spencer-frazier-ai/
   - name: Zhiyu Lin
-    website: https://www.zhiyulin.info/
     where: Assistant Professor, University of Utah
+    website: https://www.zhiyulin.info/
   - name: Ashutosh Baheti (co-advised with Alan Ritter)
-    website: https://abaheti95.github.io/
     where: Research Scientist, Databricks
+    website: https://abaheti95.github.io/
   - name: Xiangyu (Becky) Peng
     where: Senior Research Scientist, Salesforce Research
     website: https://xiangyu-peng.github.io/
@@ -29,7 +29,7 @@ members:
     where: Riot Games
     website: https://www.algorithmicallyanimated.com/
   - name: Lara Martin
-    where: Faculty, University of Maryland, Baltimore County 
+    where: Faculty, University of Maryland, Baltimore County
     website: https://laramartin.net/
   - name: Matthew Guzdial
     where: Associate Professor, University of Alberta
@@ -42,7 +42,6 @@ members:
     website: http://boyangli.org/
   - name: Hong Yu
     where: Apple
-    website: None
   - name: Brian O'Neill
     where: Associate Dean, School of Computing and Engineering, Quinnipiac University
     website: https://www.qu.edu/faculty-and-staff/brian-oneill/

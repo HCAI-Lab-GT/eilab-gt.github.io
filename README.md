@@ -11,6 +11,7 @@ Entertainment Intelligence and Human-Centered AI Labs
 **To update lab members:**
 
 1. Edit phds.yml, masters.yml, undergrads.yml, faculty.yml, or alumni.yml in the `_data` directory.
+2. Optional headshot: add the image to `assets/images/members/` and set `photo: /assets/images/members/<file>.jpg` on that member's entry. Square images around 400x400 look best; members without a photo get a monogram disc.
 
 **Sites@GT WordPress kit:** `wordpress-migration/` rebuilds Gutenberg HTML from these YAML/Markdown sources for https://sites.gatech.edu/hcailab/. GitHub Pages at `eilab.gatech.edu` is unchanged until a DNS/`CNAME` cutover. See `wordpress-migration/README.md`.
 

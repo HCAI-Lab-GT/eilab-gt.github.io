@@ -8,7 +8,7 @@ from lxml import etree
 
 from scripts.audit_source import audit
 from scripts.build_wxr import build_wxr
-from scripts.common import load_config
+from scripts.common import load_config, rewrite_legacy_site_url
 from scripts.extract_site import extract_site
 from scripts.render_site import render_all
 
@@ -80,6 +80,14 @@ def _render_pages(tmp_path: Path) -> dict[str, str]:
         page["slug"]: (tmp_path / page["content_file"]).read_text(encoding="utf-8")
         for page in manifest["pages"]
     }
+
+
+def test_relative_jekyll_routes_rewrite_to_wordpress_slugs() -> None:
+    assert rewrite_legacy_site_url("projects.html#explainable-ai") == "/research/#explainable-ai"
+    assert rewrite_legacy_site_url("/projects.html#explainable-ai") == "/research/#explainable-ai"
+    assert rewrite_legacy_site_url("http://eilab.gatech.edu/projects.html#explainable-ai") == "/research/#explainable-ai"
+    assert rewrite_legacy_site_url("members.html") == "/people/"
+    assert rewrite_legacy_site_url("https://scholar.google.com/citations") == "https://scholar.google.com/citations"
 
 
 def test_home_renders_original_two_column_table(tmp_path: Path) -> None:

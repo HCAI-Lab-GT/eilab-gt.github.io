@@ -1,0 +1,11 @@
+<ul class="member-list">
+{% for x in include.members %}
+  <li>
+    {% if x.photo %}<img class="member-photo" src="{{ x.photo | relative_url }}" alt="">{% endif %}
+    <span class="member-name">
+      {%- if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif -%}
+      {%- if include.show_where and x.where %}: {{ x.where }}{% endif -%}
+    </span>
+  </li>
+{% endfor %}
+</ul>

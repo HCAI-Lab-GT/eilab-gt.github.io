@@ -274,6 +274,8 @@ def rewrite_legacy_site_url(url: str | None) -> str | None:
         return "/mark-riedl/"
     parsed = urlparse(raw)
     path = parsed.path or "/"
+    if not parsed.scheme and not parsed.netloc and path and not path.startswith("/"):
+        path = "/" + path
     new_path = LEGACY_PATHS.get(path)
     if new_path is None:
         return raw

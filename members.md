@@ -8,60 +8,24 @@ title: Members
 
 **Faculty**
 
-<ul>
-{% for x in site.data.faculty.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.faculty.members %}
 
 **PhD Students**
 
-<ul>
-{% for x in site.data.phds.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.phds.members %}
 
 **Masters Students**
 
-<ul>
-{% for x in site.data.masters.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.masters.members %}
 
 **Undergraduate Students**
 
-<ul>
-{% for x in site.data.undergrads.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.undergrads.members %}
 
 **Alumni**
 
-<ul>
-{% for x in site.data.alumni.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>: {{ x.where }}
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.alumni.members show_where=true %}
 
 **Affiliated**
 
-<ul>
-{% for x in site.data.affiliated.members %}
-  <li>
-    <a href="{{ x.website }}">{{ x.name }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include member-list.html members=site.data.affiliated.members %}
