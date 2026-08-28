@@ -1,0 +1,17 @@
+{
+  "name": "hcai-sites-gt-browser-automation",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "discover": "node discover-admin.mjs",
+    "configure": "node configure-site.mjs",
+    "preview": "node preview-pages.mjs",
+    "apply": "node apply-flex-chrome.mjs",
+    "publish": "node publish-live.mjs",
+    "install-browser": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.54.0"
+  }
+}

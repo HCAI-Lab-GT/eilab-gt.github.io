@@ -7,94 +7,6 @@ toc: true
 ---
 
 <script type="text/javascript" src="toggle.js"></script>
-
-<style type="text/css">
-a:link, a:visited, a:hover, a:active {text-decoration: none;}
-.arxiv {
-	font-size: small;
-	background-color: red;
-	color: white;
-	border: 1px solid red;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.openreview {
-	font-size: small;
-	background-color: red;
-	color: white;
-	border: 1px solid red;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.pdf {
-	font-size: small;
-	background-color: blue;
-	color: white;
-	border: 1px solid blue;
-	text-decoration: none;
-	text-decoration-color: black;
-	border-radius: 2px;
-}
-.link {
-	font-size: small;
-	background-color: blue;
-	color: white;
-	border: 1px solid blue;
-	text-decoration: none;
-	text-decoration-color: black;
-	border-radius: 2px;
-}
-.journal {
-	font-size: small;
-	background-color: green;
-	color: white;
-	border: 1px solid green;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.conference {
-	font-size: small;
-	background-color: orange;
-	color: white;
-	border: 1px solid orange;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.workshop {
-	font-size: small;
-	background-color: purple;
-	color: white;
-	border: 1px solid purple;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.bibbutton {
-	font-size: small;
-	background-color: black;
-	color: white;
-	border: 1px solid black;
-	text-decoration: none;
-	text-decoration-color: white;
-	border-radius: 2px;
-}
-.bibtex {
-	white-space: pre-wrap;
-	font-size: small;
-	font-family: Courier;
-	background: #eeeeee;
-	border: 1px dotted black;
-	width: 75%;
-}	
-.context {
-	font-style: italic;
-	color: gray;
-}
-</style>
 {% for proj in site.data.projects %}| <a href="#{{ proj.name | downcase | replace: ' ', '-' }}">{{ proj.name }}</a> {% endfor %} |
 
 {% for proj in site.data.projects %}
@@ -125,7 +37,7 @@ a:link, a:visited, a:hover, a:active {text-decoration: none;}
 	    {% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
 	    {% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
 	    {% if x.bibtex %}
-	    <a onclick="toggleBibtex({{ x.id }});"><span class="bibbutton">bibtex</span></a><br>
+	    <a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a><br>
 	    <div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>
 	    {% endif %}
 	  </li>
