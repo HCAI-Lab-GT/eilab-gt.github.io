@@ -259,3 +259,105 @@ h1, h2, h3 {
   margin-top: 0.6em;
   width: 100%;
 }
+
+// Topic chips above the publication list, and the per-entry tag links.
+// Navy outline echoes the paper-source badges; the active chip inverts.
+.pub-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin: 0.75em 0 2em;
+  padding-bottom: 1.25em;
+  border-bottom: 1px solid rgba($gold, 0.8);
+}
+
+.pub-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  padding: 0.35em 0.75em;
+  border: 1px solid rgba($navy, 0.35);
+  border-radius: 999px;
+  font-size: 0.82em;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  .page__content &,
+  .page__content &:hover {
+    color: $navy;
+    text-decoration: none;
+  }
+
+  &:hover {
+    border-color: $navy;
+    background: rgba($gold, 0.14);
+  }
+
+  &.is-active {
+    background: $navy;
+    border-color: $navy;
+
+    .page__content &,
+    .page__content &:hover {
+      color: $paper;
+    }
+  }
+}
+
+.pub-chip__n {
+  font-size: 0.82em;
+  font-variant-numeric: tabular-nums;
+  color: $muted;
+
+  .pub-chip.is-active & {
+    color: rgba($paper, 0.75);
+  }
+}
+
+.pub-year {
+  margin-top: 1.6em;
+}
+
+.pub-tags {
+  display: inline;
+  margin-left: 0.35em;
+}
+
+// Topic tags are navigation, not metadata about the paper itself, so they sit
+// a step quieter than the arXiv/venue/bibtex badges beside them: lighter grey,
+// normal weight, dashed hairline. Needs `a.pubtag` rather than `.pubtag` to
+// out-specify the theme's `.page__content a:not(.btn)` link colour.
+.pubtag {
+  display: inline-block;
+  margin: 0.15em 0.25em 0.15em 0;
+  font-size: 0.66em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 0.28em 0.55em 0.24em;
+  border-radius: 3px;
+  border: 1px dashed rgba($muted, 0.35);
+  vertical-align: middle;
+}
+
+.page__content a.pubtag {
+  color: lighten($muted, 12%);
+  text-decoration: none;
+
+  &:hover {
+    color: $navy;
+    border-style: solid;
+    border-color: rgba($navy, 0.4);
+  }
+
+  &.is-active {
+    color: $navy;
+    border-style: solid;
+    border-color: rgba($navy, 0.35);
+  }
+}
+
+.pub-empty {
+  color: $muted;
+  font-style: italic;
+}

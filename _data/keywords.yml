@@ -1,0 +1,37 @@
+# Topic tags for publications.
+# `tag` must match the value used in lab.bib's keywords field.
+# `title` is the human-readable label used for chips and sub-page titles.
+- tag: story
+  title: Storytelling
+- tag: int
+  title: Interactive Stories
+- tag: worlds
+  title: Social Simulation
+- tag: xai
+  title: Explainable AI
+- tag: interp
+  title: Interpretability
+- tag: rl
+  title: Reinforcement Learning
+- tag: health
+  title: Healthcare
+- tag: edu
+  title: Education
+- tag: policy
+  title: Policy and Law
+- tag: align
+  title: Value Alignment
+- tag: safe
+  title: AI Safety
+- tag: create
+  title: Creativity
+- tag: game
+  title: Game Generation
+- tag: hcomp
+  title: Human Computation
+- tag: llms
+  title: Large Language Models
+- tag: agents
+  title: Agents
+- tag: cinema
+  title: Cinematography

@@ -1,0 +1,47 @@
+{%- comment -%}
+Publication list grouped by year. Pass keyword=<tag> to show only entries
+whose lab.bib keywords field contains that tag; omit it for the full list.
+Matching is on whole tags (a comma-delimited compare), so "int" does not
+match "interp".
+{%- endcomment -%}
+{%- assign filter = include.keyword -%}
+{%- if filter -%}{%- assign needle = filter | replace: " ", "" | prepend: "," | append: "," -%}{%- endif -%}
+{%- assign shown = 0 -%}
+{%- for y in site.data.years -%}
+  {%- assign ystr = y | downcase -%}
+  {%- capture yearblock -%}
+    {%- for x in site.data.pubs.entries reversed -%}
+      {%- if x.year == ystr -%}
+        {%- assign show = true -%}
+        {%- if filter -%}
+          {%- assign hay = x.keywords | replace: " ", "" | prepend: "," | append: "," -%}
+          {%- unless hay contains needle -%}{%- assign show = false -%}{%- endunless -%}
+        {%- endif -%}
+        {%- if show %}
+<p class="pub">
+{% for a in x.author %}{% unless forloop.first %}{% if forloop.length > 2 %}, {% else %} {% endif %}{% endunless %}{% if forloop.last and forloop.length > 1 %}and {% endif %}{{ a.first }}{% if a.middle %} {{ a.middle }}{% endif %} {{ a.last }}{% endfor %}<br>
+<b>{{ x.title }}</b><br>
+<em>{{ x.journal }}{{ x.booktitle }} {{ x.volume }} ({{ x.year }})</em>.<br>
+{% if x.url %}<a href="{{x.url}}">{% if x.url contains "arxiv" %}<span class="arxiv">arXiv</span>{% elsif x.url contains "openreview" %}<span class="openreview">OpenReview</span>{% elsif x.url contains "ssrn" %}<span class="ssrn">SSRN</span>{% elsif x.url contains "dl.acm.org" %}<span class="link">ACM/DL</span>{% elsif x.url contains "ieee" %}<span class="link">IEEE</span>{% elsif x.url contains ".pdf" %}<span class="pdf">PDF</span>{% elsif x.url contains "zenodo" %}<span class="zenodo">zenodo</span>{% else %}<span class="link">Link</span>{% endif %}</a>{% endif %}
+{% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
+{% if x.journal and x.journal contains "Findings" %}<span class="conference">Conference</span>{% endif %}
+{% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
+{% if x.bibtex %}<a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a>{% endif %}
+{%- assign ks = x.keywords | replace: " ", "" | split: "," -%}
+{%- if ks.size > 0 %}<span class="pub-tags">{% for t in ks %}{%- assign kd = site.data.keywords | where: "tag", t | first -%}{% if kd %}<a class="pubtag{% if t == filter %} is-active{% endif %}" href="{{ '/publications/' | append: t | append: '/' | relative_url }}">{{ kd.title }}</a>{% endif %}{% endfor %}</span>{% endif %}
+{% if x.bibtex %}<div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>{% endif %}
+</p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign trimmed = yearblock | strip -%}
+  {%- if trimmed != "" -%}
+    {%- assign shown = shown | plus: 1 %}
+<h2 class="pub-year" id="year-{{ y }}">{{ y }}</h2>
+<div class="pub-list">{{ yearblock }}</div>
+  {%- endif -%}
+{%- endfor -%}
+{%- if shown == 0 %}
+<p class="pub-empty">No publications carry this tag yet.</p>
+{%- endif -%}

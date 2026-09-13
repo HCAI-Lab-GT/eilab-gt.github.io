@@ -1,0 +1,19 @@
+{%- comment -%}
+Topic chips linking to the per-keyword publication pages.
+Pass active=<tag> to highlight the current one. Counts are computed from
+_data/pubs.yml, so a tag with no papers is simply not shown.
+{%- endcomment -%}
+<nav class="pub-chips" aria-label="Filter publications by topic">
+  <a class="pub-chip{% unless include.active %} is-active{% endunless %}" href="{{ '/publications.html' | relative_url }}">All<span class="pub-chip__n">{{ site.data.pubs.entries | size }}</span></a>
+  {%- for k in site.data.keywords -%}
+    {%- assign needle = k.tag | prepend: "," | append: "," -%}
+    {%- assign n = 0 -%}
+    {%- for x in site.data.pubs.entries -%}
+      {%- assign hay = x.keywords | replace: " ", "" | prepend: "," | append: "," -%}
+      {%- if hay contains needle -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if n > 0 %}
+  <a class="pub-chip{% if include.active == k.tag %} is-active{% endif %}" href="{{ '/publications/' | append: k.tag | append: '/' | relative_url }}">{{ k.title }}<span class="pub-chip__n">{{ n }}</span></a>
+    {%- endif -%}
+  {%- endfor %}
+</nav>

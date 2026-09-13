@@ -6,3 +6,8 @@ vendor
 Gemfile.lock
 .DS_Store
 .worktrees/
+
+# Local preview built by hand (no Jekyll available offline)
+_preview/
+*.backup
+*.backup-before-keywords
