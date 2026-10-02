@@ -13,7 +13,7 @@ classes: wide
 author:
   name: "Mark Riedl"
   avatar: "/assets/images/mark-potato.jpg"
-  bio: "**Gitesh Ramamurthy Endowed Professor in AI**<br>School of Interactive Computing, College of Computing, Georgia Institute of Technology<br>**Director**, GT Machine Learning Center"
+  bio: "**Githesh Ramamurthy Endowed Professor in AI**<br>School of Interactive Computing, College of Computing, Georgia Institute of Technology<br>**Director**, GT Machine Learning Center"
   links:
     - label: "Google Scholar"
       icon: "fas fa-graduation-cap"
