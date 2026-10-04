@@ -36,6 +36,7 @@ minimal_mistakes_skin: "contrast"
 masthead_title: "Human-Centered AI Lab"
 subtitle: "formerly Entertainment Intelligence"
 logo: "/assets/images/hcai-lab-mark.svg"
+logo_small: "/assets/images/hcai-lab-mark-small.svg"
 twitter:
   username: "mark_riedl"
 og_image: /assets/images/og-card.png
