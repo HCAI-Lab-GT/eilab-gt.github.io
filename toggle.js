@@ -1,11 +1,8 @@
+// Show or hide a publication's BibTeX block and keep its button's state in sync.
 function toggleBibtex(id) {
-	console.log(id);
-	element = document.getElementById(id)
-	console.log(element);
-	if (element.style.display == "none") {
-		element.style.display="block";
-	}
-	else {
-		element.style.display="none";
-	}
+	var block = document.getElementById(id);
+	var open = block.hidden;
+	block.hidden = !open;
+	var button = document.querySelector('[aria-controls="' + id + '"]');
+	if (button) button.setAttribute('aria-expanded', open);
 }

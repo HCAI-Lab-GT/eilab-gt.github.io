@@ -26,10 +26,10 @@ match "interp".
 {% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
 {% if x.journal and x.journal contains "Findings" %}<span class="conference">Conference</span>{% endif %}
 {% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
-{% if x.bibtex %}<a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a>{% endif %}
+{% if x.bibtex %}<button type="button" class="bibbutton" aria-expanded="false" aria-controls="{{ x.id }}" onclick="toggleBibtex('{{ x.id }}');">bibtex</button>{% endif %}
 {%- assign ks = x.keywords | replace: " ", "" | split: "," -%}
-{%- if ks.size > 0 %}<span class="pub-tags">{% for t in ks %}{%- assign kd = site.data.keywords | where: "tag", t | first -%}{% if kd %}<a class="pubtag{% if t == filter %} is-active{% endif %}" href="{{ '/publications/' | append: t | append: '/' | relative_url }}">{{ kd.title }}</a>{% endif %}{% endfor %}</span>{% endif %}
-{% if x.bibtex %}<div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>{% endif %}
+{%- if ks.size > 0 %}<span class="pub-tags">{% for t in ks %}{%- assign kd = site.data.keywords | where: "tag", t | first -%}{% if kd %}<a class="pubtag{% if t == filter %} is-active{% endif %}"{% if t == filter %} aria-current="page"{% endif %} href="{{ '/publications/' | append: t | append: '/' | relative_url }}">{{ kd.title }}</a>{% endif %}{% endfor %}</span>{% endif %}
+{% if x.bibtex %}<div class="bibtex" id="{{ x.id }}" hidden>{{ x.bibtex }}</div>{% endif %}
 </p>
         {%- endif -%}
       {%- endif -%}

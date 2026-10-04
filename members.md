@@ -6,26 +6,14 @@ title: Members
 
 # Members
 
-**Faculty**
+{% include member-list.html title="Faculty" members=site.data.faculty.members %}
 
-{% include member-list.html members=site.data.faculty.members %}
+{% include member-list.html title="PhD Students" members=site.data.phds.members %}
 
-**PhD Students**
+{% include member-list.html title="Masters Students" members=site.data.masters.members %}
 
-{% include member-list.html members=site.data.phds.members %}
+{% include member-list.html title="Undergraduate Students" members=site.data.undergrads.members %}
 
-**Masters Students**
+{% include member-list.html title="Alumni" members=site.data.alumni.members show_where=true %}
 
-{% include member-list.html members=site.data.masters.members %}
-
-**Undergraduate Students**
-
-{% include member-list.html members=site.data.undergrads.members %}
-
-**Alumni**
-
-{% include member-list.html members=site.data.alumni.members show_where=true %}
-
-**Affiliated**
-
-{% include member-list.html members=site.data.affiliated.members %}
+{% include member-list.html title="Affiliated" members=site.data.affiliated.members %}
