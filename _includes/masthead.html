@@ -10,7 +10,7 @@
   <div class="hc-header__inner">
     <a class="hc-brand" href="{{ '/' | relative_url }}">
       <img class="hc-brand__mark" src="{{ site.logo | relative_url }}" alt="" width="40" height="40">
-      <span class="hc-brand__name">{{ site.masthead_title | default: site.title }}{% if site.subtitle %}<span class="hc-brand__sub">{{ site.subtitle }}</span>{% endif %}</span>
+      <span class="hc-brand__name">{{ site.masthead_title | default: site.title }}{% if site.subtitle %} <span class="hc-brand__sub">{{ site.subtitle }}</span>{% endif %}</span>
     </a>
     <nav id="site-nav" aria-label="Main">
       <ul class="hc-nav">
@@ -26,6 +26,7 @@
     var here = location.pathname.replace(/(index)?\.html$/, '');
     document.querySelectorAll('.hc-nav a').forEach(function (a) {
       var path = a.pathname.replace(/\.html$/, '');
+      if (a.host !== location.host) return;
       if (here === path || here.indexOf(path + '/') === 0) a.setAttribute('aria-current', 'page');
     });
   })();

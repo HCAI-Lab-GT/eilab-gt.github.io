@@ -93,6 +93,14 @@ summary:focus-visible {
   outline-offset: 2px;
 }
 
+// The contrast skin outlines every focused link and button in red, mouse
+// clicks included; show a ring only for keyboard focus.
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible) {
+  outline: none;
+}
+
 body {
   background-color: $paper;
   color: $ink;
@@ -727,5 +735,29 @@ h1, h2, h3 {
 
   .hc-identity__gt {
     height: 2.6em;
+  }
+}
+
+// Inline, the pair needs 336 px plus the gutters, so at 368 px and narrower
+// it stacks, the gold rule turned horizontal between the two marks: still
+// separate, never merged.
+@media (max-width: 23em) {
+  .hc-identity {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hc-identity__rule {
+    align-self: auto;
+    width: 3em;
+    height: var(--stroke-hair);
+    min-height: 0;
+  }
+}
+
+// The header has no place on paper; the theme already hides its footer.
+@media print {
+  .hc-header {
+    display: none;
   }
 }
