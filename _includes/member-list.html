@@ -1,11 +1,40 @@
-<ul class="member-list">
-{% for x in include.members %}
-  <li>
-    {% if x.photo %}<img class="member-photo" src="{{ x.photo | relative_url }}" alt="">{% endif %}
-    <span class="member-name">
-      {%- if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif -%}
-      {%- if include.show_where and x.where %}: {{ x.where }}{% endif -%}
-    </span>
-  </li>
-{% endfor %}
-</ul>
+{%- comment -%}
+People grid from the Human-Centered AI Lab design system (PeopleGrid): one
+section per group, each member with a photo or, without one, a monogram disc
+of the first and last initials (parentheticals such as "(Becky)" ignored).
+Pass title=, members=, and show_where=true for alumni; faculty show their rank.
+{%- endcomment -%}
+<section class="hc-people">
+  {%- if include.title %}
+  <h2 class="hc-people__title">{{ include.title }}</h2>
+  {%- endif %}
+  <ul class="hc-people__grid">
+  {%- for x in include.members %}
+    {%- assign parts = x.name | split: " (" -%}
+    {%- assign clean = parts.first -%}
+    {%- for p in parts offset: 1 -%}
+      {%- assign tail = p | split: ")" | last -%}
+      {%- assign last_char = p | slice: -1 -%}
+      {%- if last_char == ")" or tail == p -%}{%- assign tail = "" -%}{%- endif -%}
+      {%- assign clean = clean | append: tail -%}
+    {%- endfor -%}
+    {%- assign words = clean | split: " " -%}
+    {%- capture initials -%}{{ words.first | slice: 0 }}{% if words.size > 1 %}{{ words.last | slice: 0 }}{% endif %}{%- endcapture %}
+    <li class="hc-person">
+      {%- if x.photo %}
+      <img class="hc-person__photo" src="{{ x.photo | relative_url }}" alt="" width="58" height="58" loading="lazy">
+      {%- else %}
+      <span class="hc-person__monogram" aria-hidden="true"><span class="hc-person__initials">{{ initials | upcase }}</span></span>
+      {%- endif %}
+      <span class="hc-person__text">
+        <span class="hc-person__name">{% if x.website %}<a href="{{ x.website }}">{{ x.name }}</a>{% else %}{{ x.name }}{% endif %}</span>
+        {%- if x.rank %}
+        <span class="hc-person__meta">{{ x.rank }}</span>
+        {%- elsif include.show_where and x.where %}
+        <span class="hc-person__meta">{{ x.where }}</span>
+        {%- endif %}
+      </span>
+    </li>
+  {%- endfor %}
+  </ul>
+</section>

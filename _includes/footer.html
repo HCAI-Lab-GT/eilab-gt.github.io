@@ -1,0 +1,30 @@
+{% comment %}
+  Site footer from the Human-Centered AI Lab design system (SiteFooter):
+  Georgia Tech's logo and the lab's mark side by side on navy, separated by a
+  gold rule and never merged; the social links; the copyright line.
+{% endcomment -%}
+<div class="hc-footer__inner">
+  <div class="hc-footer__row">
+    <div class="hc-identity hc-identity--on-dark">
+      <img class="hc-identity__gt" src="{{ '/assets/images/GeorgiaTech_TechGoldandWhite.svg' | relative_url }}" alt="Georgia Tech" height="54">
+      <span class="hc-identity__rule" aria-hidden="true"></span>
+      <span class="hc-identity__lab">
+        <img class="hc-identity__mark" src="{{ '/assets/images/hcai-lab-mark-white.svg' | relative_url }}" alt="" width="48" height="48">
+        <span class="hc-identity__name">Human-Centered<br>AI Lab</span>
+      </span>
+    </div>
+    <nav aria-label="Lab social links">
+      <ul class="hc-footer__links">
+        {%- for link in site.footer.links %}
+        {%- if link.label and link.url %}
+        <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer">{{ link.label }}</a></li>
+        {%- endif %}
+        {%- endfor %}
+        {%- unless site.atom_feed.hide %}
+        <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}">{{ site.data.ui-text[site.locale].feed_label | default: "Feed" }}</a></li>
+        {%- endunless %}
+      </ul>
+    </nav>
+  </div>
+  <p class="hc-footer__fine">&copy; {{ site.time | date: '%Y' }} {{ site.masthead_title | default: site.title }}, School of Interactive Computing, Georgia Institute of Technology. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> and <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</p>
+</div>

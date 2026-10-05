@@ -37,8 +37,8 @@ toc: true
 	    {% if x.journal and x.volume %}<span class="journal">Journal</span>{% endif %}
 	    {% if x.booktitle %}{% if x.booktitle contains "Workshop" %}<span class="workshop">Workshop</span>{% else%}<span class="conference">Conference</span>{% endif %}{% endif %}
 	    {% if x.bibtex %}
-	    <a onclick="toggleBibtex('{{ x.id }}');"><span class="bibbutton">bibtex</span></a><br>
-	    <div class="bibtex" id="{{ x.id }}" style="display: none;">{{ x.bibtex }}</div>
+	    <button type="button" class="bibbutton" aria-expanded="false" aria-controls="{{ x.id }}" onclick="toggleBibtex('{{ x.id }}');">bibtex</button><br>
+	    <div class="bibtex" id="{{ x.id }}" hidden>{{ x.bibtex }}</div>
 	    {% endif %}
 	  </li>
 	{% endfor %}

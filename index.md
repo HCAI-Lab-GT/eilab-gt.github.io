@@ -6,9 +6,9 @@ author_profile: true
 header:
   overlay_image: /assets/images/davinci-banner.jpeg
   og_image: /assets/images/og-card.png
-  overlay_filter: 0.5
+  overlay_filter: 0.55
 show_overlay_excerpt: true
-tagline: "Mark Riedl, Primary Investigator"
+tagline: "Mark Riedl, Principal Investigator"
 classes: wide
 author:
   name: "Mark Riedl"

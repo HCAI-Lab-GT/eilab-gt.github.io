@@ -19,13 +19,94 @@ $navy: #003057;
 $gold: #b3a369;
 $muted: #6b6a64;
 
+// Design-system tokens (Human-Centered AI Lab design system, tokens.json).
+// The components below read these; the Sass variables above hold the same
+// values for the older rules, which need Sass color functions.
+:root {
+  --navy: #003057;
+  --gold: #b3a369;
+  --buzz: #eaaa00;
+  --diploma: #f9f6e5;
+  --gray-matter: #54585a;
+  --paper: #fbfaf7;
+  --ink: #1a1a18;
+  --ink-muted: #6b6a64;
+  --navy-hover: #002543;
+  --surface-sunk: #f3f1e9;
+  --venue-ink: #504829;
+  --venue-fill: rgba(179, 163, 105, 0.16);
+  --venue-line: rgba(179, 163, 105, 0.55);
+  --source-line: rgba(0, 48, 87, 0.45);
+  --muted-line: rgba(107, 106, 100, 0.5);
+  --tag-line: rgba(107, 106, 100, 0.35);
+  --chip-line: rgba(0, 48, 87, 0.35);
+  --chip-hover: rgba(179, 163, 105, 0.14);
+  --chip-count-on-navy: rgba(251, 250, 247, 0.75);
+  --hairline: rgba(179, 163, 105, 0.8);
+  --underline: rgba(179, 163, 105, 0.65);
+  --gold-dash: rgba(179, 163, 105, 0.7);
+  --rule-neutral: #bfbfbf;
+  --hero-scrim: rgba(0, 0, 0, 0.55);
+  --on-dark: #ffffff;
+  --on-dark-muted: var(--gold);
+  --surface-footer: var(--navy);
+  --focus: var(--navy);
+  --focus-on-dark: var(--buzz);
+  --space-1: 0.4em;
+  --space-2: 0.6em;
+  --space-3: 0.75em;
+  --space-4: 1em;
+  --space-5: 1.25em;
+  --space-6: 1.5em;
+  --space-7: 2em;
+  --space-8: 3em;
+  --radius-badge: 3px;
+  --radius-card: 6px;
+  --radius-pill: 999px;
+  --radius-round: 50%;
+  --hero-text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  --stroke-hair: 1px;
+  --stroke-nav: 2px;
+  --stroke-focus: 2px;
+  --stroke-accent: 3px;
+  --page-max: 1280px;
+  --bp-stack: 600px;
+  --bp-root-18: 48em;
+  --bp-root-20: 64em;
+  --bp-root-22: 80em;
+  --mark-full-min: 90px;
+  --mark-simple-min: 36px;
+  --mark-small-max: 35px;
+  --mark-header: 40px;
+  --mark-footer: 48px;
+  --mark-clear: 25%;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+  --font-mono: ui-monospace, Monaco, Consolas, "Lucida Console", monospace;
+}
+
+// Keyboard focus: a solid navy ring on light grounds, Buzz Gold on navy.
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: var(--stroke-focus) solid var(--focus);
+  outline-offset: 2px;
+}
+
+// The contrast skin outlines every focused link and button in red, mouse
+// clicks included; show a ring only for keyboard focus.
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible) {
+  outline: none;
+}
+
 body {
   background-color: $paper;
   color: $ink;
 }
 
-// Display face for page titles, section headings, and the masthead.
-.masthead .site-title,
+// Display face for page titles and section headings.
 .page__title,
 h1, h2, h3 {
   font-family: "Fraunces", Georgia, serif;
@@ -105,28 +186,82 @@ h1, h2, h3 {
   }
 }
 
-// Members page: compact rows; a small round photo appears only when the
-// member has one, so the page reads as a clean list until headshots arrive.
-.member-list {
-  margin: 0 0 1.5em;
-  padding-left: 0;
+// Members page (design system: PeopleGrid): one grid per group, a photo
+// when the member has one and a monogram disc otherwise.
+.hc-people {
+  margin: 0 0 var(--space-6);
+}
+
+.page__content .hc-people__title {
+  margin: 0 0 var(--space-3);
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-size: 1.25em;
+  line-height: 1.2;
+}
+
+.hc-people__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+  gap: var(--space-5) var(--space-6);
+  margin: 0;
+  padding: 0;
   list-style: none;
+}
 
-  li {
-    display: flex;
-    align-items: center;
-    gap: 0.6em;
-    margin-bottom: 0.4em;
-    min-width: 0;
-  }
+.hc-person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  margin: 0;
+}
 
-  .member-photo {
-    flex: 0 0 auto;
-    width: 1.9em;
-    height: 1.9em;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+.hc-person__photo,
+.hc-person__monogram {
+  flex: none;
+  width: 3.2em;
+  height: 3.2em;
+  border-radius: var(--radius-round);
+}
+
+.hc-person__photo {
+  display: block;
+  object-fit: cover;
+}
+
+.hc-person__monogram {
+  display: grid;
+  place-items: center;
+  background: var(--diploma);
+  border: var(--stroke-hair) solid var(--hairline);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.hc-person__initials {
+  font-size: 1.22em;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.hc-person__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hc-person__name {
+  font-size: 0.9em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hc-person__meta {
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: var(--ink-muted);
 }
 
 // Theses page: callout cards with the citation in a quiet byline and the
@@ -191,7 +326,6 @@ h1, h2, h3 {
     font-size: 0.45em;
     font-weight: 400;
     letter-spacing: 0.02em;
-    opacity: 0.85;
   }
 }
 
@@ -223,10 +357,19 @@ h1, h2, h3 {
   border-color: rgba($gold, 0.55);
 }
 
+// The BibTeX toggle is a real <button> (keyboard-reachable), styled as a badge.
 .bibbutton {
   cursor: pointer;
+  margin: 0;
+  background: none;
+  font-family: inherit;
   color: $muted;
   border-color: rgba($muted, 0.5);
+
+  &[aria-expanded="true"] {
+    color: $ink;
+    border-color: $muted;
+  }
 }
 
 // Venue context note on project publications ("Oral", "Award" etc).
@@ -324,8 +467,8 @@ h1, h2, h3 {
 }
 
 // Topic tags are navigation, not metadata about the paper itself, so they sit
-// a step quieter than the arXiv/venue/bibtex badges beside them: lighter grey,
-// normal weight, dashed hairline. Needs `a.pubtag` rather than `.pubtag` to
+// a step quieter than the arXiv/venue/bibtex badges beside them: muted grey
+// (5.2:1 on paper), normal weight, dashed hairline. Needs `a.pubtag` rather than `.pubtag` to
 // out-specify the theme's `.page__content a:not(.btn)` link colour.
 .pubtag {
   display: inline-block;
@@ -341,7 +484,7 @@ h1, h2, h3 {
 }
 
 .page__content a.pubtag {
-  color: lighten($muted, 12%);
+  color: $muted;
   text-decoration: none;
 
   &:hover {
@@ -360,4 +503,261 @@ h1, h2, h3 {
 .pub-empty {
   color: $muted;
   font-style: italic;
+}
+
+// ---------------------------------------------------------------------------
+// Site chrome from the Human-Centered AI Lab design system.
+// ---------------------------------------------------------------------------
+
+// Site header (SiteHeader, SiteNav); markup in _includes/masthead.html.
+.hc-header {
+  background: var(--paper);
+  border-bottom: var(--stroke-hair) solid var(--rule-neutral);
+}
+
+.hc-header__inner {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-7);
+}
+
+.hc-brand,
+.hc-brand:visited,
+.hc-brand:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.hc-brand__mark {
+  display: block;
+  flex: none;
+  width: var(--mark-header);
+  height: var(--mark-header);
+}
+
+.hc-brand__name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.hc-brand__sub {
+  font-size: 0.625em;
+  line-height: 1.5;
+}
+
+.hc-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+  }
+
+  a,
+  a:visited {
+    display: inline-block;
+    padding-block: 0.15em;
+    color: var(--ink);
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: var(--stroke-nav);
+    text-underline-offset: 0.35em;
+    transition: text-decoration-color 0.2s ease-in-out;
+  }
+
+  a:hover {
+    color: var(--ink);
+    text-decoration-color: var(--gold);
+  }
+
+  a[aria-current="page"] {
+    color: var(--navy);
+    text-decoration-color: var(--navy);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-nav a {
+    transition: none;
+  }
+}
+
+// Site footer (SiteFooter); the theme's wrapper turns navy and
+// _includes/footer.html supplies the identity pair, links and fine print.
+.page__footer {
+  background-color: var(--surface-footer);
+  color: var(--on-dark);
+
+  footer {
+    max-width: none;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  a:focus-visible {
+    outline-color: var(--focus-on-dark);
+  }
+}
+
+.hc-footer__inner {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--space-7) var(--space-4);
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hc-footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5) var(--space-7);
+}
+
+.hc-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    color: var(--on-dark);
+    font-size: 0.75em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: var(--stroke-nav);
+    text-underline-offset: 0.3em;
+  }
+
+  a:hover {
+    text-decoration-line: underline;
+    text-decoration-color: var(--buzz);
+    text-decoration-thickness: var(--stroke-nav);
+  }
+}
+
+.hc-footer__fine {
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: var(--stroke-hair) solid var(--hairline);
+  font-size: 0.6875em;
+  color: var(--on-dark-muted);
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--hairline);
+  }
+}
+
+// Georgia Tech's logo and the lab mark side by side, a gold rule between,
+// never merged (IdentityPair).
+.hc-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.hc-identity__gt {
+  display: block;
+  flex: none;
+  width: auto;
+  height: 3em;
+}
+
+.hc-identity__rule {
+  flex: none;
+  align-self: stretch;
+  width: var(--stroke-hair);
+  min-height: 2.6em;
+  background: var(--gold);
+}
+
+.hc-identity__lab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.hc-identity__mark {
+  display: block;
+  flex: none;
+  width: var(--mark-footer);
+  height: var(--mark-footer);
+}
+
+.hc-identity__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--ink);
+
+  .hc-identity--on-dark & {
+    color: var(--on-dark);
+  }
+}
+
+// On phones the pair needs about 354 px; tighten it so the name keeps its
+// gutter. The mark stays 48 px, above the simple cut's 36 px floor.
+@media (max-width: 26em) {
+  .hc-identity {
+    gap: var(--space-3);
+  }
+
+  .hc-identity__gt {
+    height: 2.6em;
+  }
+}
+
+// Inline, the pair needs 336 px plus the gutters, so at 368 px and narrower
+// it stacks, the gold rule turned horizontal between the two marks: still
+// separate, never merged.
+@media (max-width: 23em) {
+  .hc-identity {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hc-identity__rule {
+    align-self: auto;
+    width: 3em;
+    height: var(--stroke-hair);
+    min-height: 0;
+  }
+}
+
+// The header has no place on paper; the theme already hides its footer.
+@media print {
+  .hc-header {
+    display: none;
+  }
 }
