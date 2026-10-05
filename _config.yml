@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "Human-Centered (fmly Entertainment Intelligence) AI Lab"
+title: "Human-Centered AI Lab"
 email: riedl@cc.gatech.edu
 description: "Human-Centered AI Lab (formerly Entertainment Intelligence) at Georgia Tech: research on computational narrative, responsible AI, agents, and computational creativity."
 baseurl: "" # the subpath of your site, e.g. /blog
