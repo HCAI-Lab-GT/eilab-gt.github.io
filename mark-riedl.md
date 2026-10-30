@@ -23,3 +23,13 @@ Dr. Mark Riedl is the Githesh Ramamurthy Endowed Professor of AI at the Georgia 
 
 **Note to prospective advisees:**
 I am always seeking creative and passionate students at all levels who want to do high-risk, high-reward research in areas that are not necessarily mainstream. You can see *recent* papers to get a sense for the directions my lab is going. I am inundated by emails requesting to join my lab and I may not be able to respond. If your email does not stand out and explain why you are a great fit for my group you are unlikely to get a response. If your email appears to be AI-generated, you will not get a response. The best way to join my group is to allow me to get to know you through a course I am teaching. I am unable to support a Ph.D. or M.S. graduate research assistantship at this time. I do not have the bandwidth to mentor high-school students.
+
+**Teaching:**
+
+I am teaching a new class in Spring 2027: CS 4803: AI for Everybody. This course is designed for non-computing majors, 1st and 2nd year CS majors seeking to explore AI and ML before going on to technical coursework, or 3rd and 4th year CS majors who have not otherwise had a chance to take an AI or ML course. <a href="cs-4803-ai-for-everyone.pdf">Preliminary syllabus is here.</a>
+
+<ul>
+  <li>CS 3600: Introduction to Artificial Intelligence (Fall semesters)</li>
+  <li>CS 4731/7632: Game Artificial Intelligence (some Spring semesters)</li>
+  <li>CS 7634: AI Storytelling in Virtual Worlds (some Spring semesters)</li>
+</ul>
