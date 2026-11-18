@@ -9605,3 +9605,83 @@ entries:
             last: Rosenbloom
         -   first: Mark
             last: Riedl
+      - id: Matlin2026SteerPretraining
+        bibtex: |
+            @InProceedings{Matlin2026SteerPretraining,
+            author    = {Glenn Matlin and Chandreyi Chakraborty and Mohammed Rehan Parwani and Saehee Eom and Zang, Anthony Wen-Ming and Akhil Theerthala and Arjun Chatterjee and Tejas Khandwekar and Brandon Michaels and Alvin Deng and Mark Riedl},
+            booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
+            title     = {Data Attribution Should Steer Pretraining},
+            year      = {2026},
+            owner     = {riedl},
+            url       = {https://arxiv.org/abs/2611.19698},
+            }
+        type: InProceedings
+        booktitle: 'Proceedings of the NeurIPS 2026 Workshop on Attributing Model
+            Behavior at Scale: Data Attribution and Provenance'
+        title: Data Attribution Should Steer Pretraining
+        year: '2026'
+        owner: riedl
+        url: https://arxiv.org/abs/2611.19698
+        author:
+        -   first: Glenn
+            last: Matlin
+        -   first: Chandreyi
+            last: Chakraborty
+        -   first: Mohammed
+            middle: Rehan
+            last: Parwani
+        -   first: Saehee
+            last: Eom
+        -   first: Anthony
+            middle: Wen-Ming
+            last: Zang
+        -   first: Akhil
+            last: Theerthala
+        -   first: Arjun
+            last: Chatterjee
+        -   first: Tejas
+            last: Khandwekar
+        -   first: Brandon
+            last: Michaels
+        -   first: Alvin
+            last: Deng
+        -   first: Mark
+            last: Riedl
+      - id: Lee2026MathaMAGICal
+        bibtex: |
+            @InProceedings{Lee2026:MathaMAGICal,
+            author    = {Jason Lee and Dikshanta Pokhrel and Phonn Nay Khant and Victor Lee and Moritz Weckbecker and Sebastian Lapuschkin and Wojciech Samek and Mark Riedl and Glenn Matlin},
+            booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
+            title     = {MathaMAGICal: Validating Trajectory Data Attribution During Capability Acquisition},
+            year      = {2026},
+            owner     = {riedl},
+            url       = {https://arxiv.org/abs/2611.19692},
+            }
+        type: InProceedings
+        booktitle: 'Proceedings of the NeurIPS 2026 Workshop on Attributing Model
+            Behavior at Scale: Data Attribution and Provenance'
+        title: 'MathaMAGICal: Validating Trajectory Data Attribution During Capability
+            Acquisition'
+        year: '2026'
+        owner: riedl
+        url: https://arxiv.org/abs/2611.19692
+        author:
+        -   first: Jason
+            last: Lee
+        -   first: Dikshanta
+            last: Pokhrel
+        -   first: Phonn
+            middle: Nay
+            last: Khant
+        -   first: Victor
+            last: Lee
+        -   first: Moritz
+            last: Weckbecker
+        -   first: Sebastian
+            last: Lapuschkin
+        -   first: Wojciech
+            last: Samek
+        -   first: Mark
+            last: Riedl
+        -   first: Glenn
+            last: Matlin
