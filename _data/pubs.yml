@@ -9612,6 +9612,7 @@ entries:
             booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
             title     = {Data Attribution Should Steer Pretraining},
             year      = {2026},
+            keywords  = {llms, interp},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2611.19698},
             }
@@ -9620,6 +9621,7 @@ entries:
             Behavior at Scale: Data Attribution and Provenance'
         title: Data Attribution Should Steer Pretraining
         year: '2026'
+        keywords: llms, interp
         owner: riedl
         url: https://arxiv.org/abs/2611.19698
         author:
@@ -9654,6 +9656,7 @@ entries:
             booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
             title     = {MathaMAGICal: Validating Trajectory Data Attribution During Capability Acquisition},
             year      = {2026},
+            keywords  = {llms, interp},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2611.19692},
             }
@@ -9663,6 +9666,7 @@ entries:
         title: 'MathaMAGICal: Validating Trajectory Data Attribution During Capability
             Acquisition'
         year: '2026'
+        keywords: llms, interp
         owner: riedl
         url: https://arxiv.org/abs/2611.19692
         author:
