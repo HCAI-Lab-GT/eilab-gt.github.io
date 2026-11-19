@@ -9440,17 +9440,17 @@ entries:
             booktitle = {Proceedings of the 2026 Conference on Language Models},
             title     = {Capability Provenance in Language Models: A Case Study in Social Reasoning},
             year      = {2026},
+            keywords  = {llms, interp, attrib},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2606.19625},
-            keywords  = {llms, interp},
             }
         type: InProceedings
         booktitle: Proceedings of the 2026 Conference on Language Models
         title: 'Capability Provenance in Language Models: A Case Study in Social Reasoning'
         year: '2026'
+        keywords: llms, interp, attrib
         owner: riedl
         url: https://arxiv.org/abs/2606.19625
-        keywords: llms, interp
         author:
         -   first: Glenn
             last: Matlin
@@ -9612,7 +9612,7 @@ entries:
             booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
             title     = {Data Attribution Should Steer Pretraining},
             year      = {2026},
-            keywords  = {llms, interp},
+            keywords  = {llms, interp, attrib},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2611.19698},
             }
@@ -9621,7 +9621,7 @@ entries:
             Behavior at Scale: Data Attribution and Provenance'
         title: Data Attribution Should Steer Pretraining
         year: '2026'
-        keywords: llms, interp
+        keywords: llms, interp, attrib
         owner: riedl
         url: https://arxiv.org/abs/2611.19698
         author:
@@ -9656,7 +9656,7 @@ entries:
             booktitle = {Proceedings of the NeurIPS 2026 Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance},
             title     = {MathaMAGICal: Validating Trajectory Data Attribution During Capability Acquisition},
             year      = {2026},
-            keywords  = {llms, interp},
+            keywords  = {llms, interp, attrib},
             owner     = {riedl},
             url       = {https://arxiv.org/abs/2611.19692},
             }
@@ -9666,7 +9666,7 @@ entries:
         title: 'MathaMAGICal: Validating Trajectory Data Attribution During Capability
             Acquisition'
         year: '2026'
-        keywords: llms, interp
+        keywords: llms, interp, attrib
         owner: riedl
         url: https://arxiv.org/abs/2611.19692
         author:
